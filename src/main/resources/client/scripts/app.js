@@ -245,7 +245,7 @@
 					templateUrl : 'views/tasks/tasks.html'
 				}).when('/admin/promotions/:codeFormation', {
 					templateUrl : 'views/promotions/list.html'
-				}).when('/admin/formationsPromo', {
+				}).when('/admin/formationPromo', {
 					templateUrl : 'views/promotions/listFormations.html'
 				}).when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
                     templateUrl : 'views/etudiant/new.html'

@@ -21,8 +21,15 @@ angular.module('app')
 		   callback(response.data);
 		   
 	   });
-	   
+	      
    };
+   
+   this.supprimer = function(noEtudiant){
+		 var url = "http://localhost:8090/etudiant/"+noEtudiant;
+		 $http.delete(url).then(function(response){
+			 
+		 });
+	 };
   }]);
   
   
@@ -41,6 +48,16 @@ angular.module('app')
 	    $scope.edit = function (noEtudiant,codeFormation,anneeUniversitaire){
           
             $location.path("/admin/etudiant/edit/"+ noEtudiant+"/"+codeFormation+"/"+anneeUniversitaire);
+
+        }
+	    
+	    $scope.remove = function (noEtudiant, index){
+	          var supp = confirm("voulez-vous bien supprimer cet étudiant ?");
+	          if(supp == true){
+	        	  listService.supprimer(noEtudiant);
+		    	$scope.etudiants.splice(index,1);
+		    	}
+	    	
 
         }
 		

@@ -219,7 +219,7 @@
                 <td ng-click="edit(e)">{{e.mobile}}</td>
                 <td ng-click="edit(e)">{{e.universiteOrigine}}</td>
                 <td><span class="edit fa fa-edit" ng-click="edit(e.noEtudiant,code,annee)"></span></td>
-                <td><span class="remove fa fa-remove" ng-click=""></span></td>
+                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant, $index)"></span></td>
             </tr>
             </tbody>
         </table>
