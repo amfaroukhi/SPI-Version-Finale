@@ -27,7 +27,7 @@ angular.module('app')
   
   
 angular.module('app')
-	  	.controller('listController', ['$scope','listService','$routeParams',function ($scope,listService,$routeParams) {
+	  	.controller('listController', ['$scope','listService','$location','$routeParams',function ($scope,listService,$location,$routeParams) {
 	    
 	  	$scope.formations=[];
 		$scope.promotions=[];
@@ -37,7 +37,12 @@ angular.module('app')
 	    $scope.sortReverse  = false;  // set the default sort order
 	    $scope.search   = '';   
 	    
+// pour rediriger l'edit du MAJ etudiant
+	    $scope.edit = function (noEtudiant,codeFormation,anneeUniversitaire){
+          
+            $location.path("/admin/etudiant/edit/"+ noEtudiant+"/"+codeFormation+"/"+anneeUniversitaire);
 
+        }
 		
 		//pour afficher les listes formation puis etudiants 
 		$scope.afficherPromotion = false;

@@ -71,10 +71,10 @@ public class Formation implements Serializable {
     @Column(name = "DOUBLE_DIPLOME")
     private Character doubleDiplome;
     @Column(name = "DEBUT_ACCREDITATION")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date debutAccreditation;
     @Column(name = "FIN_ACCREDITATION")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date finAccreditation;
     @JsonBackReference(value="formation-promotion")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "formation",fetch=FetchType.LAZY)

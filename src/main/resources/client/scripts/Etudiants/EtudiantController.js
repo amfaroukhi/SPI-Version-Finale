@@ -5,7 +5,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
 
         $scope.etudiantPromotion ={};
 
-
+        $scope.noEtudiant = $routeParams.noEtudiant;
         $scope.codeFormation = $routeParams.codeFormation;
         $scope.anneeUniversitaire = $routeParams.anneeUniversitaire;
         console.log($scope.codeFormation);
@@ -18,7 +18,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         // $scope.error = false;
         // $scope.success = false;
 
-      //  getEtudiant();
+        getEtudiant();
 
 
         function getEtudiants() {
@@ -89,25 +89,51 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         };
 
         $scope.updateEtudiant = function () {
-            dataFactory.updateEtudiant($scope.etudiant)
-                .then(function (response) {
 
-                    $scope.status = 'Mise à jour de l\'étudiant effectuée!';
+            getEtudiantMaj();
+            $location.path('/admin/formationsPromo');
+
+        };
+
+        var getEtudiantMaj = function (){
+            dataFactory.getPromotion($scope.codeFormation, $scope.anneeUniversitaire)
+                .then(function (response) {
+                    $scope.etudiantPromotion.promotion = response.data;
+                    $scope.error = false;
+                    InsererEtudiantRequetteMaj();
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
+                });
+        }
+
+        function InsererEtudiantRequetteMaj(){
+            $scope.etudiantPromotion.etudiant = $scope.etudiant;
+            console.log("---");
+            console.log($scope.etudiantPromotion);
+            console.log("---");
+            dataFactory.updateEtudiant($scope.etudiantPromotion)
+                .then(function (response) {
+                    $scope.status = 'MAJ étudiant effectuée!';
+
                     $scope.error = false;
                     $scope.success = true;
-                    getEtudiants();
-                   // $location.path("/formation/"+$scope.formation.codeFormation);
-                    // console.log($location.path);
+
                 }, function (error) {
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la mise à jour de l\'étudiant: ' + error.message;
+                    $scope.status = 'Erreur lors de la MAJ de l\'étudiant: ' + error.message;
                 });
-        };
+        }
+
 
         $scope.ajoutEtudiant = function(){
             $location.path('/admin/etudiant/new');
         }
+        
+       
 
 
         $scope.closeAlert = function () {

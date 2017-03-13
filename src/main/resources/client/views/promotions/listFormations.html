@@ -200,7 +200,7 @@
                 </div></th>
                 <th><div class="th">
                     Université d'origine
-                    <span class="glyphicon glyphicon-chevron-up"
+                    <span class="glyphicon glyphicon-chevron-up
                       ng-click="sortType = 'universiteOrigine'; sortReverse = !sortReverse"
               		></span>
                     <span class="glyphicon glyphicon-chevron-down"
@@ -218,7 +218,7 @@
                 <td ng-click="edit(e)">{{e.email}}</td>
                 <td ng-click="edit(e)">{{e.mobile}}</td>
                 <td ng-click="edit(e)">{{e.universiteOrigine}}</td>
-                <td><span class="edit fa fa-edit" ng-click=""></span></td>
+                <td><span class="edit fa fa-edit" ng-click="edit(e.noEtudiant,code,annee)"></span></td>
                 <td><span class="remove fa fa-remove" ng-click=""></span></td>
             </tr>
             </tbody>

@@ -44,6 +44,9 @@
 				.when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
                     templateUrl : 'views/etudiant/new.html'
                 })
+                .when('/admin/etudiant/edit/:noEtudiant/:codeFormation/:anneeUniversitaire', {
+                    templateUrl : 'views/etudiant/edit.html'
+                })
 
 					//                   ------------etudiants------------
 				.when('/admin/etudiants', {
