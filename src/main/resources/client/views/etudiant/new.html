@@ -1,0 +1,155 @@
+<div class="page" ng-controller="EtudiantController">
+    <div class="panel panel-default ens-edit">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Etudiant</strong></div>
+        <div class="panel-body">
+
+            <!-- Add -->
+            <div>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label  class="col-sm-2">Code Promotion</label>
+                        <div class="col-sm-10">
+                            <input disabled type="text" class="form-control"  
+                                   ng-model="codeFormation">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2">Année Universitaire</label>
+                        <div class="col-sm-10">
+                            <input disabled type="text" class="form-control"
+                                   ng-model="anneeUniversitaire">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2">Numero Etudiant</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.noEtudiant">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-2">Nom</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.nom">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Prénom</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.prenom">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Sexe</label>
+                        <div class="col-sm-10">
+                            <label class="ui-radio"><input name="radio1" type="radio" value="M" ng-model="etudiant.sexe"><span>Homme</span></label>
+                            <label class="ui-radio"><input name="radio1" type="radio" value="F" ng-model="etudiant.sexe"><span>Femme</span></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Date de naissance</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control"
+                                   ng-model="etudiant.dateNaissance" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Lieu de naissance</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.lieuNaissance">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Nationalité</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.nationalite">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Téléphone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.telephone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Mobile</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.mobile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Email</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Email UBO</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.emailUbo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Adresse</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.adresse">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Code Postal</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.codePostal">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Ville</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.ville">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Pays d'origine</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.paysOrigine">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Université d'origine</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.universiteOrigine">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Groupe TP</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.groupeTp">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2">Groupe d'Anglais</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   ng-model="etudiant.groupeAnglais">
+                        </div>
+                    </div>
+                </form>
+                <a class="btn btn-success" ng-click="insertEtudiant(etudiant)"><span class="glyphicon glyphicon-ok"></span> Valider</a>
+
+            </div>
+        </div>
+    </div>
+</div>

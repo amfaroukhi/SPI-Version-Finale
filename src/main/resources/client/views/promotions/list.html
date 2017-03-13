@@ -1,0 +1,175 @@
+<div class="page page-table" ng-controller="PromotionsController">
+
+    <section class="panel panel-default table-dynamic">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span>Promotion</strong>
+        </div>
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th><div class="th">
+                        Code Formation
+                    </div></th>
+                    <th><div class="th">
+                        Année universitaire
+                    </div></th>                    
+                    <th><div class="th">
+                        Sigle Promotion
+                    </div></th>
+                    <th><div class="th">
+                        Nb Max Etudiants
+                    </div></th>
+                    <th><div class="th">
+                        Responsable pédagogique
+                      
+                    </div></th>
+                    
+                    <th><div class="th">
+                        Formation 
+                      
+                    </div></th>
+                    
+                    <th>Afficher la liste des étudiants</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in promotions" class="formation">
+                    <td>{{p.promotionPK.codeFormation}}</td>
+                    <td>{{p.promotionPK.anneeUniversitaire}}</td>
+                    <td>{{p.siglePromotion}}</td>
+                    <td>{{p.nbMaxEtudiant}}</td>
+                    <td>{{p.noEnseignant.nom}} {{p.noEnseignant.prenom}}</td>
+                    <td>{{p.formation.nomFormation}}</td>
+                    <td><button ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">Liste Etudiants</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer class="table-footer">
+            <div class="row">
+                <div class="col-md-6 page-num-info">
+                    <span>
+                        Show 
+                        <select ng-model="numPerPage"
+                                ng-options="num for num in numPerPageOpt"
+                                ng-change="onNumPerPageChange()">
+                        </select> 
+                        entries per page
+                    </span>
+                </div>
+                <div class="col-md-6 text-right pagination-container">
+                    <pagination class="pagination-sm"
+                                ng-model="currentPage"
+                                total-items="filteredStores.length"
+                                max-size="4"
+                                ng-change="select(currentPage)"
+                                items-per-page="numPerPage"
+                                rotate="false"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+        </footer>
+    </section>
+    
+     
+    <section class="panel panel-default table-dynamic">
+    <div ng-show="afficherEtudiant">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Etudiants</strong>
+            
+        </div>
+
+
+
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+            <tr>
+                <th><div class="th">
+                    Nom
+                    <span class="glyphicon glyphicon-chevron-up"
+                          data-ng-click=" order('nom') "
+                          data-ng-class="{active: row == 'nom'}"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                          data-ng-click=" order('-nom') "
+                          data-ng-class="{active: row == '-nom'}"></span>
+                </div></th>
+                <th><div class="th">
+                    Prénom
+                    <span class="glyphicon glyphicon-chevron-up"
+                          data-ng-click=" order('prenom') "
+                          data-ng-class="{active: row == 'prenom'}"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                          data-ng-click=" order('-prenom') "
+                          data-ng-class="{active: row == '-prenom'}"></span>
+                </div></th>
+                <th><div class="th">
+                    E-mail
+                    <span class="glyphicon glyphicon-chevron-up"
+                          data-ng-click=" order('email') "
+                          data-ng-class="{active: row == 'email'}"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                          data-ng-click=" order('-email') "
+                          data-ng-class="{active: row == '-email'}"></span>
+                </div></th>
+                <th><div class="th">
+                    Mobile
+                    <span class="glyphicon glyphicon-chevron-up"
+                          data-ng-click=" order('mobile') "
+                          data-ng-class="{active: row == 'mobile'}"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                          data-ng-click=" order('-mobile') "
+                          data-ng-class="{active: row == '-mobile'}"></span>
+                </div></th>
+                <th><div class="th">
+                    Université d'origine
+                    <span class="glyphicon glyphicon-chevron-up"
+                          data-ng-click=" order('universiteOrigine') "
+                          data-ng-class="{active: row == 'universiteOrigine'}"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                          data-ng-click=" order('-universiteOrigine') "
+                          data-ng-class="{active: row == '-universiteOrigine'}"></span>
+                </div></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody><!-- currentPageEnseignant / enseignants -->
+         
+            <tr data-ng-repeat="e in etudiants" class="formation">
+                <td ng-click="edit(e)">{{e.nom}}</td>
+                <td ng-click="edit(e)">{{e.prenom}}</td>
+                <td ng-click="edit(e)">{{e.email}}</td>
+                <td ng-click="edit(e)">{{e.mobile}}</td>
+                <td ng-click="edit(e)">{{e.universiteOrigine}}</td>
+                <td><span class="remove fa fa-remove" ng-click="supprime(f)"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <footer class="table-footer">
+            <div class="row">
+                <div class="col-md-6 page-num-info">
+                    <span>
+                        Show
+                        <select data-ng-model="numPerPage"
+                                data-ng-options="num for num in numPerPageOpt"
+                                data-ng-change="onNumPerPageChange()">
+                        </select>
+                        entries per page
+                    </span>
+                </div>
+                <div class="col-md-6 text-right pagination-container">
+                    <pagination class="pagination-sm"
+                                ng-model="currentPage"
+                                total-items="filteredEnseignant.length"
+                                max-size="4"
+                                ng-change="select(currentPage)"
+                                items-per-page="numPerPage"
+                                rotate="false"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+        </footer>
+        </div>
+    </section>
+   
+
+</div>

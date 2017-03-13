@@ -1,0 +1,112 @@
+<div class="page page-table" data-ng-controller="evaluationCtrl">
+
+    <section class="panel panel-default table-dynamic">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluations</strong>
+        <a href ="#enseignant/evaluation"><span class="add fa fa-user-plus pull-right"></span></a>
+        </div>
+
+       
+
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+
+                    <th><div class="th">
+                        NO_Evaluation
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('noEvaluation') "
+                              data-ng-class="{active: row == 'noEvaluation'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-noEvaluation') "
+                              data-ng-class="{active: row == '-noEvaluation'}"></span>
+                    </div></th> 
+					<th><div class="th">
+                        Année Universitaire
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('anneeUniversitaire') "
+                              data-ng-class="{active: row == 'anneeUniversitaire'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-anneeUniversitaire') "
+                              data-ng-class="{active: row == '-anneeUniversitaire'}"></span>
+                    </div></th>
+                    <th><div class="th">
+                        Code Formation
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('codeFormation') "
+                              data-ng-class="{active: row == 'codeFormation'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-codeFormation') "
+                              data-ng-class="{active: row == '-codeFormation'}"></span>
+                    </div></th>
+                    <th><div class="th">
+                        Unité Enseignement
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('codeUe') "
+                              data-ng-class="{active: row == 'codeUe'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-codeUe') "
+                              data-ng-class="{active: row == '-codeUe'}"></span>
+                    </div></th>
+                    <th><div class="th">
+                        Element Constitutif
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('codeEc') "
+                              data-ng-class="{active: row == 'codeEc'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-codeEc') "
+                              data-ng-class="{active: row == '-codeEc'}"></span>
+                    </div></th>
+                    <th><div class="th">
+                        Etat
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('etat') "
+                              data-ng-class="{active: row == 'etat'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-etat') "
+                              data-ng-class="{active: row == '-etat'}"></span>
+                    </div></th>
+                </tr>
+            </thead>
+            <tbody>
+				
+                <tr data-ng-repeat="e in evaluations">
+                   <td>{{e.noEvaluation}}</td>
+                    <td>{{e.anneeUniversitaire}}</td>
+                    <td>{{e.codeFormation}}</td>
+                    <td>{{e.codeUe}}</td>
+                    <td ng-if="e.codeEc">{{e.codeEc}}</td> <td ng-if="!e.codeEc"> None </td>
+                    <td>{{e.etat}}</td>
+					<td><a href ="#enseignant/evaluation/{{e.idEvaluation}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation)" ng-confirm-click="Would you like to say hi?"></span></td>
+                </tr>
+				
+            </tbody>
+        </table>
+
+        <footer class="table-footer">
+            <div class="row">
+                <div class="col-md-6 page-num-info">
+                    <span>
+                        Show 
+                        <select data-ng-model="numPerPage"
+                                data-ng-options="num for num in numPerPageOpt"
+                                data-ng-change="onNumPerPageChange()">
+                        </select> 
+                        entries per page
+                    </span>
+                </div>
+                <div class="col-md-6 text-right pagination-container">
+                    <pagination class="pagination-sm"
+                                ng-model="currentPage"
+                                total-items="filteredStores.length"
+                                max-size="4"
+                                ng-change="select(currentPage)"
+                                items-per-page="numPerPage"
+                                rotate="false"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+</div>

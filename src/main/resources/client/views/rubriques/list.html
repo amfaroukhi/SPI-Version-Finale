@@ -1,0 +1,79 @@
+<div class="page page-table" data-ng-controller="rubriqueCtrl">
+
+    <section class="panel panel-default table-dynamic">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques</strong>
+        <a href ="#admin/rubrique"><span class="add fa fa-plus pull-right"></span></a>
+        </div>
+
+       
+
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+                <tr>
+
+				
+				   <th><div class="th">
+                        Designation
+                        <span class="glyphicon glyphicon-chevron-up"
+								  ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                               ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+                    </div></th>
+                    <th><div class="th">
+                        Ordre
+                        <span class="glyphicon glyphicon-chevron-up"
+							   ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                               ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
+                    </div></th> 
+					<th><div class="th">
+                        Type
+                        <span class="glyphicon glyphicon-chevron-up"
+								 ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
+                    </div></th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+				
+                <tr data-ng-repeat="r in rubriques | orderBy:sortType:sortReverse | filter:search">
+                   <td>{{r.designation}}</td>
+				   <td>{{r.ordre}}</td></a>
+                    <td>{{r.type}}</td>
+                    
+					<td><a href ="#admin/rubrique/{{r.idRubrique}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerRubrique(r.idRubrique,$index)" ></span></td>
+                </tr>
+				
+            </tbody>
+        </table>
+
+        <footer class="table-footer">
+            <div class="row">
+                <div class="col-md-6 page-num-info">
+                    <span>
+                        Show 
+                        <select data-ng-model="numPerPage"
+                                data-ng-options="num for num in numPerPageOpt"
+                                data-ng-change="onNumPerPageChange()">
+                        </select> 
+                        entries per page
+                    </span>
+                </div>
+                <div class="col-md-6 text-right pagination-container">
+                    <pagination class="pagination-sm"
+                                ng-model="currentPage"
+                                total-items="filteredStores.length"
+                                max-size="4"
+                                ng-change="select(currentPage)"
+                                items-per-page="numPerPage"
+                                rotate="false"
+                                boundary-links="true"></pagination>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+</div>
