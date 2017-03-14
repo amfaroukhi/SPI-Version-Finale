@@ -49,6 +49,13 @@ angular.module('app')
   			callback(response.data);
   		});
   };
+  
+	this.fetchpromotions = function(callback) {
+  		var url = "http://localhost:8090/promotion/";
+  		$http.get(url).then(function(response){
+  			callback(response.data);
+  		});
+  };
    
 
   
@@ -107,7 +114,14 @@ angular.module('app')
 		$scope.Unites=[];
 		$scope.Elements=[];
 		$scope.Etats=[];
-
+		$scope.Promotions=[];
+		
+		
+		
+		evaluationSvc.fetchpromotions(function(data){
+    			$scope.Promotions=data;
+    	})
+		
 		/*
 		$scope.order = function(rowName) {
 		        if ($scope.row === rowName) {
@@ -142,8 +156,14 @@ angular.module('app')
 		        return $scope.currentPage = 1;
 		      };
 			  */
-		$scope.supprimerEvaluation = function(idEvaluation){
+		$scope.supprimerEvaluation = function(idEvaluation,index){
+			
+			var del = confirm("Voulez-vous supprimer cette évaluation?");
+			
+			if (del == true) {
 			evaluationSvc.supprimerEvaluation(idEvaluation);
+			$scope.evaluations.splice(index,1);
+		}
 		};
 		
 		
@@ -188,6 +208,9 @@ angular.module('app')
 			evaluationSvc.modifierEvaluation($scope.evaluation);
 		};
 		
+		$scope.sortType     = 'designation'; // set the default sort type
+		$scope.sortReverse  = false;  // set the default sort order
+		$scope.search   = '';    
 		
 		if($routeParams.idEvaluation){
 			var idEvaluation = $routeParams.idEvaluation;
@@ -207,7 +230,7 @@ angular.module('app')
 		evaluationSvc.fetchEtats(function(data){
 			$scope.Etats=data;
 		})
-
+		
 		
  	  }]);
 

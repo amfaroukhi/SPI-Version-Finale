@@ -10,74 +10,70 @@
         <table class="table table-bordered table-striped table-responsive">
             <thead>
                 <tr>
-
+					 <th><div class="th">
+                        Désignation
+                        <span class="glyphicon glyphicon-chevron-up"
+                              ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+                    </div></th> 
+					
                     <th><div class="th">
                         NO_Evaluation
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('noEvaluation') "
-                              data-ng-class="{active: row == 'noEvaluation'}"></span>
+						ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
                         <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-noEvaluation') "
-                              data-ng-class="{active: row == '-noEvaluation'}"></span>
+						ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
                     </div></th> 
 					<th><div class="th">
                         Année Universitaire
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('anneeUniversitaire') "
-                              data-ng-class="{active: row == 'anneeUniversitaire'}"></span>
+                              ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
                         <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-anneeUniversitaire') "
-                              data-ng-class="{active: row == '-anneeUniversitaire'}"></span>
+                              ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
                     </div></th>
                     <th><div class="th">
                         Code Formation
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('codeFormation') "
-                              data-ng-class="{active: row == 'codeFormation'}"></span>
+						ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
                         <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-codeFormation') "
-                              data-ng-class="{active: row == '-codeFormation'}"></span>
+                             ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
                     </div></th>
                     <th><div class="th">
                         Unité Enseignement
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('codeUe') "
-                              data-ng-class="{active: row == 'codeUe'}"></span>
+                              ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
                         <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-codeUe') "
-                              data-ng-class="{active: row == '-codeUe'}"></span>
+                              ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
                     </div></th>
                     <th><div class="th">
                         Element Constitutif
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('codeEc') "
-                              data-ng-class="{active: row == 'codeEc'}"></span>
+                              ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
                         <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-codeEc') "
-                              data-ng-class="{active: row == '-codeEc'}"></span>
+                              ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
                     </div></th>
                     <th><div class="th">
                         Etat
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('etat') "
-                              data-ng-class="{active: row == 'etat'}"></span>
+                             ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
                         <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-etat') "
-                              data-ng-class="{active: row == '-etat'}"></span>
+                             ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
                     </div></th>
                 </tr>
             </thead>
             <tbody>
 				
-                <tr data-ng-repeat="e in evaluations">
-                   <td>{{e.noEvaluation}}</td>
+                <tr data-ng-repeat="e in evaluations | orderBy:sortType:sortReverse | filter:search">
+				 <td>{{e.designation}}</td>
+				  <td>{{e.noEvaluation}}</td>
                     <td>{{e.anneeUniversitaire}}</td>
                     <td>{{e.codeFormation}}</td>
                     <td>{{e.codeUe}}</td>
                     <td ng-if="e.codeEc">{{e.codeEc}}</td> <td ng-if="!e.codeEc"> None </td>
                     <td>{{e.etat}}</td>
 					<td><a href ="#enseignant/evaluation/{{e.idEvaluation}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation)" ng-confirm-click="Would you like to say hi?"></span></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation,$index)" ></span></td>
                 </tr>
 				
             </tbody>
