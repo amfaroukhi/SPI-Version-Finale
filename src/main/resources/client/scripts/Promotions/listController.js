@@ -44,6 +44,18 @@ angular.module('app')
 	    $scope.sortReverse  = false;  // set the default sort order
 	    $scope.search   = '';   
 	    
+// pour le tri des promotions
+	    
+		$scope.sortType1     = 'promotionPK.anneeUniversitaire'; // set the
+																	// default
+																	// sort type
+	    $scope.sortReverse1  = false;  // set the default sort order
+	    
+// pour le tri des Formations
+	    
+		$scope.sortType2    = 'codeFormation'; // set the default sort type
+	    $scope.sortReverse1  = false;  // set the default sort order
+	    
 // pour rediriger l'edit du MAJ etudiant
 	    $scope.edit = function (noEtudiant,codeFormation,anneeUniversitaire){
           

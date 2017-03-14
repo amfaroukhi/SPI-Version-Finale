@@ -199,7 +199,7 @@
             </tbody>
         </table>
 
-       <!--  <footer class="table-footer">
+        <footer class="table-footer">
             <div class="row">
                 <div class="col-md-6 page-num-info">
                     <span>
@@ -208,13 +208,13 @@
                                 data-ng-options="num for num in numPerPageOpt"
                                 data-ng-change="onNumPerPageChange()">
                         </select>
-                        entries per page
+                        Nombre d'étudiants par page 
                     </span>
                 </div>
                 <div class="col-md-6 text-right pagination-container">
                     <pagination class="pagination-sm"
                                 ng-model="currentPage"
-                                total-items="filteredEnseignant.length"
+                                total-items="filteredEtudiants.length"
                                 max-size="4"
                                 ng-change="select(currentPage)"
                                 items-per-page="numPerPage"
@@ -222,7 +222,7 @@
                                 boundary-links="true"></pagination>
                 </div>
             </div>
-        </footer>-->
+        </footer>
         </div>
     </section>
    
