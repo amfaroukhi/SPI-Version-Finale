@@ -188,18 +188,18 @@
             <tbody><!-- currentPageEnseignant / enseignants -->
          
             <tr data-ng-repeat="e in etudiants | orderBy:sortType:sortReverse | filter:search" class="formation">
-                <td ng-click="edit(e)">{{e.nom}}</td>
-                <td ng-click="edit(e)">{{e.prenom}}</td>
-                <td ng-click="edit(e)">{{e.email}}</td>
-                <td ng-click="edit(e)">{{e.mobile}}</td>
-                <td ng-click="edit(e)">{{e.universiteOrigine}}</td>
+                <td>{{e.nom}}</td>
+                <td>{{e.prenom}}</td>
+                <td>{{e.email}}</td>
+                <td>{{e.mobile}}</td>
+                <td>{{e.universiteOrigine}}</td>
                 <td><span class="edit fa fa-edit" ng-click="edit(e.noEtudiant,code,annee)"></span></td>
-                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant, $index, etudiants)"></span></td>
+                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant,index)"></span></td>
             </tr>
             </tbody>
         </table>
 
-        <footer class="table-footer">
+       <!--  <footer class="table-footer">
             <div class="row">
                 <div class="col-md-6 page-num-info">
                     <span>
@@ -222,7 +222,7 @@
                                 boundary-links="true"></pagination>
                 </div>
             </div>
-        </footer>
+        </footer>-->
         </div>
     </section>
    
