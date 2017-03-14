@@ -110,6 +110,15 @@
 					templateUrl : 'views/evaluations/edit.html',
 					controller: 'evaluationCtrl'
 				})
+				
+				
+					//                   ------------Question------------	
+				
+				.when('/admin/questions', {
+					templateUrl : 'views/questions/list.html'
+				}).when('/admin/question/:id', {
+					templateUrl : 'views/questions/details.html'
+				})
 					//                   ------------Reste------------		
 				.when('/dashboard', {
 					templateUrl : 'views/dashboard.html'

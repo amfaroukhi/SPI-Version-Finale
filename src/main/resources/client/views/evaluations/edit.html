@@ -3,24 +3,13 @@
     <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluation</strong></div>
     <div class="panel-body">        
         <!-- Edition -->
-        <div>            
+        <div>          
             <form class="form-horizontal" ng-submit ="ajouterEvaluation(evaluation)" >
                 <div class="form-group">
                     <label for="" class="col-sm-2">Numéro Evaluation</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" 
                                ng-model="evaluation.noEvaluation">
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-sm-2">Année Universitaire</label>
-                    <div class="col-sm-10">
-                       <select ng-model="evaluation.anneeUniversitaire">
-                            <option ng-repeat="p in Promotions"
-                                    value="{{p.promotionPK.anneeUniversitaire}}">
-                                        {{p.promotionPK.anneeUniversitaire}}
-                            </option>
-                        </select>
                     </div>                    
                 </div>
                 <div class="form-group">
@@ -33,10 +22,10 @@
                 <div ng-hide ="idEvaluation != null" class="form-group">
                     <label for="" class="col-sm-2">Unité Enseignement</label>
                     <div class="col-sm-10">
-                        <select ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
-                            <option ng-repeat="currentUE in Unites"
+                        <select  class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
+                            <option  ng-repeat="currentUE in Unites"  
                                     value="{{currentUE.uniteEnseignementPK.codeFormation}}/{{currentUE.uniteEnseignementPK.codeUe}}">
-                                        {{currentUE.uniteEnseignementPK.codeUe}}
+                                        {{currentUE.uniteEnseignementPK.codeUe}} - {{currentUE.uniteEnseignementPK.codeFormation}}
                             </option>
                         </select>
                     </div>                    
@@ -44,32 +33,43 @@
                 <div ng-hide ="idEvaluation != null" class="form-group">
                     <label for="" class="col-sm-2">Element Constitutif</label>
                     <div class="col-sm-10">
-                        <select ng-model="evaluation.codeEc">
+                        <select class="form-control" ng-model="evaluation.codeEc">
                             <option ng-repeat="currentEC in Elements"
                                     value="{{currentEC.elementConstitutifPK.codeEc}}">
                                         {{currentEC.elementConstitutifPK.codeEc}}
                             </option>
                         </select>
                     </div>                    
-                </div>     
+                </div>
+				<div class="form-group">
+                    <label for="" class="col-sm-2">Code Formation</label>
+                    <div class="col-sm-10">
+                        <input disabled type="text" class="form-control"
+                               ng-model="evaluation.codeFormation">
+                    </div>                    
+                </div>
+				<div ng-hide ="idEvaluation != null" class="form-group">
+                    <label for="" class="col-sm-2">Année Universitaire</label>
+                    <div class="col-sm-10">
+                       <select class="form-control" ng-model="evaluation.anneeUniversitaire">
+                            <option ng-repeat="p in Promotions"
+                                    value="{{p.promotionPK.anneeUniversitaire}}">
+                                        {{p.promotionPK.anneeUniversitaire}}
+                            </option>
+                        </select>
+                    </div>                    
+                </div>				
                 <div class="form-group">
                     <label for="" class="col-sm-2">Etat</label>
                     <div class="col-sm-10">
-                        <select ng-model="evaluation.etat">
-                            <option ng-repeat="etat in Etats"
+                        <select class="form-control" ng-model="evaluation.etat">
+                            <option ng-repeat="etat in Etats"ng-selected="etat.rvAbbreviation == evaluation.etat"
                                     value="{{etat.rvAbbreviation}}">
                                         {{etat.rvMeaning}}
                             </option>
                         </select>
                     </div>                    
                 </div> 
-                <div class="form-group">
-                    <label for="" class="col-sm-2">Code Formation</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control"
-                               ng-model="evaluation.codeFormation">
-                    </div>                    
-                </div>
                 <div class="form-group">
                     <label for="" class="col-sm-2">Début Réponse</label>
                     <div class="col-sm-10">
@@ -93,7 +93,8 @@
                 </div>               
               
             </form>
-            <a class="btn btn-success" ng-click="ajouterEvaluation(evaluation)"><span class="glyphicon glyphicon-ok"></span> Valider</a>
+            <a ng-hide ="idEvaluation != null" class="btn btn-success" ng-click="ajouterEvaluation(evaluation)"><span class="glyphicon glyphicon-ok"></span> Ajouter</a>
+			<a ng-hide ="idEvaluation == null" class="btn btn-success" ng-click="modifierEvaluation(evaluation)"><span class="glyphicon glyphicon-ok"></span> Modifier</a>
             <button class="btn btn-danger pull-right" ng-click="cancel()"> Annuler</button>
         </div>
     </div>

@@ -50,8 +50,8 @@ angular.module('app')
   		});
   };
   
-	this.fetchpromotions = function(callback) {
-  		var url = "http://localhost:8090/promotion/";
+	this.fetchpromotions = function(callback,a) {
+  		var url = "http://localhost:8090/promotion/"+a;
   		$http.get(url).then(function(response){
   			callback(response.data);
   		});
@@ -63,8 +63,8 @@ angular.module('app')
 	   evaluation["Content-Type"] = "application/json"; 
 	   
 	   $http.put("http://localhost:8090/evaluation/",evaluation).then(function(reponse){
-		   window.location.href ="http://localhost:8090/index.html#/accueil";
-			 alert("evaluation modifié");
+		  
+			window.location.href ="http://localhost:8090/index.html#/enseignant/evaluations";		  
 			 
 		 },function(erreur){
 			 alert("il y a une erreur");
@@ -75,8 +75,6 @@ angular.module('app')
 	
 
 	$http.delete("http://localhost:8090/evaluation/" + idEvaluation).then(function(reponse){
-		 alert("evaluation supprimée");
-		 window.location.href ="http://localhost:8090/index.html#/enseignant/evaluations";
 		 
 		 
 	 },function(erreur){
@@ -94,8 +92,8 @@ angular.module('app')
    this.ajouterEvaluation = function(evaluation){
 	   evaluation["Content-Type"] = "application/json";
 		 $http.post("http://localhost:8090/evaluation/",evaluation).then(function(reponse){
-		     alert("evaluation ajoutée");
-			 window.location.href ="http://localhost:8090/index.html#/admin/evaluations";
+		     
+			 window.location.href ="http://localhost:8090/index.html#/enseignant/evaluations";
 		 },function(erreur){
 			 alert("il ya une erreur");
 		 });  
@@ -118,9 +116,7 @@ angular.module('app')
 		
 		
 		
-		evaluationSvc.fetchpromotions(function(data){
-    			$scope.Promotions=data;
-    	})
+		
 		
 		/*
 		$scope.order = function(rowName) {
@@ -170,7 +166,6 @@ angular.module('app')
 		this.afficherDetails = function(codeE){
 			evaluationSvc.afficherDetails(function(data){
 				$scope.evaluation= data;
-			
 			}
 			,codeE)
 			
@@ -183,6 +178,13 @@ angular.module('app')
 			$scope.evaluation.codeUe=res[1];
 			$scope.evaluation.noEnseignant=1;
 			$scope.evaluation.codeFormation=res[0];
+			evaluationSvc.ajouterEvaluation(evaluation);
+		};
+		
+		$scope.modifierEvaluation = function(evaluation){
+			
+			
+			$scope.evaluation.noEnseignant=1;
 			evaluationSvc.ajouterEvaluation(evaluation);
 		};
 		
@@ -200,6 +202,10 @@ angular.module('app')
 			var res = str.split("/");
 			$scope.evaluation.codeFormation=res[0];
 			
+			evaluationSvc.fetchpromotions(function(data){
+    			$scope.Promotions=data;
+    	},$scope.evaluation.codeFormation)
+		
 			},$scope.evaluation.codeUe)
 		};
 		

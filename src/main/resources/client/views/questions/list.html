@@ -1,0 +1,98 @@
+<div class="page page-table" data-ng-controller="QuestionsController">
+
+	<section class="panel panel-default table-dynamic">
+		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Questions Standards</strong>
+			<span class="add fa fa-plus pull-right" ng-click="ajouterQuestion()"></span>
+		</div>
+
+		<div class="table-filters">
+			<div class="row">
+				<div class="col-md-3 col-sm-3 col-xs-3">
+					<form>
+						<input type="text" placeholder="Que recherchez-vous?" class="form-control" data-ng-model="searchKeywords" data-ng-keyup="search()">
+					</form>
+				</div>
+				<div class="col-md-7 col-sm-7 col-xs-7 filter-result-info">
+					<span>
+                        <b>{{filteredQuestion.length}}<!--/{{questions.length}}--></b> résultats
+                    </span>
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-2 pull-right">
+					<span> 
+                        <select class="form-control" data-ng-model="numPerPage" 
+						data-ng-options="num+' par page' for num in numPerPageOpt" data-ng-change="onNumPerPageChange()"></select> 
+                    </span>
+				</div>
+			</div>
+		</div>
+
+		<table class="table table-bordered table-striped table-responsive">
+			<thead>
+				<tr>
+					<th>
+						<div class="th">
+							Intitulé
+							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('intitule') " data-ng-class="{active: row == 'intitule'}"></span>
+							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-intitule') " data-ng-class="{active: row == '-intitule'}"></span>
+						</div>
+					</th>
+					<th>
+						<div class="th">
+							Qualificatif minimal
+							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('minimal') " data-ng-class="{active: row == 'minimal'}"></span>
+							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-minimal') " data-ng-class="{active: row == '-minimal'}"></span>
+						</div>
+					</th>
+					<th>
+						<div class="th">
+							Qualificatif maximal
+							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('maximal') " data-ng-class="{active: row == 'maximal'}"></span>
+							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-maximal') " data-ng-class="{active: row == '-maximal'}"></span>
+						</div>
+					</th>
+					<th colspan="2" class="pull-center">
+						<div class="th">
+							Actions
+						</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="q in currentPageQuestion" class="">
+					<td ng-click="">{{q.intitule}}</td>
+					<td ng-click="">{{q.qualificatif.minimal}}</td>
+					<td ng-click="">{{q.qualificatif.maximal}}</td>
+					<td><span class="edit fa fa-pencil-square-o" ng-click="modifierQuestion(q.idQuestion)" tooltip="Modifier" tooltip-placement="bottom"></span></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerQuestion(q.idQuestion)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<footer class="table-footer">
+			<div class="row">
+				<div class="col-md-6 text-right pagination-container pull-right">
+					<pagination class="pagination-sm" ng-model="currentPage" total-items="filteredQuestion.length" max-size="4" ng-change="select(currentPage)"
+						items-per-page="numPerPage" rotate="false" boundary-links="true"></pagination>
+				</div>
+			</div>
+		</footer>
+
+	</section>
+
+	<script type="text/ng-template" id="supprimerQuestion">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+			<h4 class="modal-title">Suppression de Question</h4>
+		</div>
+		<div class="modal-body">
+			Voulez vous vraiment supprimer la Question ?
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="confirmer()"> Supprimer</button>
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+		</div>
+	</div>
+	</script>
+
+</div>
