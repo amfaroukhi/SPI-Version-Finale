@@ -9,53 +9,32 @@
                     <th><div class="th">
                         Code
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('code') "
-                              data-ng-class="{active: row == 'code'}"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-code') "
-                              data-ng-class="{active: row == '-code'}"></span>
+                          ng-click="sortType2 = 'codeFormation'; sortReverse2 = !sortReverse2"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                           ng-click="sortType2 = 'codeFormation'; sortReverse2 = !sortReverse2"></span>
                     </div></th>
                     <th><div class="th">
-                        Diplôme / année
-                        <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('diplome') "
-                              data-ng-class="{active: row == 'diplome'}"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-diplome') "
-                              data-ng-class="{active: row == '-diplome'}"></span>
+                        Diplôme / année    
                     </div></th>                    
                     <th><div class="th">
                         Nom formation
                         <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('email') "
-                              data-ng-class="{active: row == 'email'}"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-email') "
-                              data-ng-class="{active: row == '-email'}"></span>
+                          ng-click="sortType2 = 'nomFormation'; sortReverse2 = !sortReverse2"></span>
+                    <span class="glyphicon glyphicon-chevron-down"
+                           ng-click="sortType2 = 'nomFormation'; sortReverse2 = !sortReverse2"></span>
                     </div></th>
                     <th><div class="th">
                         Double diplôme
-                        <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('email') "
-                              data-ng-class="{active: row == 'email'}"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-email') "
-                              data-ng-class="{active: row == '-email'}"></span>
                     </div></th>
                     <th><div class="th">
                         Accréditation
-                        <span class="glyphicon glyphicon-chevron-up"
-                              data-ng-click=" order('email') "
-                              data-ng-class="{active: row == 'email'}"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              data-ng-click=" order('-email') "
-                              data-ng-class="{active: row == '-email'}"></span>
+                        
                     </div></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="f in formations" class="formation">
+                <tr data-ng-repeat="f in formations | orderBy:sortType2:sortReverse2 | filter:search" class="formation">
                     <td ng-click="showPromotions(f.codeFormation)">{{f.codeFormation}}</td>
                     <td ng-click="showPromotions(f.codeFormation)">{{f.diplome}}{{f.n0Annee}}</td>
                     <td ng-click="showPromotions(f.codeFormation)">{{f.nomFormation}}</td>
@@ -99,9 +78,14 @@
                 <tr>
                     <th><div class="th">
                         Code Formation
+                       
                     </div></th>
                     <th><div class="th">
                         Année universitaire
+                         <span class="glyphicon glyphicon-chevron-up"
+                          ng-click="sortType1 = 'promotionPK.anneeUniversitaire'; sortReverse1 = !sortReverse1"></span>
+                    	<span class="glyphicon glyphicon-chevron-down"
+                           ng-click="sortType1 = 'promotionPK.anneeUniversitaire'; sortReverse1 = !sortReverse1"></span>
                     </div></th>                    
                     <th><div class="th">
                         Sigle Promotion
@@ -109,26 +93,17 @@
                     <th><div class="th">
                         Nb Max Etudiants
                     </div></th>
-                    <th><div class="th">
-                        Responsable pédagogique
-                      
-                    </div></th>
-                    
-                    <th><div class="th">
-                        Formation 
-                      
-                    </div></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="p in promotions" class="formation">
+                <tr ng-repeat="p in promotions | orderBy:sortType1:sortReverse1 | filter:search" class="formation">
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.codeFormation}}</td>
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.anneeUniversitaire}}</td>
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.siglePromotion}}</td>
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.nbMaxEtudiant}}</td>
-                    <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.noEnseignant.nom}} {{p.noEnseignant.prenom}}</td>
-                    <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.formation.nomFormation}}</td>
+                   
+                   
                 </tr>
             </tbody>
         </table>
@@ -200,7 +175,7 @@
                 </div></th>
                 <th><div class="th">
                     Université d'origine
-                    <span class="glyphicon glyphicon-chevron-up
+                    <span class="glyphicon glyphicon-chevron-up"
                       ng-click="sortType = 'universiteOrigine'; sortReverse = !sortReverse"
               		></span>
                     <span class="glyphicon glyphicon-chevron-down"
