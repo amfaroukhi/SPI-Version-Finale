@@ -194,7 +194,7 @@
                 <td ng-click="edit(e)">{{e.mobile}}</td>
                 <td ng-click="edit(e)">{{e.universiteOrigine}}</td>
                 <td><span class="edit fa fa-edit" ng-click="edit(e.noEtudiant,code,annee)"></span></td>
-                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant, $index)"></span></td>
+                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant, $index, etudiants)"></span></td>
             </tr>
             </tbody>
         </table>
@@ -228,4 +228,19 @@
    
 
 </div>
+<script type="text/ng-template" id="supprimerEtudiant">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+			<h4 class="modal-title">Suppression d'un étudiants</h4>
+		</div>
+		<div class="modal-body">
+			Voulez vous vraiment supprimer cet étudiant ?
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="confirmer()"> Supprimer</button>
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+		</div>
+	</div>
+	</script>
 
