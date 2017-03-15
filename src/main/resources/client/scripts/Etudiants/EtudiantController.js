@@ -2,15 +2,16 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
     function ($scope, $routeParams, dataFactory, $location) {
         $scope.status;
         $scope.etudiants;
-
+        $scope.DomainUniv;
         $scope.etudiantPromotion ={};
+        $scope.DomainPays;
 
         $scope.noEtudiant = $routeParams.noEtudiant;
         $scope.codeFormation = $routeParams.codeFormation;
         $scope.anneeUniversitaire = $routeParams.anneeUniversitaire;
         console.log($scope.codeFormation);
         console.log($scope.anneeUniversitaire);
-        
+
         $scope.etudiant = {
         		sexe : "M"
         };
@@ -19,7 +20,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         // $scope.success = false;
 
         getEtudiant();
-
+        getDomainUniv();
+        getDomainPays();
 
         function getEtudiants() {
             dataFactory.getEtudiants()
@@ -46,6 +48,34 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
                     $scope.success = false;
                     $scope.error = true;
                     $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
+                });
+        }
+
+        function getDomainUniv() {
+            dataFactory.getDomainUniv()
+                .then(function (response) {
+                    $scope.DomainUniv = response.data;
+                    $scope.error = false;
+                    console.log($scope.DomainUniv);
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
+                });
+        }
+
+        function getDomainPays() {
+            dataFactory.getDomainPays()
+                .then(function (response) {
+                    $scope.DomainPays = response.data;
+                    $scope.error = false;
+                    console.log($scope.DomainPays);
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
                 });
         }
 
@@ -85,7 +115,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
 
             getPromotion();
             $location.path('/admin/formationsPromo');
-            
+
         };
 
         $scope.updateEtudiant = function () {
@@ -132,8 +162,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.ajoutEtudiant = function(){
             $location.path('/admin/etudiant/new');
         }
-        
-       
+
+
 
 
         $scope.closeAlert = function () {
@@ -176,6 +206,14 @@ angular.module('app')
 
         dataFactory.deleteEtudiant = function (noEtudiant) {
             return $http.delete(urlBase + noEtudiant);
+        };
+
+        dataFactory.getDomainUniv = function () {
+            return $http.get("http://localhost:8090/domain/getBydomain/UNIVERSITE");
+        };
+
+        dataFactory.getDomainPays = function () {
+            return $http.get("http://localhost:8090/domain/getBydomain/PAYS");
         };
 
         return dataFactory;
