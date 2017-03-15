@@ -2,6 +2,7 @@ package fr.univbrest.dosi.spi.dao;
 
 import java.util.List;
 
+import org.springframework.data.gemfire.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -28,6 +29,11 @@ public interface EnseignantRepository extends PagingAndSortingRepository<Enseign
 	Enseignant save(@RequestBody Enseignant ens);
 
 	// Iterable<Enseignant> findAll();
+    @Query("SELECT COUNT(e) FROM Enseignant e WHERE e.type <> 'INT'") 
+	 long countENSChercheur();
+	 
+    @Query("SELECT COUNT(e) FROM Enseignant e WHERE e.type = 'INT'") 
+	 long countENSIntervenantExt();
 
 	// long count();
 

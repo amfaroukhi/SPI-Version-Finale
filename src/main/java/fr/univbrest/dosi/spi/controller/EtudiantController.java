@@ -47,6 +47,12 @@ public class EtudiantController {
 
 	}
 	
+	
+	@RequestMapping(value = "/countEtudiant")
+    public final long countEtudiant(){
+   	 return etudiantService.countEtudiant();
+    }
+	
 	/**
 	 *
 	 * @param etudiant

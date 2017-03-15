@@ -37,6 +37,11 @@ public class UniteEnseignementController {
 	public final UniteEnseignement ajouterUniteEnseignement(@RequestBody final UniteEnseignement ue) {
 		return ueService.addUnitEnseignement(ue);
 	}
+	
+	@RequestMapping(value = "/countUniteEnseignement")
+    public final long countUniteEnseignement(){
+   	 return ueService.countUniteEnseignement();
+    }
 
 	/**
 	 *

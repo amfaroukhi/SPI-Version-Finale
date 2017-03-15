@@ -42,5 +42,9 @@ public class FormationService {
 		return formationRepository.save(formation);
 
 	}
+	
+	public final long countFormation() {
+		return formationRepository.count();
+	}
 
 }

@@ -40,6 +40,10 @@ public class UniteEnseignementService {
 		return uniteEnseignementRepository.findByNoEnseignant(noEnseignant);
 
 	}
+	
+	public final long countUniteEnseignement() {
+		return uniteEnseignementRepository.count();
+	}
 
 	public final UniteEnseignement uniteEnseignement(final UniteEnseignementPK uniteEnseignementPK) {
 		return uniteEnseignementRepository.findOne(uniteEnseignementPK);

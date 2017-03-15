@@ -122,5 +122,17 @@ public class EnseignantService {
 			throw new SPIException("l'enseignant que vous souhaitez modifier n'exsite pas ");
 		}
 	}
+	
+	public final long countEnseignant() {
+		return enseignantRepository.count();
+	}
+	
+	public final long countENSChercheur() {
+		return enseignantRepository.countENSChercheur();
+	}
+	
+	public final long countENSIntervenantExt() {
+		return enseignantRepository.countENSIntervenantExt();
+	}
 
 }

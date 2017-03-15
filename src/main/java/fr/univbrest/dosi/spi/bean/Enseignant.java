@@ -37,6 +37,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Enseignant.findAll", query = "SELECT e FROM Enseignant e"),
+
+    @NamedQuery(name = "Enseignant.countENSChercheur", query = "SELECT COUNT(e) FROM Enseignant e WHERE e.type <> 'INT'"),
+    @NamedQuery(name = "Enseignant.countENSIntervenantExt", query = "SELECT COUNT(e) FROM Enseignant e WHERE e.type = 'INT'"),
+    
     @NamedQuery(name = "Enseignant.findByNoEnseignant", query = "SELECT e FROM Enseignant e WHERE e.noEnseignant = :noEnseignant"),
     @NamedQuery(name = "Enseignant.findByType", query = "SELECT e FROM Enseignant e WHERE e.type = :type"),
     @NamedQuery(name = "Enseignant.findBySexe", query = "SELECT e FROM Enseignant e WHERE e.sexe = :sexe"),

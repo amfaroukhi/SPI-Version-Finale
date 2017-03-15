@@ -160,4 +160,19 @@ public class EnseignantController {
 		return enseignantService.updateEnseignant(enseignant);
 		
 	}
+	
+	@RequestMapping(value = "/countEnseignant")
+    public final long countEnseignant(){
+   	 return enseignantService.countEnseignant();
+    }
+	
+	@RequestMapping(value = "/countENSChercheur")
+    public final long countENSChercheur(){
+   	 return enseignantService.countENSChercheur();
+    }
+	
+	@RequestMapping(value = "/countENSIntervenantExt")
+    public final long countENSIntervenantExt(){
+   	 return enseignantService.countENSIntervenantExt();
+    }
 }

@@ -5,10 +5,10 @@
         <div class="col-lg-3 col-xsm-6">
             <div class="panel mini-box">
                 <span class="box-icon bg-warning">
-                    <i class="fa fa-briefcase"></i>
+                    <i class="fa fa-users"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">450</p>
+                    <p class="size-h2">{{nbrEtu}}</p>
                     <p class="text-muted"><span data-i18n="Etudiants"></span></p>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                     <i class="fa fa-graduation-cap"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">42</p>
+                    <p class="size-h2">{{nbrFrm}}</p>
                     <p class="text-muted"><span data-i18n="Formations"></span></p>
                 </div>
             </div>
@@ -27,10 +27,10 @@
         <div class="col-lg-3 col-xsm-6">
             <div class="panel mini-box">
                 <span class="box-icon bg-success">
-                    <i class="fa fa-university"></i>
+                    <i class="fa fa-book"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">25<span class="size-h4"></span></p>
+                    <p class="size-h2">{{nbrUE}}<span class="size-h4"></span></p>
                     <p class="text-muted"><span data-i18n="Unités d'Enseignement"></span></p>
                 </div>
             </div>
@@ -38,11 +38,22 @@
         <div class="col-lg-3 col-xsm-6">
             <div class="panel mini-box">
                 <span class="box-icon bg-info">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-suitcase"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">6</p>
-                    <p class="text-muted"><span data-i18n="Enseignants"></span></p>
+                    <p class="size-h2">{{nbrEnsCh}}</p>
+                    <p class="text-muted"><span data-i18n="Enseignants Chercheurs"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xsm-6">
+            <div class="panel mini-box">
+                <span class="box-icon bg-primary">
+                    <i class="fa fa-briefcase"></i>
+                </span>
+                <div class="box-info">
+                    <p class="size-h2">{{nbrEnsInt}}</p>
+                    <p class="text-muted"><span data-i18n="Intervenants Extérieur"></span></p>
                 </div>
             </div>
         </div>

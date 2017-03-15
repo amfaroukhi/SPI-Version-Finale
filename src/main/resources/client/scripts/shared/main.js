@@ -53,9 +53,33 @@
         return $scope.taskRemainingCount = count;
       });
     }
-  ]).controller('DashboardCtrl', ['$scope', function($scope) {
+  ]).controller('DashboardCtrl', ['$scope','$http', function($scope,$http) {
+	  $http.get("http://localhost:8090/enseignant/countENSChercheur")
+	  .then(function(reponse){
+		  $scope.nbrEnsCh = reponse.data;
+	  });
+	  
+	  $http.get("http://localhost:8090/enseignant/countENSIntervenantExt")
+	  .then(function(reponse){
+		  $scope.nbrEnsInt = reponse.data;
+	  });
+	  
+	  $http.get("http://localhost:8090/etudiant/countEtudiant")
+	  .then(function(response){
+		  $scope.nbrEtu = response.data;
+		  console.log($scope.nbrEtu);
+	  });
+	  
+	  $http.get("http://localhost:8090/countFormation")
+	  .then(function(reponse){
+		  $scope.nbrFrm = reponse.data;
+	  });
+	  
+	  $http.get("http://localhost:8090/ue/countUniteEnseignement")
+	  .then(function(reponse){
+		  $scope.nbrUE = reponse.data;
+	  });
 	  
   }]);
 
 }).call(this);
-

@@ -44,6 +44,11 @@ public class FormationController {
 	public final Formation editFormation(@RequestBody final Formation formation) {
 		return formationService.updateFormation(formation);
 	}
+	
+	@RequestMapping(value = "/countFormation")
+    public final long countFormation(){
+   	 return formationService.countFormation();
+    }
 
 	/**
 	 *

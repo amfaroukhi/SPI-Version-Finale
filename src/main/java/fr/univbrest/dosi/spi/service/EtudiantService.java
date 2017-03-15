@@ -31,6 +31,10 @@ public class EtudiantService {
 	public final void deletEtudiant(final String noEtudiant) {
 		etudiantRepository.delete(noEtudiant);
 	}
+	
+	public final long countEtudiant() {
+		return etudiantRepository.count();
+	}
 
 	public final Boolean existEtudiant(final String noEtudiant) {
 		final Boolean exist = etudiantRepository.exists(noEtudiant);
