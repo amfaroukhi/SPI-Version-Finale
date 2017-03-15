@@ -4,11 +4,12 @@
 		<div class="panel-body">
 			<!-- Ajout et édition -->
 			<div ng-show="edit">
-				<form class="form-horizontal" method="get">
+				<form class="form-horizontal form-validation" data-ng-submit="submit()">
+					<!--data-ng-submit="submit()">-->
 					<div class="form-group">
 						<label for="" class="col-sm-3 control-label">Intitulé <span class="required">*</span></label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" ng-model="question.intitule">
+							<input type="text" class="form-control" ng-model="question.intitule" required maxlength="60">
 						</div>
 					</div>
 					<div class="form-group">
@@ -21,14 +22,16 @@
 						<label for="inputSuccess" class="col-sm-3 control-label">Qualificatif <span class="required">*</span></label>
 						<div class="col-sm-6">
 							<select class="form-control" ng-model="question.qualificatif" 
-							data-ng-options="qlf as qlf.minimal+' - '+qlf.maximal for qlf in qualificatifs track by qlf.idQualificatif">
+									data-ng-options="qlf as qlf.minimal+' - '+qlf.maximal for qlf in qualificatifs track by qlf.idQualificatif"
+									required>
 								<option value="">Selectionnez un qualificatif</option>
 							</select>
 						</div>
 					</div>
 
-					<button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"> Annuler</button>
-					<button type="submit" class="btn btn-success pull-right" ng-click="submit()"><span class="glyphicon glyphicon-ok"></span> Valider</button>
+					
+					<button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
+					<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
 
 				</form>
 			</div>

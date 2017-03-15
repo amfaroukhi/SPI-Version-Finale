@@ -39,15 +39,15 @@
 					<th>
 						<div class="th">
 							Qualificatif minimal
-							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('minimal') " data-ng-class="{active: row == 'minimal'}"></span>
-							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-minimal') " data-ng-class="{active: row == '-minimal'}"></span>
+							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('qualificatif.minimal') " data-ng-class="{active: row == 'qualificatif.minimal'}"></span>
+							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-qualificatif.minimal') " data-ng-class="{active: row == '-qualificatif.minimal'}"></span>
 						</div>
 					</th>
 					<th>
 						<div class="th">
 							Qualificatif maximal
-							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('maximal') " data-ng-class="{active: row == 'maximal'}"></span>
-							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-maximal') " data-ng-class="{active: row == '-maximal'}"></span>
+							<span class="glyphicon glyphicon-chevron-up" data-ng-click=" order('qualificatif.maximal') " data-ng-class="{active: row == 'qualificatif.maximal'}"></span>
+							<span class="glyphicon glyphicon-chevron-down" data-ng-click=" order('-qualificatif.maximal') " data-ng-class="{active: row == '-qualificatif.maximal'}"></span>
 						</div>
 					</th>
 					<th colspan="2" class="pull-center">
@@ -63,7 +63,7 @@
 					<td ng-click="">{{q.qualificatif.minimal}}</td>
 					<td ng-click="">{{q.qualificatif.maximal}}</td>
 					<td><span class="edit fa fa-pencil-square-o" ng-click="modifierQuestion(q.idQuestion)" tooltip="Modifier" tooltip-placement="bottom"></span></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerQuestion(q.idQuestion)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerQuestion(q.idQuestion,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -82,15 +82,30 @@
 	<script type="text/ng-template" id="supprimerQuestion">
 	<div class="modal-content">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
-			<h4 class="modal-title">Suppression de Question</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Suppression de question</h4>
 		</div>
 		<div class="modal-body">
-			Voulez vous vraiment supprimer la Question ?
+			Voulez vous vraiment supprimer la question ?
+		</div>
+		<div class="modal-footer">			
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+		</div>
+	</div>
+	</script>
+
+	<script type="text/ng-template" id="supprimerQuestionError">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Erreur de suppression</h4>
+		</div>
+		<div class="modal-body">
+			La question ne peut pas être supprimée !
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn-danger" type="button" ng-click="confirmer()"> Supprimer</button>
-			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
 		</div>
 	</div>
 	</script>

@@ -78,53 +78,54 @@ angular.module('app').factory('questionsFactory', ['$http', function ($http) {
 
 // ================================== QuestionsController ==================================
 angular.module('app').controller('QuestionsController',
-    ['$scope', '$filter', '$location', 'questionsFactory', '$modal',
-        function ($scope, $filter, $location, questionsFactory, $modal) {
+    ['$scope', '$rootScope', '$filter', '$location', 'questionsFactory', '$modal',
+        function ($scope, $rootScope, $filter, $location, questionsFactory, $modal) {
 
-            var init;
+            $scope.numPerPageOpt = ["Tout", 5, 10, 30, 50];
+            $scope.numPerPage = $scope.numPerPageOpt[0];
+            $scope.currentPage = 1;
+            $scope.row = "intitule";
+
+            $scope.select = function (page) {
+                var end, start;
+                start = (page - 1) * $scope.numPerPage;
+                end = start + $scope.numPerPage;
+                if (isNaN(end)) return $scope.currentPageQuestion = $scope.filteredQuestion;
+                else return $scope.currentPageQuestion = $scope.filteredQuestion.slice(start, end);
+            };
+            $scope.onFilterChange = function () {
+                $scope.select($scope.currentPage);
+                return;
+            };
+            $scope.onNumPerPageChange = function () {
+                $scope.select($scope.currentPage);
+                return;
+            };
+            $scope.onOrderChange = function () {
+                $scope.select($scope.currentPage);
+                return;
+            };
+            $scope.search = function () {
+                $scope.filteredQuestion = $filter('filter')($scope.questions, $scope.searchKeywords);
+                return $scope.onFilterChange();
+            };
+            $scope.order = function (rowName) {
+                if ($scope.row === rowName) {
+                    return;
+                }
+                $scope.row = rowName;
+                $scope.filteredQuestion = $filter('orderBy')($scope.questions, rowName);
+                return $scope.onOrderChange();
+            };
+
+            function select() {
+                $scope.select($scope.currentPage);
+            };
 
             // ******** liste des questions a partir du service ********
             getQuestions(function () {
                 // ******** Les différents filtres ********
-                $scope.numPerPageOpt = [5, 10, 30, 50, 100];
-                $scope.numPerPage = $scope.numPerPageOpt[2];
-                $scope.currentPage = 1;
-                $scope.currentPageQuestion = $filter('orderBy')($scope.questions, "intitule");
-                $scope.filteredQuestion = $scope.questions;
-
-                $scope.select = function (page) {
-                    var end, start;
-                    start = (page - 1) * $scope.numPerPage;
-                    end = start + $scope.numPerPage;
-                    if (isNaN(end)) $scope.currentPageQuestion = $scope.filteredQuestion;
-                    else return $scope.currentPageQuestion = $scope.filteredQuestion.slice(start, end);
-                };
-                $scope.onFilterChange = function () {
-                    $scope.select(1);
-                    $scope.currentPage = 1;
-                    return $scope.row = '';
-                };
-                $scope.onNumPerPageChange = function () {
-                    $scope.select(1);
-                    return $scope.currentPage = 1;
-                };
-                $scope.onOrderChange = function () {
-                    $scope.select(1);
-                    return $scope.currentPage = 1;
-                };
-                $scope.search = function () {
-                    $scope.filteredQuestion = $filter('filter')($scope.questions, $scope.searchKeywords);
-                    return $scope.onFilterChange();
-                };
-                $scope.order = function (rowName) {
-                    if ($scope.row === rowName) {
-                        return;
-                    }
-                    $scope.row = rowName;
-                    console.log($scope.row);
-                    $scope.filteredQuestion = $filter('orderBy')($scope.questions, rowName);
-                    return $scope.onOrderChange();
-                };
+                $scope.select($scope.currentPage);
             });
 
 
@@ -139,16 +140,24 @@ angular.module('app').controller('QuestionsController',
             }
 
             // ******** supprimer une question (Modal)********
-            $scope.supprimerQuestion = function (idQuestion) {
+            $scope.supprimerQuestion = function (idQuestion, index) {
+                $rootScope.currentPageQuestion = $scope.currentPageQuestion;
                 $modal.open({
                     templateUrl: 'supprimerQuestion',
                     backdrop: true,
                     windowClass: 'modal',
                     controller: function ($scope, $modalInstance, $log, questionsFactory) {
                         $scope.confirmer = function () {
-                            questionsFactory.deleteQuestion(idQuestion);
+                            questionsFactory.deleteQuestion(idQuestion)
+                                .success(function () {
+                                    getQuestions(function () {
+                                        select();
+                                    });
+                                })
+                                .error(function () {
+                                    supprimerQuestionError();
+                                });
                             $modalInstance.dismiss('cancel');
-                            location.reload('/admin/questions');
                         }
                         $scope.annuler = function () {
                             $modalInstance.dismiss('cancel');
@@ -157,13 +166,29 @@ angular.module('app').controller('QuestionsController',
                 });
             }
 
+            function supprimerQuestionError () {
+                $rootScope.currentPageQuestion = $scope.currentPageQuestion;
+                $modal.open({
+                    templateUrl: 'supprimerQuestionError',
+                    backdrop: true,
+                    windowClass: 'modal',
+                    controller: function ($scope, $modalInstance, $log) {
+                        $scope.annuler = function () {
+                            $modalInstance.dismiss('cancel');
+                        };
+                    }
+                });
+            };
+
             // ******** fonction récuperation liste des questions a partir du service ********
-            function getQuestions(initialisationCb) {
+            function getQuestions(callback) {
                 questionsFactory.getQuestions()
                     .then(function (response) {
                         $scope.questions = response.data;
                         $scope.error = false;
-                        initialisationCb();
+                        $scope.currentPageQuestion = $filter('orderBy')($scope.questions, $scope.row);
+                        $scope.filteredQuestion = $filter('orderBy')($scope.questions, $scope.row);
+                        callback();
                     }, function (error) {
                         $scope.success = false;
                         $scope.error = true;
@@ -176,8 +201,8 @@ angular.module('app').controller('QuestionsController',
 
 // ================================== QstDetailsController ==================================
 angular.module('app').controller('QstDetailsController',
-    ['$scope', '$routeParams', '$location', 'questionsFactory',
-        function ($scope, $routeParams, $location, questionsFactory) {
+    ['$scope', '$routeParams', '$window','$location', 'questionsFactory',
+        function ($scope, $routeParams, $window,$location, questionsFactory) {
 
             $scope.edit = false;
             getQualificatifs();
@@ -202,14 +227,14 @@ angular.module('app').controller('QstDetailsController',
             // ******** valide le formulaire d'ajout/modif d'une question ********
             $scope.submit = function () {
                 if ($scope.question)
-                if ($routeParams.id == "nouveau") {
-                    questionsFactory.addQuestion($scope.question);
-                }
-                else { //if ($routeParams.id == "modification"){
-                    questionsFactory.addQuestion($scope.question);
-                }
+                    if ($routeParams.id == "nouveau") {
+                        questionsFactory.addQuestion($scope.question);
+                    }
+                    else { //if ($routeParams.id == "modification"){
+                        questionsFactory.addQuestion($scope.question);
+                    }
                 $scope.edit = false;
-                 window.location.href ="http://localhost:8090/index.html#/admin/questions";
+                $window.location.href = "http://localhost:8090/index.html#/admin/questions";
             }
 
             // ******** annule l'édition ********
