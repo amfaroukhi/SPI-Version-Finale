@@ -280,11 +280,12 @@
 				}).when('/tasks', {
 					templateUrl : 'views/tasks/tasks.html'
 				}).when('/admin/promotions/:codeFormation', {
-					templateUrl : 'views/promotions/list.html'
-				}).when('/admin/formationPromo', {
-					templateUrl : 'views/promotions/listFormations.html'
+					templateUrl : 'views/promotions/list.html',
+					admin : 'ADM'
+				
 				}).when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
-                    templateUrl : 'views/etudiant/new.html'
+                    templateUrl : 'views/etudiant/new.html',
+                    admin : 'ADM'
                 });/*
 					 * .otherwise({ redirectTo: '/404' });
 					 */

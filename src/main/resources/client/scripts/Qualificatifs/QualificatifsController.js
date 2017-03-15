@@ -85,6 +85,8 @@ angular.module('app')
 					console.log("Suppriméavec succès");
 					$scope.qualificatifs.splice(indextableau,1);
 				},function(err){
+					
+					alert("Impossible de supprimer ce qualificatif ");
 					console.log("Erreur suppression serveur")
 				});
 				

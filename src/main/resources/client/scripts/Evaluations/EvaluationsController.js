@@ -75,6 +75,8 @@ angular.module('app')
 	
 
 	return $http.delete("http://localhost:8090/evaluation/" + idEvaluation);
+		 
+	
    };
    
    this.cancel = function(){
@@ -113,7 +115,7 @@ angular.module('app')
 		$scope.open1 = function($event) {
         $event.preventDefault();
         $event.stopPropagation();
-        return $scope.opened = true;
+        return $scope.opened1 = true;
 		};
 
 		$scope.open = function($event) {
@@ -161,13 +163,15 @@ angular.module('app')
 			  */
 		$scope.supprimerEvaluation = function(idEvaluation,index){
 			
+			
 			var r = confirm("Voulez vous vraiment supprimer ? ");
 		
 		    if (r == true){
-		    	evaluationSvc.supprimerEvaluation(idEvaluation).then(function(res){
-				$scope.evaluations.splice(index,1);
-				
+			    evaluationSvc.supprimerEvaluation(idEvaluation).then(function(res){
+			$scope.evaluations.splice(index,1);
 				},function(err){
+					
+					alert("Impossible de supprimer cette évaluation ");
 					console.log("Erreur suppression serveur")
 				});
 				
@@ -175,7 +179,6 @@ angular.module('app')
 		};
 		
 		
-	
 		
 		this.afficherDetails = function(codeE){
 			evaluationSvc.afficherDetails(function(data){
@@ -185,15 +188,15 @@ angular.module('app')
 			
 		};
 
-		$scope.execute = function(evaluation){
-			
-			if($scope.outoforder == 1)
+		$scope.execute = function(evaluation,outoforder){
+			console.log($scope.outoforder)
+			if(outoforder == 0)
 			{
-				$scope.ajouterEvaluation();
+				$scope.ajouterEvaluation(evaluation);
 			}
-			else
+			else if(outoforder == 1)
 			{
-				$scope.modifierEvaluation();
+				$scope.modifierEvaluation(evaluation);
 			}
 
 		};
@@ -245,12 +248,8 @@ angular.module('app')
 		$scope.sortReverse  = false;  // set the default sort order
 		$scope.search   = '';    
 		
-		if($routeParams.idEvaluation){
-			var idEvaluation = $routeParams.idEvaluation;
-			$scope.idEvaluation = idEvaluation;
-			this.afficherDetails(idEvaluation);
-		}
-
+		
+		
 		$scope.$watch('sortReverse',function(){
 			retrierTableau();
 		});
@@ -260,13 +259,21 @@ angular.module('app')
 		});
 		
 		function retrierTableau(){
-			$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+			$scope.evaluations= $filter('orderBy')( $scope.evaluations,$scope.sortType,$scope.sortReverse);
 		}
 		
+		
+		if($routeParams.idEvaluation){
+			var idEvaluation = $routeParams.idEvaluation;
+			$scope.idEvaluation = idEvaluation;
+			$scope.outoforder=1;
+			this.afficherDetails(idEvaluation);
+		}
+
+		
     	evaluationSvc.fetchPopular(function(data){
-    			
     			$scope.evaluations=$filter('orderBy')(data,"'designation'",$scope.sortReverse);
-                
+				
     	})
 
 		evaluationSvc.getuebyEnseignant(function(data){

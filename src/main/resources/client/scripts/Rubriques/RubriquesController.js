@@ -93,6 +93,7 @@ angular.module('app')
 			    	rubriqueSvc.supprimerRubrique(idRubrique).then(function(res){
 					$scope.rubriques.splice(indextableau,1);
 					},function(err){
+						alert("Impossible de supprimer cette rubrique ");
 						console.log("Erreur suppression serveur")
 					});
 					
@@ -128,7 +129,7 @@ angular.module('app')
 			});
 			
 			function retrierTableau(){
-				$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+				$scope.rubriques= $filter('orderBy')( $scope.rubriques,$scope.sortType,$scope.sortReverse);
 			}
 			
 			if($routeParams.idRubrique){
@@ -138,7 +139,7 @@ angular.module('app')
 			
 			
 	  		rubriqueSvc.fetchPopular(function(data){
-	  			$scope.rubriques=$filter('orderBy')(data,"'designantion'",$scope.sortReverse);
+	  			$scope.rubriques=$filter('orderBy')(data,"'designation'",$scope.sortReverse);
 	})
  	  }]);
 
