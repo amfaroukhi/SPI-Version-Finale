@@ -29,7 +29,7 @@
             </thead>
             <tbody>
 				
-                <tr data-ng-repeat="q in qualificatifs | orderBy:sortType:sortReverse | filter:search">
+                <tr data-ng-repeat="q in qualificatifs ">
                    <td>{{q.minimal}}</td></a>
                     <td>{{q.maximal}}</td>
 					<td><a href ="#admin/qualificatif/{{q.idQualificatif}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>

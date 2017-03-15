@@ -24,11 +24,9 @@ angular.module('app')
   
    this.supprimerRubrique = function(idRubrique){
 	 
-		$http.delete("http://localhost:8090/rubrique/" + idRubrique).then(function(reponse){
+		return $http.delete("http://localhost:8090/rubrique/" + idRubrique);
 		 
-	 },function(erreur){
-		 alert("il ya une erreur");
-	 });  
+	
    };
    
 
@@ -61,7 +59,7 @@ angular.module('app')
   
   
   angular.module('app')
-	  	.controller('rubriqueCtrl', ['$scope','rubriqueSvc','$routeParams',function ($scope,rubriqueSvc,$routeParams) {
+	  	.controller('rubriqueCtrl', ['$scope','rubriqueSvc','$routeParams','$filter',function ($scope,rubriqueSvc,$routeParams,$filter) {
 	    
 	    
 	  		$scope.rubriques=[];
@@ -88,16 +86,25 @@ angular.module('app')
 		};
 			
 			$scope.supprimerRubrique = function(idRubrique,indextableau){
+				console.log("index tableau " + indextableau);
 				var r = confirm("Voulez vous vraiment supprimer ? ");
 			
-				if (r == true){
-				rubriqueSvc.supprimerRubrique(idRubrique);
-				$scope.rubriques.splice(indextableau,1);
+			    if (r == true){
+			    	rubriqueSvc.supprimerRubrique(idRubrique).then(function(res){
+					$scope.rubriques.splice(indextableau,1);
+					},function(err){
+						console.log("Erreur suppression serveur")
+					});
+					
 				}
 			};
 			
 			
-		
+			
+			
+			
+			
+			
 			$scope.ajouterRubrique = function(rubrique){
 		
 				rubriqueSvc.ajouterRubrique(rubrique);
@@ -111,7 +118,18 @@ angular.module('app')
 			$scope.sortType     = 'designation'; // set the default sort type
 		    $scope.sortReverse  = false;  // set the default sort order
 		    $scope.search   = '';    
-		
+		  
+		    $scope.$watch('sortReverse',function(){
+				retrierTableau();
+			});
+			
+			$scope.$watch('sortType',function(){
+				retrierTableau();
+			});
+			
+			function retrierTableau(){
+				$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+			}
 			
 			if($routeParams.idRubrique){
 				var idRubrique = $routeParams.idRubrique;
@@ -120,7 +138,7 @@ angular.module('app')
 			
 			
 	  		rubriqueSvc.fetchPopular(function(data){
-	    			$scope.rubriques=data;
+	  			$scope.rubriques=$filter('orderBy')(data,"'designantion'",$scope.sortReverse);
 	})
  	  }]);
 

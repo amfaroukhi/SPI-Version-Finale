@@ -44,7 +44,7 @@
 					admin : 'ADM'
 				})
 				
-				.when('/admin/formationsPromo', {
+				.when('/admin/formationPromo', {
 					templateUrl : 'views/promotions/listFormations.html',
 					admin : 'ADM'
 				})

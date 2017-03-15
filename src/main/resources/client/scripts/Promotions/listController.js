@@ -26,15 +26,15 @@ angular.module('app')
    
    this.supprimer = function(noEtudiant){
 		 var url = "http://localhost:8090/etudiant/"+noEtudiant;
-		 $http.delete(url).then(function(response){
-			 
-		 });
+		
+			return $http.delete(url);    	 
+		
 	 };
   }]);
   
   
 angular.module('app')
-	  	.controller('listController', ['$scope','listService','$location','$routeParams',function ($scope,listService,$location,$routeParams) {
+	  	.controller('listController', ['$scope','listService','$location','$routeParams','$filter',function ($scope,listService,$location,$routeParams,$filter) {
 	    
 	  	$scope.formations=[];
 		$scope.promotions=[];
@@ -93,10 +93,24 @@ angular.module('app')
     		
     	};
     	
+    	
+    	$scope.$watch('sortReverse',function(){
+			retrierTableau();
+		});
+		
+		$scope.$watch('sortType',function(){
+			retrierTableau();
+		});
+		
+		function retrierTableau(){
+			$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+		}
+    	
     	$scope.showEtudiants = function(code,anneeUiversitaire){
     		$scope.afficherEtudiant = true; 
     		listService.listEtudiants(code,anneeUiversitaire,function(data){
-        		$scope.etudiants=data;
+        		
+        		$scope.etudiants=$filter('orderBy')(data,"'nom'",$scope.sortReverse);
         		console.log(data);
         		console.log("afficher");
         		$scope.code = code;

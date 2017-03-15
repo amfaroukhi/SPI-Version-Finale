@@ -74,12 +74,7 @@ angular.module('app')
    this.supprimerEvaluation = function(idEvaluation){
 	
 
-	$http.delete("http://localhost:8090/evaluation/" + idEvaluation).then(function(reponse){
-		 
-		 
-	 },function(erreur){
-		 alert("il ya une erreur");
-	 });  
+	return $http.delete("http://localhost:8090/evaluation/" + idEvaluation);
    };
    
    this.cancel = function(){
@@ -103,7 +98,7 @@ angular.module('app')
 
 
 angular.module('app')
-	  	.controller('evaluationCtrl', ['$scope','evaluationSvc', '$routeParams',function ($scope,evaluationSvc,$routeParams) {
+	  	.controller('evaluationCtrl', ['$scope','evaluationSvc', '$routeParams','$filter',function ($scope,evaluationSvc,$routeParams,$filter) {
 	    
 	  	$scope.filteredevaluations=[];
 		$scope.evaluations=[];
@@ -113,7 +108,19 @@ angular.module('app')
 		$scope.Elements=[];
 		$scope.Etats=[];
 		$scope.Promotions=[];
-		
+		$scope.outoforder=0;
+
+		$scope.open1 = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        return $scope.opened = true;
+		};
+
+		$scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        return $scope.opened = true;
+      };
 		
 		
 		
@@ -154,14 +161,21 @@ angular.module('app')
 			  */
 		$scope.supprimerEvaluation = function(idEvaluation,index){
 			
-			var del = confirm("Voulez-vous supprimer cette évaluation?");
-			
-			if (del == true) {
-			evaluationSvc.supprimerEvaluation(idEvaluation);
-			$scope.evaluations.splice(index,1);
-		}
+			var r = confirm("Voulez vous vraiment supprimer ? ");
+		
+		    if (r == true){
+		    	evaluationSvc.supprimerEvaluation(idEvaluation).then(function(res){
+				$scope.evaluations.splice(index,1);
+				
+				},function(err){
+					console.log("Erreur suppression serveur")
+				});
+				
+			}
 		};
 		
+		
+	
 		
 		this.afficherDetails = function(codeE){
 			evaluationSvc.afficherDetails(function(data){
@@ -169,6 +183,19 @@ angular.module('app')
 			}
 			,codeE)
 			
+		};
+
+		$scope.execute = function(evaluation){
+			
+			if($scope.outoforder == 1)
+			{
+				$scope.ajouterEvaluation();
+			}
+			else
+			{
+				$scope.modifierEvaluation();
+			}
+
 		};
 		
 		$scope.ajouterEvaluation = function(evaluation){
@@ -224,9 +251,22 @@ angular.module('app')
 			this.afficherDetails(idEvaluation);
 		}
 
+		$scope.$watch('sortReverse',function(){
+			retrierTableau();
+		});
+		
+		$scope.$watch('sortType',function(){
+			retrierTableau();
+		});
+		
+		function retrierTableau(){
+			$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+		}
 		
     	evaluationSvc.fetchPopular(function(data){
-    			$scope.evaluations=data;
+    			
+    			$scope.evaluations=$filter('orderBy')(data,"'designation'",$scope.sortReverse);
+                
     	})
 
 		evaluationSvc.getuebyEnseignant(function(data){
@@ -235,6 +275,7 @@ angular.module('app')
 
 		evaluationSvc.fetchEtats(function(data){
 			$scope.Etats=data;
+			
 		})
 		
 		

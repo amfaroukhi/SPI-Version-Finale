@@ -46,15 +46,10 @@ angular.module('app')
 	
   };
   
-   this.supprimerQualificatif = function(idQualificatif){
-	 
-		$http.delete("http://localhost:8090/qualificatif/" + idQualificatif).then(function(reponse){
+  this.supprimerQualificatif = function(idQualificatif){
 		 
-	 },function(erreur){
-		 alert("il ya une erreur");
-	 });  
-   };
-   
+		return $http.delete("http://localhost:8090/qualificatif/" + idQualificatif);    
+  };
 
    
    
@@ -71,18 +66,28 @@ angular.module('app')
 
 
 angular.module('app')
-	  	.controller('qualificatifCtrl', ['$scope','qualificatifSvc', '$routeParams',function ($scope,qualificatifSvc,$routeParams) {
+	  	.controller('qualificatifCtrl', ['$scope','qualificatifSvc', '$routeParams','$filter',function ($scope,qualificatifSvc,$routeParams,$filter) {
 	    
 	  	
 		$scope.qualificatifs=[];
 		$scope.qualificatif =null;
 		
+
+		
+		
+		
 		$scope.supprimerQualificatif = function(idQualificatif,indextableau){
+			console.log("index tableau " + indextableau);
 			var r = confirm("Voulez vous vraiment supprimer ? ");
 		
 		    if (r == true){
-			qualificatifSvc.supprimerQualificatif(idQualificatif);
-			$scope.qualificatifs.splice(indextableau,1);
+			    qualificatifSvc.supprimerQualificatif(idQualificatif).then(function(res){
+					console.log("Suppriméavec succès");
+					$scope.qualificatifs.splice(indextableau,1);
+				},function(err){
+					console.log("Erreur suppression serveur")
+				});
+				
 			}
 		};
 		
@@ -126,6 +131,18 @@ angular.module('app')
 			qualificatifSvc.cancel();
 		};
 		
+		$scope.$watch('sortReverse',function(){
+			retrierTableau();
+		});
+		
+		$scope.$watch('sortType',function(){
+			retrierTableau();
+		});
+		
+		function retrierTableau(){
+			$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+		}
+		
 		if($routeParams.idQualificatif){
 			var idQualificatif = $routeParams.idQualificatif;
 			this.afficherDetails(idQualificatif);
@@ -133,7 +150,7 @@ angular.module('app')
 
 		
     	qualificatifSvc.fetchPopular(function(data){
-    			$scope.qualificatifs=data;
+    			$scope.qualificatifs=$filter('orderBy')(data,"'minimal'",$scope.sortReverse);
                 
     	})
  	  }]);
