@@ -9,22 +9,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.univbrest.dosi.spi.bean.Authentification;
 import fr.univbrest.dosi.spi.bean.User;
 import fr.univbrest.dosi.spi.exception.SPIException;
+import fr.univbrest.dosi.spi.service.AuthentificationService;
 import fr.univbrest.dosi.spi.service.UserService;
 
 @RestController
 public class UserController {
 
 	@Autowired
+	AuthentificationService authoService;
+
+	@Autowired
 	UserService userService;
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST, headers = "Accept=application/json")
-	public void authentifier(final HttpServletRequest request, @RequestBody final User user) {
-		final User users = userService.authentifier(user.getUsername(), user.getPwd());
-
-		if (users != null) {
-			request.getSession().setAttribute("user", users);
+	public void authentifier(final HttpServletRequest request,
+			@RequestBody final User user) {
+		/*
+		 * final User users = userService.authentifier(user.getUsername(),
+		 * user.getPwd());
+		 */
+		final Authentification auth = authoService.logIn(user.getUsername(),
+				user.getPwd());
+		if (auth != null) {
+			request.getSession().setAttribute("user", auth);
 		} else {
 			request.getSession().removeAttribute("user");
 			throw new SPIException("impossible de s'authentifier");
@@ -33,12 +43,14 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user")
-	public User users(final HttpServletRequest request, final HttpServletResponse response) {
-		final User user = (User) request.getSession().getAttribute("user");
+	public Authentification users(final HttpServletRequest request,
+			final HttpServletResponse response) {
+		final Authentification user = (Authentification) request.getSession()
+				.getAttribute("user");
 		return user;
 
 	}
-	
+
 	@RequestMapping(value = "/deconnexion", method = RequestMethod.GET)
 	public void authentifier(final HttpServletRequest request) {
 		request.getSession().removeAttribute("user");

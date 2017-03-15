@@ -14,114 +14,141 @@
 					'app.page.ctrls', 'app.auth' ]).config(
 			[ '$routeProvider', function($routeProvider, $urlRouterProvider) {
 				return $routeProvider.when('/', {
-					redirectTo : '/dashboard'
+					redirectTo : '/dashboard',
+						admin : 'ADM',
+						enseignant : 'ENS'
 				}) 	//                   ------------Enseignant------------
 				.when('/admin/enseignants', {
-					templateUrl : 'views/enseignants/list.html'
+					templateUrl : 'views/enseignants/list.html',
+					admin : 'ADM'
 				})
 				
 				.when('/admin/enseignant/:id', {
-					templateUrl : 'views/enseignants/details.html'
+					templateUrl : 'views/enseignants/details.html',
+					admin : 'ADM'
 				})
 					//                   ------------Formation------------
 				.when('/admin/formations', {
-					templateUrl : 'views/formations/list.html'
+					templateUrl : 'views/formations/list.html',
+					admin : 'ADM'
 				})
 
 				.when('/admin/formation/:id', {
-					templateUrl : 'views/formations/details.html'
+					templateUrl : 'views/formations/details.html',
+					admin : 'ADM'
 				})
 			
 					//                   ------------Formation------------
 				.when('/admin/promotions/:codeFormation', {
-					templateUrl : 'views/promotions/list.html'
+					templateUrl : 'views/promotions/list.html',
+					admin : 'ADM'
 				})
 				
 				.when('/admin/formationsPromo', {
-					templateUrl : 'views/promotions/listFormations.html'
+					templateUrl : 'views/promotions/listFormations.html',
+					admin : 'ADM'
 				})
 
 				.when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
-                    templateUrl : 'views/etudiant/new.html'
+                    templateUrl : 'views/etudiant/new.html',
+					admin : 'ADM'
                 })
                 .when('/admin/etudiant/edit/:noEtudiant/:codeFormation/:anneeUniversitaire', {
-                    templateUrl : 'views/etudiant/edit.html'
+                    templateUrl : 'views/etudiant/edit.html',
+					admin : 'ADM'
                 })
 
 					//                   ------------etudiants------------
 				.when('/admin/etudiants', {
-                    templateUrl : 'views/etudiant/list.html'
+                    templateUrl : 'views/etudiant/list.html',
+					admin : 'ADM'
                 })
 				
 				.when('/admin/etudiant/new', {
-                    templateUrl : 'views/etudiant/new.html'
+                    templateUrl : 'views/etudiant/new.html',
+					admin : 'ADM'
                 })
 				
 					//                   ------------Unite Enseignement------------						
 				.when('/admin/ue', {
-					templateUrl : 'views/ue/list.html'
+					templateUrl : 'views/ue/list.html',
+					admin : 'ADM'
 				})
 				
 				.when('/admin/ue/:id', {
-					templateUrl : 'views/ue/details.html'
+					templateUrl : 'views/ue/details.html',
+					admin : 'ADM'
 					}).when('/admin/qualificatifs', {
 					templateUrl : 'views/qualificatifs/list.html',
-					controller: 'qualificatifCtrl'
+					controller: 'qualificatifCtrl',
+					admin : 'ADM'
 				})
 					//                   ------------Rubrique------------
 
 				.when('/admin/rubriques', {
 					templateUrl : 'views/rubriques/list.html',
-					controller: 'rubriqueCtrl'
+					controller: 'rubriqueCtrl',
+					admin : 'ADM'
 				})
 				
 				.when('/admin/rubrique/:idRubrique', {
 					templateUrl : 'views/rubriques/details.html',
-					controller: 'rubriqueCtrl'
+					controller: 'rubriqueCtrl',
+					admin : 'ADM'
 					})
 					
 				.when('/admin/rubrique', {
 					templateUrl : 'views/rubriques/details.html',
-					controller: 'rubriqueCtrl'
+					controller: 'rubriqueCtrl',
+					admin : 'ADM'
 				})
 
 					//                   ------------Qualificatif------------						
 				.when('/admin/qualificatif/:idQualificatif', {
 					templateUrl : 'views/qualificatifs/details.html',
-					controller: 'qualificatifCtrl'
+					controller: 'qualificatifCtrl',
+					admin : 'ADM'
 					})
 					
 				.when('/admin/qualificatif', {
 					templateUrl : 'views/qualificatifs/details.html',
-					controller: 'qualificatifCtrl'
+					controller: 'qualificatifCtrl',
+					admin : 'ADM'
 				})
 					//                   ------------Evaluation-----------		
 				.when('/enseignant/evaluations', {
 					templateUrl : 'views/evaluations/list.html',
-					controller: 'evaluationCtrl'
+					controller: 'evaluationCtrl',
+					enseignant : 'ENS'
 				})
 				
 				.when('/enseignant/evaluation/:idEvaluation', {
 					templateUrl : 'views/evaluations/edit.html',
-					controller: 'evaluationCtrl'
+					controller: 'evaluationCtrl',
+					enseignant : 'ENS'
 				})
 				
 				.when('/enseignant/evaluation', {
 					templateUrl : 'views/evaluations/edit.html',
-					controller: 'evaluationCtrl'
+					controller: 'evaluationCtrl',
+					enseignant : 'ENS'
 				})
 				
 				
 					//                   ------------Question------------	
 				
 				.when('/admin/questions', {
-					templateUrl : 'views/questions/list.html'
+					templateUrl : 'views/questions/list.html',
+					admin : 'ADM'
 				}).when('/admin/question/:id', {
-					templateUrl : 'views/questions/details.html'
+					templateUrl : 'views/questions/details.html',
+					admin : 'ADM'
 				})
 					//                   ------------Reste------------		
 				.when('/dashboard', {
-					templateUrl : 'views/dashboard.html'
+					templateUrl : 'views/dashboard.html',
+					admin : 'ADM',
+					enseignant : 'ENS'
 				})
 				
 				.when('/ui/typography', {
@@ -278,12 +305,19 @@
 				});
 			} ]).run(function($rootScope, $route, $location, AuthService) {
 		$rootScope.$on("$routeChangeStart", function(e, to) {
+			//console.log(AuthService.getUser().loginConnection);
 			if (to.notLoggedNeeded) {
 				return;
 			}
 			AuthService.getUser().success(function(data) {
 				if (data) {
-					e.preventDefault();
+					if(to.admin == data.role || to.enseignant == data.role){
+						e.preventDefault();
+						console.log(data.role);
+					}
+					else{
+						$location.path("/");
+					}
 				} else {
 					$location.path("/pages/signin");
 				}

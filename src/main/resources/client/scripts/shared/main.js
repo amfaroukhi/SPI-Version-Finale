@@ -25,7 +25,25 @@
       };
     }
   ]).controller('NavCtrl', [
-    '$scope', 'taskStorage', 'filterFilter', function($scope, taskStorage, filterFilter) {
+    '$scope', 'taskStorage', 'filterFilter','$injector', function($scope, taskStorage, filterFilter, $injector) {
+    		
+    	function refaire(){
+    		var AuthService = $injector.get('AuthService');
+        	AuthService.getUser().success(function(data) {
+    			if (data) {
+    				$scope.role = data.role;
+    				console.log("bonjour mr "+ data.role);
+    			}
+    		});
+    	}
+    	refaire();
+    	
+  	  $scope.$on('$routeChangeStart', function(event, next, current) { 
+  		  if (next.$$route.originalPath == "/dashboard") {
+  			  refaire();
+  		  }
+  	  });
+    	
       var tasks;
       tasks = $scope.tasks = taskStorage.get();
       $scope.taskRemainingCount = filterFilter(tasks, {
@@ -35,7 +53,9 @@
         return $scope.taskRemainingCount = count;
       });
     }
-  ]).controller('DashboardCtrl', ['$scope', function($scope) {}]);
+  ]).controller('DashboardCtrl', ['$scope', function($scope) {
+	  
+  }]);
 
 }).call(this);
 
