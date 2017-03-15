@@ -7,24 +7,28 @@
 		</a></li>
 		<li>
 		
-		<li ng-if="role =='ENS'"><a href="#/enseignant/evaluations"><i class="fa fa-black-tie"></i><span data-i18n="Evaluations"></span></a></li>
+		<li ng-if="role =='ENS'"><a href="#/enseignant/evaluations"><i class="fa fa-line-chart"></i><span data-i18n="Evaluations"></span></a></li>
 		
 		
-		<li ng-if="role =='ADM'"><a href="#/admin/formationPromo"><i class="fa fa-black-tie"></i><span data-i18n="Etudiants"></span></a></li>
-		<li ng-if="role =='ADM'"><a href="#/admin/enseignants"><i class="fa fa-black-tie"></i><span data-i18n="Enseignants"></span></a></li>
-		<li ng-if="role =='ADM'"><a href="#/admin/formations"><i class="md md-receipt"></i><span data-i18n="Formations"></span></a></li>
+		<li ng-if="role =='ADM'"><a href="#/admin/formationPromo"><i class="fa fa-users"></i><span data-i18n=" Etudiants"></span></a></li>
+		<li ng-if="role =='ADM'"><a href="#/admin/enseignants"><i class="fa fa-users"></i><span data-i18n=" Enseignants"></span></a></li>
+		<li ng-if="role =='ADM'"><a href="#/admin/formations"><i class="fa fa-graduation-cap"></i><span data-i18n=" Formations"></span></a></li>
 		<li ng-if="role =='ADM'"><a href="#/admin/ue"><i class="fa fa-book"></i><span data-i18n="UE"></span></a></li>
-		<li ng-if="role =='ADM'"><i class="fa fa-check"></i><span data-i18n="Evaluations"></span>
+		<li>
+		<a href="#/admin"><i class="fa fa-check"></i><span data-i18n="Evaluations"></span></a>
+			<ul>
 			
-				<li ng-if="role =='ADM'"><a href="#/admin/questions"><i
-						class="fa fa-caret-right"></i><span data-i18n="Questions"></span></a></li>
-				<li ng-if="role =='ADM'"><a href="#/admin/rubriques"><i
-						class="fa fa-caret-right"></i><span data-i18n="Rubriques"></span></a></li>
-				<li ng-if="role =='ADM'"><a href="#/admin/qualificatifs"><i
-						class="fa fa-caret-right"></i><span data-i18n="Qualificatifs"></span></a></li>
-
+				<li ng-if="role =='ADM'"><a href="#/admin/rubriques">
+				<i class="fa fa-tasks"></i><span data-i18n=" Rubriques"></span></a></li>
+				
+				<li ng-if="role =='ADM'"><a href="#/admin/questions">
+				<i class="fa fa-question-circle"></i><span data-i18n=" Questions"></span></a></li>
+				
+				<li ng-if="role =='ADM'"><a href="#/admin/qualificatifs">
+				<i class="fa fa-sliders"></i><span data-i18n=" Qualificatifs"></span></a></li>
+			</ul>
 			
-			</li>
+			</li>					
 		</li>
 	</ul>
 </div>
