@@ -236,7 +236,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.insertEtudiant = function () {
 
             getPromotion();
-            $location.path('/admin/formationPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
+            $location.path('/admin/formationsPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
             console.log($scope.afficherPromotion);
 
         };
@@ -244,7 +244,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.updateEtudiant = function () {
 
             getEtudiantMaj();
-            $location.path('/admin/formationPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
+            $location.path('/admin/formationsPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
 
         };
 
@@ -281,9 +281,11 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
                 });
         }
 
-        $scope.remove = function (noEtudiant, index){
-            var supp = confirm("voulez-vous bien supprimer cet étudiant ?");
+        $scope.remove = function (noEtudiant){
+            var supp = confirm("voulez-vous bien supprimer cet étudiant iciiiii ?");
+            console.log("===< "+supp);
             if(supp == true){
+            	console.log("je suis ici");
                 dataFactory.deleteEtudiant(noEtudiant)
                     .then(function (response) {
                         $scope.showEtudiants($scope.code,$scope.annee);
@@ -345,7 +347,8 @@ angular.module('app')
         };
 
         dataFactory.deleteEtudiant = function (noEtudiant) {
-            return $http.delete(urlBase + noEtudiant);
+        	console.log("factory");
+            return $http.delete(urlBase+""+noEtudiant);
         };
 
         dataFactory.getDomainUniv = function () {

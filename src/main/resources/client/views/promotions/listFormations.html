@@ -1,4 +1,4 @@
-<div class="page page-table" data-ng-controller="listController">
+<div class="page page-table" data-ng-controller="EtudiantController">
 
     <section class="panel panel-default table-dynamic">
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Formations</strong>
@@ -14,8 +14,8 @@
                            ng-click="sortType2 = 'codeFormation'; sortReverse2 = !sortReverse2"></span>
                     </div></th>
                     <th><div class="th">
-                        Diplôme / année    
-                    </div></th>                    
+                        Diplôme / année
+                    </div></th>
                     <th><div class="th">
                         Nom formation
                         <span class="glyphicon glyphicon-chevron-up"
@@ -28,7 +28,7 @@
                     </div></th>
                     <th><div class="th">
                         Accréditation
-                        
+
                     </div></th>
                     <th></th>
                 </tr>
@@ -48,11 +48,11 @@
             <div class="row">
                 <div class="col-md-6 page-num-info">
                     <span>
-                        Show 
+                        Show
                         <select data-ng-model="numPerPage"
                                 data-ng-options="num for num in numPerPageOpt"
                                 data-ng-change="onNumPerPageChange()">
-                        </select> 
+                        </select>
                         entries per page
                     </span>
                 </div>
@@ -78,7 +78,7 @@
                 <tr>
                     <th><div class="th">
                         Code Formation
-                       
+
                     </div></th>
                     <th><div class="th">
                         Année universitaire
@@ -86,7 +86,7 @@
                           ng-click="sortType1 = 'promotionPK.anneeUniversitaire'; sortReverse1 = !sortReverse1"></span>
                     	<span class="glyphicon glyphicon-chevron-down"
                            ng-click="sortType1 = 'promotionPK.anneeUniversitaire'; sortReverse1 = !sortReverse1"></span>
-                    </div></th>                    
+                    </div></th>
                     <th><div class="th">
                         Sigle Promotion
                     </div></th>
@@ -102,8 +102,8 @@
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.anneeUniversitaire}}</td>
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.siglePromotion}}</td>
                     <td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.nbMaxEtudiant}}</td>
-                   
-                   
+
+
                 </tr>
             </tbody>
         </table>
@@ -112,11 +112,11 @@
             <div class="row">
                 <div class="col-md-6 page-num-info">
                     <span>
-                        Show 
+                        Show
                         <select ng-model="numPerPage"
                                 ng-options="num for num in numPerPageOpt"
                                 ng-change="onNumPerPageChange()">
-                        </select> 
+                        </select>
                         entries per page
                     </span>
                 </div>
@@ -133,14 +133,14 @@
             </div>
         </footer>
     </section>
-    
-     
+
+
     <section class="panel panel-default table-dynamic">
     <div ng-show="afficherEtudiant">
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Etudiants</strong>
         <span></span>
          <a ng-href="#/admin/etudiant/new/{{code}}/{{annee}}"><span class="add fa fa-user-plus pull-right"></span></a>
-            
+
         </div>
 
 
@@ -171,7 +171,7 @@
                 </div></th>
                 <th><div class="th">
                     Mobile
-                    
+
                 </div></th>
                 <th><div class="th">
                     Université d'origine
@@ -186,15 +186,15 @@
             </tr>
             </thead>
             <tbody><!-- currentPageEnseignant / enseignants -->
-         
-            <tr data-ng-repeat="e in etudiants " class="formation">
+
+            <tr data-ng-repeat="e in etudiants | orderBy:sortType:sortReverse | filter:search" class="formation">
                 <td>{{e.nom}}</td>
                 <td>{{e.prenom}}</td>
                 <td>{{e.email}}</td>
                 <td>{{e.mobile}}</td>
                 <td>{{e.universiteOrigine}}</td>
                 <td><span class="edit fa fa-edit" ng-click="edit(e.noEtudiant,code,annee)"></span></td>
-                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant,index)"></span></td>
+                <td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant)"></span></td>
             </tr>
             </tbody>
         </table>
@@ -208,13 +208,13 @@
                                 data-ng-options="num for num in numPerPageOpt"
                                 data-ng-change="onNumPerPageChange()">
                         </select>
-                        Nombre d'étudiants par page 
+                        entries per page
                     </span>
                 </div>
                 <div class="col-md-6 text-right pagination-container">
                     <pagination class="pagination-sm"
                                 ng-model="currentPage"
-                                total-items="filteredEtudiants.length"
+                                total-items="filteredEnseignant.length"
                                 max-size="4"
                                 ng-change="select(currentPage)"
                                 items-per-page="numPerPage"
@@ -225,22 +225,7 @@
         </footer>
         </div>
     </section>
-   
+
 
 </div>
-<script type="text/ng-template" id="supprimerEtudiant">
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
-			<h4 class="modal-title">Suppression d'un étudiants</h4>
-		</div>
-		<div class="modal-body">
-			Voulez vous vraiment supprimer cet étudiant ?
-		</div>
-		<div class="modal-footer">
-			<button class="btn btn-danger" type="button" ng-click="confirmer()"> Supprimer</button>
-			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
-		</div>
-	</div>
-	</script>
 

@@ -27,52 +27,51 @@
 					templateUrl : 'views/enseignants/details.html',
 					admin : 'ADM'
 				})
-					//                   ------------Formation------------
-				.when('/admin/formations', {
-					templateUrl : 'views/formations/list.html',
-					admin : 'ADM'
+			//                   ------------Promotion------------
+				.when('/admin/promotions/:codeFormation', {
+					templateUrl: 'views/promotions/list.html',
+					admin: 'ADM'
+				})
+
+				//                   ------------Formation------------
+
+				.when('/admin/formation', {
+					templateUrl: 'views/formations/list.html',
+					admin: 'ADM'
 				})
 
 				.when('/admin/formation/:id', {
-					templateUrl : 'views/formations/details.html',
-					admin : 'ADM'
+					templateUrl: 'views/formations/details.html',
+					admin: 'ADM'
 				})
-			
-					//                   ------------Formation------------
-				.when('/admin/promotions/:codeFormation', {
-					templateUrl : 'views/promotions/list.html',
-					admin : 'ADM'
+				.when('/admin/formationsPromo', {
+					templateUrl: 'views/promotions/listFormations.html',
+					admin: 'ADM'
 				})
-				
-				.when('/admin/formationPromo', {
-					templateUrl : 'views/promotions/listFormations.html',
-					admin : 'ADM'
+				.when('/admin/formationsPromo/:codeFormation/:anneeUniversitaire', {
+					templateUrl: 'views/promotions/listFormations.html',
+					admin: 'ADM'
 				})
-				
-				.when('/admin/formationPromo/:codeFormation/:anneeUniversitaire', {
-                        templateUrl : 'views/promotions/listFormations.html',
-                        admin : 'ADM'
-                    })
 
-				.when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
-                    templateUrl : 'views/etudiant/new.html',
-					admin : 'ADM'
-                })
-                .when('/admin/etudiant/edit/:noEtudiant/:codeFormation/:anneeUniversitaire', {
-                    templateUrl : 'views/etudiant/edit.html',
-					admin : 'ADM'
-                })
-
-					//                   ------------etudiants------------
+				//                   ------------etudiants------------
 				.when('/admin/etudiants', {
-                    templateUrl : 'views/etudiant/list.html',
-					admin : 'ADM'
-                })
-				
+					templateUrl: 'views/etudiant/list.html',
+					admin: 'ADM'
+				})
+
 				.when('/admin/etudiant/new', {
-                    templateUrl : 'views/etudiant/new.html',
-					admin : 'ADM'
-                })
+					templateUrl: 'views/etudiant/new.html',
+					admin: 'ADM'
+				})		
+				
+				.when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
+					templateUrl: 'views/etudiant/new.html',
+					admin: 'ADM'
+				})
+				.when('/admin/etudiant/edit/:noEtudiant/:codeFormation/:anneeUniversitaire', {
+					templateUrl: 'views/etudiant/edit.html',
+					admin: 'ADM'
+				})
 				
 					//                   ------------Unite Enseignement------------						
 				.when('/admin/ue', {
