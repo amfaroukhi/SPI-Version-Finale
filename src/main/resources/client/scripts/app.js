@@ -48,6 +48,11 @@
 					templateUrl : 'views/promotions/listFormations.html',
 					admin : 'ADM'
 				})
+				
+				.when('/admin/formationPromo/:codeFormation/:anneeUniversitaire', {
+                        templateUrl : 'views/promotions/listFormations.html',
+                        admin : 'ADM'
+                    })
 
 				.when('/admin/etudiant/new/:codeFormation/:anneeUniversitaire', {
                     templateUrl : 'views/etudiant/new.html',
@@ -133,6 +138,8 @@
 					controller: 'evaluationCtrl',
 					enseignant : 'ENS'
 				})
+				
+				
 				
 				
 					//                   ------------Question------------	

@@ -1,5 +1,8 @@
 package fr.univbrest.dosi.spi.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +63,10 @@ public class EvaluationController {
 
 	}
 
+	@RequestMapping(value = "/getbyens/{ens}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public final List<Evaluation> getEvaluationByEns(@PathVariable("ens") final int ens) {
+		return (List<Evaluation>) evaluationService.getbyens(ens);
+	}
 	
 	/**
 	 *
@@ -81,4 +88,6 @@ public class EvaluationController {
 	public final void removeEvaluation(@PathVariable("idEvaluation") final long idEvaluation) {
 		evaluationService.deleteEvaluation(idEvaluation);
 	}
+	
+	
 }

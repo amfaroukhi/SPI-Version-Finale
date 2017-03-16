@@ -1,5 +1,7 @@
 package fr.univbrest.dosi.spi.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,11 @@ public class EvaluationService {
 
 	public final Iterable<Evaluation> listEvaluations() {
 		final Iterable<Evaluation> evaluations = evaluationRepository.findAll();
+		return evaluations;
+	}
+	
+	public final Iterable<Evaluation> getbyens(int ens) {
+		final Iterable<Evaluation> evaluations = evaluationRepository.findBynoEnseignant(new BigDecimal(ens));
 		return evaluations;
 	}
 

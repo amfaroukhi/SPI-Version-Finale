@@ -9,8 +9,9 @@ angular.module('app')
 
   .service('evaluationSvc', ['$http', function ($http) {
 	  
-   this.fetchPopular = function(callback) {
-   		var url = "http://localhost:8090/evaluation/";
+   this.fetchPopular = function(callback,a) {
+	   				console.log(a);
+   		var url = "http://localhost:8090/evaluation/getbyens/"+a;
    		$http.get(url).then(function(response){
    			callback(response.data);
    		   
@@ -25,8 +26,8 @@ angular.module('app')
    		});
    };
 
-   this.getuebyEnseignant = function(callback) {
-   		var url = "http://localhost:8090/ue/getbyens/1";
+   this.getuebyEnseignant = function(callback,a) {
+   		var url = "http://localhost:8090/ue/getbyens/"+a;
    		$http.get(url).then(function(response){
    			callback(response.data);
    		   
@@ -71,6 +72,15 @@ angular.module('app')
 		 });  
   };
   
+  
+  this.fetchUser = function(callback) {
+
+		var url = "http://localhost:8090/user";
+   		$http.get(url).then(function(response){
+   			callback(response.data);
+   		});
+			
+	}
    this.supprimerEvaluation = function(idEvaluation){
 	
 
@@ -111,6 +121,7 @@ angular.module('app')
 		$scope.Etats=[];
 		$scope.Promotions=[];
 		$scope.outoforder=0;
+		$scope.noEnseignant=0;
 
 		$scope.open1 = function($event) {
         $event.preventDefault();
@@ -189,14 +200,24 @@ angular.module('app')
 		};
 
 		$scope.execute = function(evaluation,outoforder){
-			console.log($scope.outoforder)
-			if(outoforder == 0)
+			console.log($scope.evaluation.debutReponse)
+			console.log($scope.evaluation.finReponse)
+
+			if($scope.evaluation.debutReponse > $scope.evaluation.finReponse)
 			{
-				$scope.ajouterEvaluation(evaluation);
+				alert("Impo");
+				return ;
 			}
-			else if(outoforder == 1)
+			else
 			{
-				$scope.modifierEvaluation(evaluation);
+				if(outoforder == 0)
+				{
+					$scope.ajouterEvaluation(evaluation);
+				}
+				else if(outoforder == 1)
+				{
+					$scope.modifierEvaluation(evaluation);
+				}
 			}
 
 		};
@@ -224,20 +245,30 @@ angular.module('app')
 		};
 
 		$scope.fetchec = function(a){
-			
-			evaluationSvc.getecbyue(function(data){
-			$scope.Elements=data;
+			if($scope.evaluation.codeUe != undefined)
+			{
+				evaluationSvc.getecbyue(function(data){
+				$scope.Elements=data;
 
-			var str = $scope.evaluation.codeUe;
-			var res = str.split("/");
-			$scope.evaluation.codeFormation=res[0];
+				var str = $scope.evaluation.codeUe;
+				var res = str.split("/");
+				$scope.evaluation.codeFormation=res[0];
+				
+				evaluationSvc.fetchpromotions(function(data){
+						$scope.Promotions=data;
+					},$scope.evaluation.codeFormation)
 			
-			evaluationSvc.fetchpromotions(function(data){
-    			$scope.Promotions=data;
-    	},$scope.evaluation.codeFormation)
+				},$scope.evaluation.codeUe)
+			}
+			else
+			{
+				$scope.Elements=null;
+				$scope.evaluation.codeFormation=null;
+				$scope.Promotions=null;
+				return;
+			}
 		
-			},$scope.evaluation.codeUe)
-		};
+			};
 		
 		$scope.modifierEvaluation = function(){
 			
@@ -270,15 +301,23 @@ angular.module('app')
 			this.afficherDetails(idEvaluation);
 		}
 
-		
-    	evaluationSvc.fetchPopular(function(data){
+		evaluationSvc.fetchUser(function(data){
+			$scope.noEnseignant=data.noEnseignant;
+			console.log($scope.noEnseignant);
+			
+			evaluationSvc.fetchPopular(function(data){
     			$scope.evaluations=$filter('orderBy')(data,"'designation'",$scope.sortReverse);
-				
-    	})
-
+    	},$scope.noEnseignant);
+		
 		evaluationSvc.getuebyEnseignant(function(data){
 			$scope.Unites=data;
+		},$scope.noEnseignant)
+		
 		})
+		
+    	
+
+		
 
 		evaluationSvc.fetchEtats(function(data){
 			$scope.Etats=data;

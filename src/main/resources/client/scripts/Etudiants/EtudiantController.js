@@ -9,19 +9,139 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.noEtudiant = $routeParams.noEtudiant;
         $scope.codeFormation = $routeParams.codeFormation;
         $scope.anneeUniversitaire = $routeParams.anneeUniversitaire;
-        console.log($scope.codeFormation);
-        console.log($scope.anneeUniversitaire);
+
+        $scope.formations=[];
+        $scope.promotions=[];
 
         $scope.etudiant = {
         		sexe : "M"
         };
-        // $scope.noEtudiant = $routeParams.noEtudiant;
-        // $scope.error = false;
-        // $scope.success = false;
+
+        $scope.sortType     = 'nom'; // set the default sort type
+        $scope.sortReverse  = false;  // set the default sort order
+        $scope.search   = '';
+
+        $scope.flag = false;
+        // pour le tri des promotions
+
+        $scope.sortType1     = 'promotionPK.anneeUniversitaire'; // set the default sort type
+        $scope.sortReverse1  = false;  // set the default sort order
+
+// pour le tri des Formations
+
+        $scope.sortType2    = 'codeFormation'; // set the default sort type
+        $scope.sortReverse1  = false;  // set the default sort order
+
 
         getEtudiant();
         getDomainUniv();
         getDomainPays();
+        listFormations();
+        // affichage des formation et promotions après l'ajout ou la modification d'un étudiant
+        if($scope.codeFormation){
+            showPromotionsAfterAdd($scope.codeFormation);
+            showEtudiantsAfterAdd($scope.codeFormation,$scope.anneeUniversitaire);
+        }
+        if($scope.codeFormation && $scope.anneeUniversitaire){
+
+            showEtudiantsAfterAdd($scope.codeFormation,$scope.anneeUniversitaire);
+
+        }
+
+
+
+// pour rediriger l'edit du MAJ etudiant
+        $scope.edit = function (noEtudiant,codeFormation,anneeUniversitaire){
+
+            $location.path("/admin/etudiant/edit/"+ noEtudiant+"/"+codeFormation+"/"+anneeUniversitaire);
+
+        }
+
+
+
+
+// ce qui concerne le listing
+
+        //pour afficher les listes formation puis etudiants
+        $scope.afficherPromotion = false;
+        $scope.afficherEtudiant = false;
+
+        function listFormations() {
+            dataFactory.listFormations()
+                .then(function (response) {
+                    $scope.formations = response.data;
+                    $scope.error = false;
+                    console.log($scope.formations);
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                });
+        }
+
+        $scope.showPromotions = function(codeF) {
+            dataFactory.listPromotions(codeF)
+                .then(function (response) {
+                    $scope.afficherPromotion = true;
+                    $scope.promotions=response.data;
+                    console.log(response.data);
+                    $scope.error = false;
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                });
+        }
+
+        function showPromotionsAfterAdd(codeF) {
+            dataFactory.listPromotions(codeF)
+                .then(function (response) {
+                    $scope.afficherPromotion = true;
+                    $scope.promotions=response.data;
+                    console.log(response.data);
+                    $scope.error = false;
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                });
+        }
+        $scope.showEtudiants = function(code,anneeUiversitaire) {
+            dataFactory.listEtudiants(code,anneeUiversitaire)
+                .then(function (response) {
+                    $scope.afficherEtudiant = true;
+                    $scope.etudiants=response.data;
+                    $scope.code = code;
+                    $scope.annee = anneeUiversitaire;
+                    $scope.error = false;
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                });
+        }
+
+        function showEtudiantsAfterAdd(code,anneeUiversitaire) {
+            dataFactory.listEtudiants(code,anneeUiversitaire)
+                .then(function (response) {
+                    $scope.afficherEtudiant = true;
+                    $scope.etudiants=response.data;
+                    $scope.code = code;
+                    $scope.annee = anneeUiversitaire;
+                    $scope.error = false;
+                    $scope.showEtudiants(code,anneeUiversitaire);
+
+                }, function (error) {
+                    console.log("err");
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                });
+        }
 
         function getEtudiants() {
             dataFactory.getEtudiants()
@@ -35,8 +155,10 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
                 });
         }
 
+/***********************************************************************************/
 
 
+//CE qui concerne l'étudiant
         function getEtudiant() {
             dataFactory.getEtudiant($scope.noEtudiant)
                 .then(function (response) {
@@ -114,14 +236,15 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.insertEtudiant = function () {
 
             getPromotion();
-            $location.path('/admin/formationsPromo');
+            $location.path('/admin/formationPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
+            console.log($scope.afficherPromotion);
 
         };
 
         $scope.updateEtudiant = function () {
 
             getEtudiantMaj();
-            $location.path('/admin/formationsPromo');
+            $location.path('/admin/formationPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
 
         };
 
@@ -158,6 +281,23 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
                 });
         }
 
+        $scope.remove = function (noEtudiant, index){
+            var supp = confirm("voulez-vous bien supprimer cet étudiant ?");
+            if(supp == true){
+                dataFactory.deleteEtudiant(noEtudiant)
+                    .then(function (response) {
+                        $scope.showEtudiants($scope.code,$scope.annee);
+                        $scope.status = 'Suppression effectuée!';
+                        $scope.error = false;
+                        $scope.success = true;
+                        // getFormations();
+                    }, function (error) {
+                        $scope.success = false;
+                        $scope.error = true;
+                        $scope.status = 'Erreur lors de la suppression' + error.message;
+                    });
+            }
+        }
 
         $scope.ajoutEtudiant = function(){
             $location.path('/admin/etudiant/new');
@@ -214,6 +354,18 @@ angular.module('app')
 
         dataFactory.getDomainPays = function () {
             return $http.get("http://localhost:8090/domain/getBydomain/PAYS");
+        };
+
+        dataFactory.listFormations = function () {
+            return   $http.get("http://localhost:8090/formations");
+        };
+
+        dataFactory.listPromotions = function (codeFormation) {
+          return   $http.get("http://localhost:8090/promotion/"+codeFormation);
+        };
+
+        dataFactory.listEtudiants = function (code,anneeUniversitaire) {
+            return   $http.get("http://localhost:8090/etudiant/"+code+"/"+anneeUniversitaire);
         };
 
         return dataFactory;

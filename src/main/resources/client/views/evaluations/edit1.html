@@ -35,7 +35,6 @@
                     <label for="" class="col-sm-2">Element Constitutif</label>
                     <div class="col-sm-10">
                         <select class="form-control" ng-model="evaluation.codeEc">
-                            <option value="">Selectionner l'élément constitutif</option> 
                             <option ng-repeat="currentEC in Elements"
                                     value="{{currentEC.elementConstitutifPK.codeEc}}">
                                         {{currentEC.elementConstitutifPK.codeEc}}
