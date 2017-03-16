@@ -1,4 +1,5 @@
-<div class="page" ng-controller="evaluationCtrl">
+<div class="page page-table" ng-controller="evaluationCtrl">
+<section class="panel panel-default table-dynamic">
   <div class="panel panel-default ens-edit">
     <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluation</strong></div>
     <div class="panel-body">        
@@ -6,21 +7,21 @@
         <div>          
             <form class="form-horizontal" ng-submit="execute(evaluation,outoforder)">
                 <div class="form-group">
-                    <label for="" class="col-sm-2">Numéro Evaluation</label>
+                    <label for="" class="col-sm-2">Numéro Evaluation<span class="required"> *</span></label>
                     <div class="col-sm-10">
-                        <input  required type="text" class="form-control" 
-                               ng-model="evaluation.noEvaluation">
+                        <input  required type="number" class="form-control" 
+                               ng-model="evaluation.noEvaluation" max = "99" min ="1">
                     </div>                    
                 </div>
                 <div class="form-group">
-                    <label for="" class="col-sm-2">Désignation</label>
+                    <label for="" class="col-sm-2">Désignation<span class="required"> *</span></label>
                     <div class="col-sm-10">
                         <input required type="text" class="form-control"
-                               ng-model="evaluation.designation">
+                               ng-model="evaluation.designation" maxlength = "16">
                     </div>                    
                 </div> 
                 <div ng-hide ="idEvaluation != null" class="form-group">
-                    <label for="" class="col-sm-2">Unité Enseignement</label>
+                    <label for="" class="col-sm-2">Unité Enseignement<span class="required"> *</span></label>
                     <div class="col-sm-10">
                         <select required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
                             <option value="">Selectionner l'Unité d'enseignement</option> 
@@ -44,14 +45,14 @@
                     </div>                    
                 </div>
 				<div class="form-group">
-                    <label for="" class="col-sm-2">Code Formation</label>
+                    <label for="" class="col-sm-2">Code Formation<span class="required"> *</span></label>
                     <div class="col-sm-10">
                         <input required disabled type="text" class="form-control"
                                ng-model="evaluation.codeFormation">
                     </div>                    
                 </div>
 				<div ng-hide ="idEvaluation != null" class="form-group">
-                    <label for="" class="col-sm-2">Année Universitaire</label>
+                    <label for="" class="col-sm-2">Année Universitaire<span class="required"> *</span></label>
                     <div class="col-sm-10">
                        <select required class="form-control" ng-model="evaluation.anneeUniversitaire">
                             <option value="">Selectionner l'année universitaire</option> 
@@ -63,7 +64,7 @@
                     </div>                    
                 </div>				
                 <div class="form-group">
-                    <label for="" class="col-sm-2">Etat</label>
+                    <label for="" class="col-sm-2">Etat<span class="required"> *</span></label>
                     <div class="col-sm-10">
                         <select required class="form-control" ng-model="evaluation.etat">
                             <option value="">Selectionner un état</option> 
@@ -75,7 +76,7 @@
                     </div>                    
                 </div> 
                 <div class="form-group">
-                    <label for="" class="col-sm-2">Début Réponse</label>
+                    <label for="" class="col-sm-2">Début Réponse<span class="required"> *</span></label>
                     <div class="col-sm-10">
                         <div class="input-group ui-datepicker">
                         <input type="text" 
@@ -94,7 +95,7 @@
                     </div>                    
                 </div> 
                 <div class="form-group">
-                    <label for="" class="col-sm-2">Fin Réponse</label>
+                    <label for="" class="col-sm-2">Fin Réponse<span class="required"> *</span></label>
                     <div class="col-sm-10">
                         <div class="input-group ui-datepicker">
                         <input type="text" 
@@ -115,7 +116,7 @@
                     <label for="" class="col-sm-2">Période</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control"
-                               ng-model="evaluation.periode">
+                               ng-model="evaluation.periode" maxlength = "64">
                     </div>                    
                 </div>     
             <button type="submit" ng-if ="idEvaluation == null" class="btn btn-success" ><span class="glyphicon glyphicon-ok"></span> Ajouter</a>  
@@ -125,4 +126,5 @@
         </div>
     </div>
   </div>
+  </section>
 </div>

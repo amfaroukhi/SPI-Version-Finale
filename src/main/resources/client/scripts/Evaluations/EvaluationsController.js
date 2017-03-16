@@ -200,14 +200,15 @@ angular.module('app')
 		};
 
 		$scope.execute = function(evaluation,outoforder){
-			console.log($scope.evaluation.debutReponse)
-			console.log($scope.evaluation.finReponse)
 
-			if($scope.evaluation.debutReponse > $scope.evaluation.finReponse)
-			{
-				alert("Impo");
-				return ;
-			}
+			var debut = $filter('date')($scope.evaluation.debutReponse, "yyyy-MM-dd");
+						var fin = $filter('date')($scope.evaluation.finReponse, "yyyy-MM-dd");
+
+
+						if (debut >= fin) {
+							alert("Date fin < date début ");
+							return;
+						}
 			else
 			{
 				if(outoforder == 0)

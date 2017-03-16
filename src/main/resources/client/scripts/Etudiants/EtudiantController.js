@@ -13,9 +13,10 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.formations=[];
         $scope.promotions=[];
 
+
         $scope.etudiant = {
         		sexe : "M"
-        };
+        }
 
         $scope.sortType     = 'nom'; // set the default sort type
         $scope.sortReverse  = false;  // set the default sort order
@@ -37,6 +38,12 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         getDomainUniv();
         getDomainPays();
         listFormations();
+        
+        $scope.open1 = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            return $scope.opened1 = true;
+    		};
         // affichage des formation et promotions après l'ajout ou la modification d'un étudiant
         if($scope.codeFormation){
             showPromotionsAfterAdd($scope.codeFormation);
@@ -69,6 +76,9 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         function listFormations() {
             dataFactory.listFormations()
                 .then(function (response) {
+                	$scope.etudiants = [];
+              	  $scope.afficherPromotion = false;
+                    $scope.afficherEtudiant = false;
                     $scope.formations = response.data;
                     $scope.error = false;
                     console.log($scope.formations);
@@ -83,6 +93,9 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         $scope.showPromotions = function(codeF) {
             dataFactory.listPromotions(codeF)
                 .then(function (response) {
+                	$scope.etudiants = [];
+            
+                    $scope.afficherEtudiant = false;
                     $scope.afficherPromotion = true;
                     $scope.promotions=response.data;
                     console.log(response.data);
@@ -282,7 +295,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
         }
 
         $scope.remove = function (noEtudiant){
-            var supp = confirm("voulez-vous bien supprimer cet étudiant iciiiii ?");
+            var supp = confirm("voulez-vous bien supprimer cet étudiant?");
             console.log("===< "+supp);
             if(supp == true){
             	console.log("je suis ici");
@@ -294,6 +307,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
                         $scope.success = true;
                         // getFormations();
                     }, function (error) {
+                    	alert("Impossible de supprimer cet étudiant");
                         $scope.success = false;
                         $scope.error = true;
                         $scope.status = 'Erreur lors de la suppression' + error.message;
@@ -305,7 +319,9 @@ angular.module('app').controller('EtudiantController', ['$scope', '$routeParams'
             $location.path('/admin/etudiant/new');
         }
 
-
+        $scope.cancel = function(){
+            $location.path('/admin/formationsPromo/'+$scope.codeFormation+'/'+$scope.anneeUniversitaire);
+        }
 
 
         $scope.closeAlert = function () {

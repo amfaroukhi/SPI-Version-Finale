@@ -1,115 +1,91 @@
 <div class="page page-table" data-ng-controller="evaluationCtrl">
 
-    <section>
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluations</strong>
-        <a href ="#enseignant/evaluation"><span class="add fa fa-user-plus pull-right"></span></a>
-        </div>
+	<section class="panel panel-default table-dynamic">
+		<div class="panel-heading">
+			<strong><span class="glyphicon glyphicon-th"></span>
+				Evaluations</strong> <a href="#enseignant/evaluation"><span
+				class="add fa fa-plus pull-right"></span></a>
+		</div>
 
-       
+		<table class="table table-bordered table-striped table-responsive">
+			<thead>
 
-        <table class="table table-bordered table-striped table-responsive">
-            <thead>
-                
-					 <th><div class="th">
-                        Désignation
-                        <span class="glyphicon glyphicon-chevron-up"
-                              ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
-                    </div></th> 
-					
-                    <th><div class="th">
-                        NO_Evaluation
-                        <span class="glyphicon glyphicon-chevron-up"
-						ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-						ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
-                    </div></th> 
-					<th><div class="th">
-                        Année Universitaire
-                        <span class="glyphicon glyphicon-chevron-up"
-                              ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
-                    </div></th>
-                    <th><div class="th">
-                        Code Formation
-                        <span class="glyphicon glyphicon-chevron-up"
-						ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                             ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
-                    </div></th>
-                    <th><div class="th">
-                        Unité Enseignement
-                        <span class="glyphicon glyphicon-chevron-up"
-                              ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
-                    </div></th>
-                    <th><div class="th">
-                        Element Constitutif
-                        <span class="glyphicon glyphicon-chevron-up"
-                              ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
-                    </div></th>
-                    <th><div class="th">
-                        Etat
-                        <span class="glyphicon glyphicon-chevron-up"
-                             ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                             ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
-                    </div></th>
-					<th>
+				<th><div class="th">
+						Désignation <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+					</div></th>
+
+				<th><div class="th">
+						NO_Evaluation <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
+					</div></th>
+				<th><div class="th">
+						Année Universitaire <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
+					</div></th>
+				<th><div class="th">
+						Code Formation <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
+					</div></th>
+				<th><div class="th">
+						Unité Enseignement <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
+					</div></th>
+				<th><div class="th">
+						Element Constitutif <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
+					</div></th>
+				<th><div class="th">
+						Etat <span class="glyphicon glyphicon-chevron-up"
+							ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down"
+							ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
+					</div></th>
+					<th colspan="2" class="pull-center">
 						<div class="th">
 							Actions
 						</div>
 					</th>
-					<th></th>
-					
-                
-            </thead>
-            <tbody>
-				
-                <tr data-ng-repeat="e in evaluations ">
-				 <td>{{e.designation}}</td>
-				  <td>{{e.noEvaluation}}</td>
-                    <td>{{e.anneeUniversitaire}}</td>
-                    <td>{{e.codeFormation}}</td>
-                    <td>{{e.codeUe}}</td>
-                    <td ng-if="e.codeEc">{{e.codeEc}}</td> <td ng-if="!e.codeEc"> None </td>
-                    <td>{{e.etat}}</td>
-					<td><a href ="#enseignant/evaluation/{{e.idEvaluation}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation,$index)" ></span></td>
-                </tr>
-				
-            </tbody>
-        </table>
 
-        <footer class="table-footer">
-            <div class="row">
-                <div class="col-md-6 page-num-info">
-                    <span>
-                        Show 
-                        <select data-ng-model="numPerPage"
-                                data-ng-options="num for num in numPerPageOpt"
-                                data-ng-change="onNumPerPageChange()">
-                        </select> 
-                        entries per page
-                    </span>
-                </div>
-                <div class="col-md-6 text-right pagination-container">
-                    <pagination class="pagination-sm"
-                                ng-model="currentPage"
-                                total-items="filteredStores.length"
-                                max-size="4"
-                                ng-change="select(currentPage)"
-                                items-per-page="numPerPage"
-                                rotate="false"
-                                boundary-links="true"></pagination>
-                </div>
-            </div>
-        </footer>
-    </section>
+
+			</thead>
+			<tbody>
+
+				<tr data-ng-repeat="e in evaluations ">
+					<td>{{e.designation}}</td>
+					<td>{{e.noEvaluation}}</td>
+					<td>{{e.anneeUniversitaire}}</td>
+					<td>{{e.codeFormation}}</td>
+					<td>{{e.codeUe}}</td>
+					<td ng-if="e.codeEc">{{e.codeEc}}</td>
+					<td ng-if="!e.codeEc">None</td>
+					<td>{{e.etat}}</td>
+					<td><a href="#enseignant/evaluation/{{e.idEvaluation}}"><span
+							class="table-add glyphicon glyphicon-edit"></span></a></td>
+					<td><span class="remove fa fa-remove"
+						ng-click="supprimerEvaluation(e.idEvaluation,$index)"></span></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<footer class="table-footer">
+			<div class="row">
+				
+			</div>
+		</footer>
+	</section>
 
 </div>

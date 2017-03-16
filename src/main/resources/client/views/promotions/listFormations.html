@@ -46,26 +46,7 @@
 
         <footer class="table-footer">
             <div class="row">
-                <div class="col-md-6 page-num-info">
-                    <span>
-                        Show
-                        <select data-ng-model="numPerPage"
-                                data-ng-options="num for num in numPerPageOpt"
-                                data-ng-change="onNumPerPageChange()">
-                        </select>
-                        entries per page
-                    </span>
-                </div>
-                <div class="col-md-6 text-right pagination-container">
-                    <pagination class="pagination-sm"
-                                ng-model="currentPage"
-                                total-items="filteredStores.length"
-                                max-size="4"
-                                ng-change="select(currentPage)"
-                                items-per-page="numPerPage"
-                                rotate="false"
-                                boundary-links="true"></pagination>
-                </div>
+         
             </div>
         </footer>
     </section>
@@ -110,26 +91,7 @@
 
         <footer class="table-footer">
             <div class="row">
-                <div class="col-md-6 page-num-info">
-                    <span>
-                        Show
-                        <select ng-model="numPerPage"
-                                ng-options="num for num in numPerPageOpt"
-                                ng-change="onNumPerPageChange()">
-                        </select>
-                        entries per page
-                    </span>
-                </div>
-                <div class="col-md-6 text-right pagination-container">
-                    <pagination class="pagination-sm"
-                                ng-model="currentPage"
-                                total-items="filteredStores.length"
-                                max-size="4"
-                                ng-change="select(currentPage)"
-                                items-per-page="numPerPage"
-                                rotate="false"
-                                boundary-links="true"></pagination>
-                </div>
+               
             </div>
         </footer>
     </section>
@@ -181,8 +143,11 @@
                     <span class="glyphicon glyphicon-chevron-down"
                           ng-click="sortType = 'universiteOrigine'; sortReverse = !sortReverse" ></span>
                 </div></th>
-                <th></th>
-                <th></th>
+					<th colspan="2" class="pull-center">
+						<div class="th">
+							Actions
+						</div>
+					</th>
             </tr>
             </thead>
             <tbody><!-- currentPageEnseignant / enseignants -->
@@ -201,26 +166,7 @@
 
         <footer class="table-footer">
             <div class="row">
-                <div class="col-md-6 page-num-info">
-                    <span>
-                        Show
-                        <select data-ng-model="numPerPage"
-                                data-ng-options="num for num in numPerPageOpt"
-                                data-ng-change="onNumPerPageChange()">
-                        </select>
-                        entries per page
-                    </span>
-                </div>
-                <div class="col-md-6 text-right pagination-container">
-                    <pagination class="pagination-sm"
-                                ng-model="currentPage"
-                                total-items="filteredEnseignant.length"
-                                max-size="4"
-                                ng-change="select(currentPage)"
-                                items-per-page="numPerPage"
-                                rotate="false"
-                                boundary-links="true"></pagination>
-                </div>
+                
             </div>
         </footer>
         </div>
