@@ -7,154 +7,190 @@ angular.module('app')
 
 
 
-  .service('qualificatifSvc', ['$http', function ($http) {
-	  
-   this.fetchPopular = function(callback) {
-   		var url = "http://localhost:8090/qualificatif/";
-   		$http.get(url).then(function(response){
-   			callback(response.data);
-   		   
-   		});
-   };
+	.service('qualificatifSvc', ['$http', function ($http) {
+
+		this.fetchPopular = function (callback) {
+			var url = "http://localhost:8090/qualificatif/";
+			$http.get(url).then(function (response) {
+				callback(response.data);
+
+			});
+		};
 
 
-   this.afficherDetails = function(callback, idQualificatif) {
-  		var url = "http://localhost:8090/qualificatif/" + idQualificatif;
-  		$http.get(url).then(function(response){
-  			callback(response.data);
- 
-  		});
-  };
-   
+		this.afficherDetails = function (callback, idQualificatif) {
+			var url = "http://localhost:8090/qualificatif/" + idQualificatif;
+			$http.get(url).then(function (response) {
+				callback(response.data);
 
-  
-  this.modifierQualificatif = function(qualificatif){
-	   qualificatif["Content-Type"] = "application/json"; 
-	   
-	   $http.put("http://localhost:8090/qualificatif/",qualificatif).then(function(reponse){
-		   window.location.href ="http://localhost:8090/index.html#/accueil";
-			 
-			 
-		 },function(erreur){
-			 alert("il y a une erreur");
-		 });  
-  };
-  
-    this.cancel = function(){
-	   
-		   window.location.href ="http://localhost:8090/index.html#/admin/qualificatifs";
-	
-  };
-  
-  this.supprimerQualificatif = function(idQualificatif){
-		 
-		return $http.delete("http://localhost:8090/qualificatif/" + idQualificatif);    
-  };
+			});
+		};
 
-   
-   
-   this.ajouterQualificatif = function(qualificatif){
-	   qualificatif["Content-Type"] = "application/json";
-		 $http.post("http://localhost:8090/qualificatif",qualificatif).then(function(reponse){
-		    window.location.href ="http://localhost:8090/index.html#/admin/qualificatifs";
-		 },function(erreur){
-			 alert("il ya une erreur");
-		 });  
-	   };
-  }]);
+
+
+		this.modifierQualificatif = function (qualificatif) {
+			qualificatif["Content-Type"] = "application/json";
+
+			$http.put("http://localhost:8090/qualificatif/", qualificatif).then(function (reponse) {
+				window.location.href = "http://localhost:8090/index.html#/accueil";
+
+
+			}, function (erreur) {
+				alert("il y a une erreur");
+			});
+		};
+
+		this.cancel = function () {
+
+			window.location.href = "http://localhost:8090/index.html#/admin/qualificatifs";
+
+		};
+
+		this.supprimerQualificatif = function (idQualificatif) {
+
+			return $http.delete("http://localhost:8090/qualificatif/" + idQualificatif);
+		};
+
+
+
+		this.ajouterQualificatif = function (qualificatif) {
+			qualificatif["Content-Type"] = "application/json";
+			$http.post("http://localhost:8090/qualificatif", qualificatif).then(function (reponse) {
+				window.location.href = "http://localhost:8090/index.html#/admin/qualificatifs";
+			}, function (erreur) {
+				alert("il ya une erreur");
+			});
+		};
+	}]);
 
 
 
 angular.module('app')
-	  	.controller('qualificatifCtrl', ['$scope','qualificatifSvc', '$routeParams','$filter',function ($scope,qualificatifSvc,$routeParams,$filter) {
-	    
-	  	
-		$scope.qualificatifs=[];
-		$scope.qualificatif =null;
-		
+	  	.controller('qualificatifCtrl', ['$scope', 'qualificatifSvc', '$routeParams', '$filter', '$rootScope','$modal', 
+		  function ($scope, qualificatifSvc, $routeParams, $filter, $rootScope, $modal) {
 
-		
-		
-		
-		$scope.supprimerQualificatif = function(idQualificatif,indextableau){
-			console.log("index tableau " + indextableau);
-			var r = confirm("Voulez vous vraiment supprimer ? ");
-		
-		    if (r == true){
-			    qualificatifSvc.supprimerQualificatif(idQualificatif).then(function(res){
-					console.log("Suppriméavec succès");
-					$scope.qualificatifs.splice(indextableau,1);
-				},function(err){
-					
-					alert("Impossible de supprimer ce qualificatif ");
-					console.log("Erreur suppression serveur")
-				});
-				
-			}
+
+		$scope.qualificatifs = [];
+		$scope.qualificatif = null;
+
+
+
+		// $scope.supprimerQualificatif = function (idQualificatif, indextableau) {
+		// 	console.log("index tableau " + indextableau);
+		// 	var r = confirm("Voulez vous vraiment supprimer ? ");
+
+		// 	if (r == true) {
+		// 		qualificatifSvc.supprimerQualificatif(idQualificatif).then(function (res) {
+		// 			console.log("Suppriméavec succès");
+		// 			$scope.qualificatifs.splice(indextableau, 1);
+		// 		}, function (err) {
+
+		// 			alert("Impossible de supprimer ce qualificatif ");
+		// 			console.log("Erreur suppression serveur")
+		// 		});
+
+		// 	}
+		// };
+
+		// ******** supprimer un qualificatif (Modal)********
+		$scope.supprimerQualificatif = function (idQualificatif, indextableau) {
+			$rootScope.qualificatifs = $scope.qualificatifs;
+			$modal.open({
+				templateUrl: 'supprimerQualificatif',
+				backdrop: true,
+				windowClass: 'modal',
+				controller: function ($scope, $modalInstance, $log, questionsFactory) {
+					$scope.confirmer = function () {
+						qualificatifSvc.supprimerQualificatif(idQualificatif)
+							.success(function () {
+								$scope.qualificatifs.splice(indextableau, 1);
+							})
+							.error(function () {
+								supprimerQualificatifError();
+							});
+						$modalInstance.dismiss('cancel');
+					}
+					$scope.annuler = function () {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+		}
+
+		function supprimerQualificatifError() {
+			$modal.open({
+				templateUrl: 'supprimerQualificatifError',
+				backdrop: true,
+				windowClass: 'modal',
+				controller: function ($scope, $modalInstance, $log) {
+					$scope.annuler = function () {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
 		};
-		
-		
+
+
 		$scope.data = {
-				
-				idQualificatif : "",
-				maximal : "",
-				minimal : ""
-		
+			idQualificatif: "",
+			maximal: "",
+			minimal: ""
+
 		};
-		
-		this.afficherDetails = function(codeF){
-			qualificatifSvc.afficherDetails(function(data){
-				$scope.qualificatif= data;
-			
+
+		this.afficherDetails = function (codeF) {
+			qualificatifSvc.afficherDetails(function (data) {
+				$scope.qualificatif = data;
+
 			}
-			,codeF)
-			
+				, codeF)
+
 		};
-		
-		$scope.ajouterQualificatif = function(qualificatif){
-		
+
+		$scope.ajouterQualificatif = function (qualificatif) {
+
 			qualificatifSvc.ajouterQualificatif(qualificatif);
 		};
-		
 
-		
-		$scope.modifierQualificatif = function(){
-			
+
+
+		$scope.modifierQualificatif = function () {
+
 			qualificatifSvc.modifierQualificatif($scope.qualificatif);
 		};
-		
-		$scope.sortType     = 'minimal'; // set the default sort type
-		$scope.sortReverse  = false;  // set the default sort order
-		$scope.search   = '';    
-		
-		
-		$scope.cancel = function(){
-			
+
+		$scope.sortType = 'minimal'; // set the default sort type
+		$scope.sortReverse = false;  // set the default sort order
+		$scope.search = '';
+
+
+		$scope.cancel = function () {
+
 			qualificatifSvc.cancel();
 		};
-		
-		$scope.$watch('sortReverse',function(){
+
+		$scope.$watch('sortReverse', function () {
 			retrierTableau();
 		});
-		
-		$scope.$watch('sortType',function(){
+
+		$scope.$watch('sortType', function () {
 			retrierTableau();
 		});
-		
-		function retrierTableau(){
-			$scope.qualificatifs= $filter('orderBy')( $scope.qualificatifs,$scope.sortType,$scope.sortReverse);
+
+		function retrierTableau() {
+			$scope.qualificatifs = $filter('orderBy')($scope.qualificatifs, $scope.sortType, $scope.sortReverse);
 		}
-		
-		if($routeParams.idQualificatif){
+
+		if ($routeParams.idQualificatif) {
 			var idQualificatif = $routeParams.idQualificatif;
 			this.afficherDetails(idQualificatif);
 		}
 
-		
-    	qualificatifSvc.fetchPopular(function(data){
-    			$scope.qualificatifs=$filter('orderBy')(data,"'minimal'",$scope.sortReverse);
-                
-    	})
- 	  }]);
+
+		qualificatifSvc.fetchPopular(function (data) {
+			$scope.qualificatifs = $filter('orderBy')(data, "'minimal'", $scope.sortReverse);
+
+		})
+	}]);
 
 

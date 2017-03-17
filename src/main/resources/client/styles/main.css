@@ -3317,6 +3317,11 @@ input[type="button"].btn-block {
 .fade.in {
   opacity: 1;
 }
+
+.modal.fade.in {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.81);
+}
 .collapse {
   display: none;
   visibility: hidden;

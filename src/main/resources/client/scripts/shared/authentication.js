@@ -13,6 +13,7 @@
       // Nom utilisateur et image (affichés dans le header)
       $scope.username = auth.username();
       $scope.userimg = "";    
+      console.log(auth.username());
 
       // Réception de l'événement de login (voir le service 'auth')
       $scope.$on('login-success', function(){
@@ -26,6 +27,8 @@
           // Redirection vers la page d'accueil
           // TODO : redirection vers la page à laquelle on souhaitait 
           // accéder avant ce login.
+          
+        $scope.username = auth.username();
           $location.path('/');
         } else {
           // si la connexion a échoué : "secoue" le formulaire de connexion

@@ -1,46 +1,63 @@
 <header class="clearfix">
 
-    <!-- Logo -->
-    <div class="logo">
-        <a href="#/">
-            <!-- <span class="logo-icon glyphicon glyphicon-fire"></span> -->
-            <span>SPI</span>
-        </a>
-    </div>
+	<!-- Logo -->
+	<div class="logo">
+		<a href="#/">
+			<!-- <span class="logo-icon glyphicon glyphicon-fire"></span> -->
+			<img src="images/spi.svg" height="85%" margin="5%"/>
+		</a>
+	</div>
 
-    <!-- needs to be put after logo to make it working-->
-    <div class="menu-button" toggle-off-canvas>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </div>
+	<!-- needs to be put after logo to make it working-->
+	<div class="menu-button" toggle-off-canvas>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	</div>
 
-    <div class="top-nav" ng-controller="AuthenticationController">
-        <ul class="nav-left list-unstyled">
-            <li>
-                <a href="#/" data-toggle-min-nav
-                             class="toggle-min"
-                             ><i class="fa fa-bars"></i></a>
-            </li>
-            <li class="dropdown text-normal nav-profile"  dropdown is-open="status.isopenProfile">
-                <a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-                    <img src="images/admin.jpg" alt="" class="img-circle img30_30">
-                    <span class="hidden-xs">
+	<div class="top-nav" ng-controller="AuthenticationController">
+		<ul class="nav-left list-unstyled">
+			<li>
+				<a href="#/" data-toggle-min-nav class="toggle-min"><i class="fa fa-bars"></i></a>
+			</li>
+			<!--<li class="dropdown text-normal nav-profile pull-right" dropdown is-open="status.isopenProfile">
+				<a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+					<img src="images/admin.jpg" alt="" class="img-circle img30_30">
+					<span class="hidden-xs">
                         <span>{{username}}</span>
-                    </span>
-                </a>
-                <ul class="dropdown-menu dropdown-dark with-arrow">
-                    <li>
-                        <a ng-click="deconnexion()">
-                            <i class="fa fa-sign-out"></i>
-                            <span data-i18n="Déconnexion"></span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul> 
+					</span>
+				</a>
+				<ul class="dropdown-menu dropdown-dark with-arrow">
+					<li>
+						<a ng-click="deconnexion()">
+							<i class="fa fa-sign-out"></i>
+							<span data-i18n="Déconnexion"></span>
+						</a>
+					</li>
+				</ul>
+			</li>-->
+		</ul>
 
-        <!--<ul class="nav-right pull-right list-unstyled">
+		<ul class="nav-right pull-right list-unstyled">
+			<li class="dropdown text-normal nav-profile pull-right" dropdown is-open="status.isopenProfile">
+				<a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+					<img src="images/admin.jpg" alt="" class="img-circle img30_30">
+					<span class="hidden-xs">
+                        <span>{{username}}</span>
+					</span>
+				</a>
+				<ul class="dropdown-menu dropdown-dark with-arrow pull-right">
+					<li>
+						<a ng-click="deconnexion()">
+							<i class="fa fa-sign-out"></i>
+							<span data-i18n="Déconnexion"></span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<!--<ul class="nav-right pull-right list-unstyled">
             <li class="dropdown" dropdown is-open="status.isopenComment">
                 <a href="javascript:;" class="dropdown-toggle bg-orange" dropdown-toggle ng-disabled="disabled">
                     <i class="fa fa-comment-o"></i>
@@ -183,6 +200,6 @@
                 </a>
             </li>
         </ul> -->
-    </div>
+	</div>
 
 </header>

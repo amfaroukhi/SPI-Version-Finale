@@ -1,65 +1,88 @@
 <div class="page page-table" data-ng-controller="rubriqueCtrl">
 
-    <section class="panel panel-default table-dynamic">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques</strong>
-        <a href ="#admin/rubrique"><span class="add fa fa-plus pull-right"></span></a>
-        </div>
+	<section class="panel panel-default table-dynamic">
+		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques</strong>
+			<a href="#admin/rubrique"><span class="add fa fa-plus pull-right"></span></a>
+		</div>
 
-       
 
-        <table class="table table-bordered table-striped table-responsive">
-            <thead>
-                <tr>
 
-				
-				   <th><div class="th">
-                        Designation
-                        <span class="glyphicon glyphicon-chevron-up"
-								  ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                               ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
-                    </div></th>
-                    <th><div class="th">
-                        Ordre
-                        <span class="glyphicon glyphicon-chevron-up"
-							   ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                               ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
-                    </div></th> 
-					<th><div class="th">
-                        Type
-                        <span class="glyphicon glyphicon-chevron-up"
-								 ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
-                    </div></th>
-					<th colspan="2" class="pull-center">
+		<table class="table table-bordered table-striped table-responsive">
+			<thead>
+				<tr>
+
+
+					<th>
+						<div class="th">
+							Designation
+							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+						</div>
+					</th>
+					<th>
+						<div class="th">
+							Ordre
+							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
+							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
+						</div>
+					</th>
+					<th>
+						<div class="th">
+							Type
+							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
+							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
+						</div>
+					</th>
+					<th colspan="2" width="8%">
 						<div class="th">
 							Actions
 						</div>
 					</th>
-                   
-                </tr>
-            </thead>
-            <tbody>
-				
-                <tr data-ng-repeat="r in rubriques">
-                   <td>{{r.designation}}</td>
-				   <td>{{r.ordre}}</td></a>
-                    <td>{{r.type}}</td>
-                    
-					<td><a href ="#admin/rubrique/{{r.idRubrique}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerRubrique(r.idRubrique,$index)" ></span></td>
-                </tr>
-				
-            </tbody>
-        </table>
 
-        <footer class="table-footer">
-            <div class="row">
-                
-            </div>
-        </footer>
-    </section>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr data-ng-repeat="r in rubriques">
+					<td>{{r.designation}}</td>
+					<td>{{r.ordre}}</td>
+					<td>{{r.type}}</td>
+					<td><a href="#admin/rubrique/{{r.idRubrique}}"><span class="edit fa fa-pencil-square-o" tooltip="Modifier" tooltip-placement="bottom"></a></span></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerRubrique(r.idRubrique,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	<script type="text/ng-template" id="supprimerRubrique">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Suppression de rubrique</h4>
+		</div>
+		<div class="modal-body">
+			Voulez vous vraiment supprimer la rubrique ?
+		</div>
+		<div class="modal-footer">			
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+		</div>
+	</div>
+	</script>
+
+	<script type="text/ng-template" id="supprimerRubriqueError">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Erreur de suppression</h4>
+		</div>
+		<div class="modal-body">
+			La rubrique ne peut pas être supprimée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
 
 </div>

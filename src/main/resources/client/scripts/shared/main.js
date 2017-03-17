@@ -32,7 +32,6 @@
         	AuthService.getUser().success(function(data) {
     			if (data) {
     				$scope.role = data.role;
-    				console.log("bonjour mr "+ data.role);
     			}
     		});
     	}
@@ -67,7 +66,6 @@
 	  $http.get("http://localhost:8090/etudiant/countEtudiant")
 	  .then(function(response){
 		  $scope.nbrEtu = response.data;
-		  console.log($scope.nbrEtu);
 	  });
 	  
 	  $http.get("http://localhost:8090/countFormation")

@@ -1,55 +1,88 @@
 <div class="page page-table" data-ng-controller="qualificatifCtrl">
 
-    <section class="panel panel-default table-dynamic">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Qualificatifs</strong>
-        <a href ="#admin/qualificatif"><span class="add fa fa-plus pull-right"></span></a>
-        </div>
+	<section class="panel panel-default table-dynamic">
+		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Qualificatifs</strong>
+			<a href="#admin/qualificatif"><span class="add fa fa-plus pull-right"></span></a>
+		</div>
 
-       
 
-        <table class="table table-bordered table-striped table-responsive">
-            <thead>
-                <tr>
 
-                    <th><div class="th">
-                        Minimal
-                        <span class="glyphicon glyphicon-chevron-up"
-                              ng-click="sortType = 'minimal'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'minimal'; sortReverse = !sortReverse"></span>
-                    </div></th> 
-					<th><div class="th">
-                        Maximal
-                        <span class="glyphicon glyphicon-chevron-up"
-                              ng-click="sortType = 'maximal'; sortReverse = !sortReverse"></span>
-                        <span class="glyphicon glyphicon-chevron-down"
-                              ng-click="sortType = 'maximal'; sortReverse = !sortReverse"></span>
-                    </div></th>
-					<th colspan="2" class="pull-center">
+		<table class="table table-bordered table-striped table-responsive">
+			<thead>
+				<tr>
+
+					<th>
+						<div class="th">
+							Minimal
+							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'minimal'; sortReverse = !sortReverse"></span>
+							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'minimal'; sortReverse = !sortReverse"></span>
+						</div>
+					</th>
+					<th>
+						<div class="th">
+							Maximal
+							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'maximal'; sortReverse = !sortReverse"></span>
+							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'maximal'; sortReverse = !sortReverse"></span>
+						</div>
+					</th>
+					<th colspan="2" width="8%">
 						<div class="th">
 							Actions
 						</div>
 					</th>
-					
-                </tr>
-            </thead>
-            <tbody>
-				
-                <tr data-ng-repeat="q in qualificatifs ">
-                   <td>{{q.minimal}}</td></a>
-                    <td>{{q.maximal}}</td>
-					<td><a href ="#admin/qualificatif/{{q.idQualificatif}}"><span class="table-add glyphicon glyphicon-edit" ></span></a></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerQualificatif(q.idQualificatif,$index)" ng-confirm-click="Would you like to say hi?"></span></td>
-                </tr>
-				
-            </tbody>
-        </table>
 
-        <footer class="table-footer">
-            <div class="row">
-              
-            </div>
-        </footer>
-    </section>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr data-ng-repeat="q in qualificatifs ">
+					<td>{{q.minimal}}</td>
+					</a>
+					<td>{{q.maximal}}</td>
+					<td><a href="#admin/qualificatif/{{q.idQualificatif}}"><span class="edit fa fa-pencil-square-o" ng-click="modifierQuestion(q.idQuestion)" tooltip="Modifier" tooltip-placement="bottom"></span></a></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerQualificatif(q.idQualificatif,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+					
+				</tr>
+
+			</tbody>
+		</table>
+
+		<footer class="table-footer">
+			<div class="row">
+
+			</div>
+		</footer>
+	</section>
+
+	<script type="text/ng-template" id="supprimerQualificatif">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Suppression de qualificatif</h4>
+		</div>
+		<div class="modal-body">
+			Voulez vous vraiment supprimer le qualificatif ?
+		</div>
+		<div class="modal-footer">			
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+		</div>
+	</div>
+	</script>
+
+	<script type="text/ng-template" id="supprimerQualificatifError">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Erreur de suppression</h4>
+		</div>
+		<div class="modal-body">
+			Le qualificatif ne peut pas être supprimé !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
 
 </div>

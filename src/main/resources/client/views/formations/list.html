@@ -81,7 +81,7 @@
                     <td ng-click="edit(f)">{{f.diplome}}{{f.n0Annee}}</td>
                     <td ng-click="edit(f)">{{f.nomFormation}}</td>
                     <td ng-click="edit(f)">{{f.doubleDiplome}}</td>
-                    <td ng-click="edit(f)">{{f.debutAccreditation}} => {{f.finAccreditation}}</td>
+                    <td ng-click="edit(f)">{{f.debutAccreditation}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{f.finAccreditation}}</td>
                     <td><span class="remove fa fa-remove" ng-click="supprime(f)"></span></td>
                     <td><a ng-href="#/admin/promotions/{{f.codeFormation}}"><span class="glyphicon glyphicon-plus"></span></a></td>
                 </tr>
