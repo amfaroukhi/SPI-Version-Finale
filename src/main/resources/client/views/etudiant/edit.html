@@ -58,9 +58,8 @@
 									ng-model="etudiant.dateNaissance" is-open="opened1"
 									min="minDate" datepicker-options="dateOptions"
 									date-disabled="disabled(date, mode)" ng-required="true"
-									close-text="Close" 
-                              		ng-focus="open1($event)"> <span class="input-group-addon"
-									ng-click="open1($event)" ><i class="fa fa-calendar"></i></span>
+									close-text="Close" onkeydown="return false"	ng-focus="open1($event)">
+                                    <span class="input-group-addon"	ng-click="open1($event)" ><i class="fa fa-calendar"></i></span>
 							</div>
 
 						</div>

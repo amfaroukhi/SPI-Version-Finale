@@ -56,7 +56,7 @@
 							<div class="input-group ui-datepicker">
 								<input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="etudiant.dateNaissance" is-open="opened1"
 									min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" 
-                              		ng-focus="open1($event)">		
+                              		ng-focus="open1($event)" onkeydown="return false">		
 								<span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
