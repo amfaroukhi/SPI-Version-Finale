@@ -66,7 +66,7 @@ angular.module('app')
 
 
 angular.module('app')
-	  	.controller('qualificatifCtrl', ['$scope', 'qualificatifSvc', '$routeParams', '$filter', '$rootScope','$modal', 
+	  	.controller('qualificatifCtrl', ['$scope', 'qualificatifSvc', '$routeParams', '$filter', '$rootScope','$modal',
 		  function ($scope, qualificatifSvc, $routeParams, $filter, $rootScope, $modal) {
 
 
@@ -93,20 +93,22 @@ angular.module('app')
 		// };
 
 		// ******** supprimer un qualificatif (Modal)********
-		$scope.supprimerQualificatif = function (idQualificatif, indextableau) {
+		$scope.supprimerQualificatif = function (idQualificatif, indextableau, min, max) {
 			$rootScope.qualificatifs = $scope.qualificatifs;
 			$modal.open({
 				templateUrl: 'supprimerQualificatif',
 				backdrop: true,
 				windowClass: 'modal',
 				controller: function ($scope, $modalInstance, $log, questionsFactory) {
+				    $scope.min = min;
+                    $scope.max = max;
 					$scope.confirmer = function () {
 						qualificatifSvc.supprimerQualificatif(idQualificatif)
 							.success(function () {
 								$scope.qualificatifs.splice(indextableau, 1);
 							})
 							.error(function () {
-								supprimerQualificatifError();
+								supprimerQualificatifError($scope.min,$scope.max);
 							});
 						$modalInstance.dismiss('cancel');
 					}
@@ -117,12 +119,14 @@ angular.module('app')
 			});
 		}
 
-		function supprimerQualificatifError() {
+		function supprimerQualificatifError(min,max) {
 			$modal.open({
 				templateUrl: 'supprimerQualificatifError',
 				backdrop: true,
 				windowClass: 'modal',
 				controller: function ($scope, $modalInstance, $log) {
+                    $scope.min = min;
+                    $scope.max = max;
 					$scope.annuler = function () {
 						$modalInstance.dismiss('cancel');
 					};

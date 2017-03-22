@@ -87,20 +87,21 @@ angular.module('app')
 			// };
 
 			// ******** supprimer une rubrique (Modal)********
-			$scope.supprimerRubrique = function (idRubrique, indextableau) {
+			$scope.supprimerRubrique = function (idRubrique, indextableau, desi) {
 				$rootScope.rubriques = $scope.rubriques;
 				$modal.open({
 					templateUrl: 'supprimerRubrique',
 					backdrop: true,
 					windowClass: 'modal',
 					controller: function ($scope, $modalInstance, $log, questionsFactory) {
+					    $scope.rub = desi;
 						$scope.confirmer = function () {
 							rubriqueSvc.supprimerRubrique(idRubrique)
 								.success(function () {
 									$scope.rubriques.splice(indextableau, 1);
 								})
 								.error(function () {
-									supprimerRubriqueError();
+									supprimerRubriqueError($scope.rub);
 								});
 							$modalInstance.dismiss('cancel');
 						}
@@ -111,12 +112,13 @@ angular.module('app')
 				});
 			}
 
-			function supprimerRubriqueError() {
+			function supprimerRubriqueError(desi) {
 				$modal.open({
 					templateUrl: 'supprimerRubriqueError',
 					backdrop: true,
 					windowClass: 'modal',
 					controller: function ($scope, $modalInstance, $log) {
+                        $scope.rub = desi;
 						$scope.annuler = function () {
 							$modalInstance.dismiss('cancel');
 						};

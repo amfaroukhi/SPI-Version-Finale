@@ -140,13 +140,14 @@ angular.module('app').controller('QuestionsController',
             }
 
             // ******** supprimer une question (Modal)********
-            $scope.supprimerQuestion = function (idQuestion, index) {
+            $scope.supprimerQuestion = function (idQuestion, index, qst) {
                 $rootScope.currentPageQuestion = $scope.currentPageQuestion;
                 $modal.open({
                     templateUrl: 'supprimerQuestion',
                     backdrop: true,
                     windowClass: 'modal',
                     controller: function ($scope, $modalInstance, $log, questionsFactory) {
+                        $scope.qst = qst;
                         $scope.confirmer = function () {
                             questionsFactory.deleteQuestion(idQuestion)
                                 .success(function () {
@@ -155,7 +156,7 @@ angular.module('app').controller('QuestionsController',
                                     });
                                 })
                                 .error(function () {
-                                    supprimerQuestionError();
+                                    supprimerQuestionError($scope.qst);
                                 });
                             $modalInstance.dismiss('cancel');
                         }
@@ -166,13 +167,14 @@ angular.module('app').controller('QuestionsController',
                 });
             }
 
-            function supprimerQuestionError () {
+            function supprimerQuestionError (qst) {
                 $rootScope.currentPageQuestion = $scope.currentPageQuestion;
                 $modal.open({
                     templateUrl: 'supprimerQuestionError',
                     backdrop: true,
                     windowClass: 'modal',
                     controller: function ($scope, $modalInstance, $log) {
+                        $scope.qst = qst;
                         $scope.annuler = function () {
                             $modalInstance.dismiss('cancel');
                         };
