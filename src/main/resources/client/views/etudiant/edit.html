@@ -53,7 +53,7 @@
 							class="required"> * </span></label>
 						<div class="col-sm-5">
 							<div class="input-group ui-datepicker">
-								<input type="text" class="form-control"
+								<input type="text" class="form-control" onkeydown="return false"
 									datepicker-popup="dd/MM/yyyy"
 									ng-model="etudiant.dateNaissance" is-open="opened1"
 									min="minDate" datepicker-options="dateOptions"
@@ -165,7 +165,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="pull-right">
 						<div class="btn-group">
 							<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
@@ -174,7 +174,7 @@
 							<button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
 						</div>
 					</div>
-                    
+
                 </form>
 
 

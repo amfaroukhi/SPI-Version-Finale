@@ -92,7 +92,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
             dataFactory.listPromotions(codeF)
                 .then(function (response) {
                     $scope.etudiants = [];
-
+                    $scope.annee = '';
+                    $scope.code = codeF;
                     $scope.afficherEtudiant = false;
                     $scope.afficherPromotion = true;
                     $scope.promotions = response.data;
@@ -111,6 +112,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 .then(function (response) {
                     $scope.afficherPromotion = true;
                     $scope.promotions = response.data;
+                    $scope.annee = '';
+                    $scope.code = codeF;
                     console.log(response.data);
                     $scope.error = false;
                 }, function (error) {
@@ -127,6 +130,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     $scope.etudiants = response.data;
                     $scope.code = code;
                     $scope.annee = anneeUiversitaire;
+                    nbrEtudiants($scope.code, $scope.annee);
                     $scope.error = false;
                 }, function (error) {
                     console.log("err");
@@ -147,6 +151,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     $scope.code = code;
                     $scope.annee = anneeUiversitaire;
                     $scope.error = false;
+                    nbrEtudiants($scope.code, $scope.annee);
                     $scope.showEtudiants(code, anneeUiversitaire);
 
                 }, function (error) {
@@ -167,6 +172,20 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     $scope.error = true;
                     $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
                 });
+        }
+
+        function nbrEtudiants(code, annee)
+             {
+            dataFactory.nbrEtudiantsInPromotion(code,annee)
+                .then(function (response) {
+                    $scope.nbrEtud = response.data;
+                    $scope.error = false;
+                }, function (error) {
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.status = 'Erreur lors de la récupération du nombre des etudiants: ' + error.message;
+                });
+
         }
 
         /***********************************************************************************/
@@ -296,14 +315,17 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 });
         }
 
-        $scope.remove = function (noEtudiant) {
+        $scope.remove = function (noEtudiant,nom,prenom) {
             $rootScope.code = $scope.code;
             $rootScope.annee = $scope.annee;
+
             $modal.open({
                 templateUrl: 'supprimerEtudiant',
                 backdrop: true,
                 windowClass: 'modal',
                 controller: function ($scope, $modalInstance, $log, questionsFactory) {
+                    $scope.etudToSupp = nom + " "+ prenom;
+
                     $scope.confirmer = function () {
                         dataFactory.deleteEtudiant(noEtudiant)
                             .success(function (response) {
@@ -315,10 +337,10 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                             })
                             .error(function () {
                                 // alert("Impossible de supprimer cet étudiant");
-                                supprimerEtudiantError();
+                                supprimerEtudiantError($scope.etudToSupp);
                                 $scope.success = false;
                                 $scope.error = true;
-                                $scope.status = 'Erreur lors de la suppression' + error.message;
+                                $scope.status = 'Erreur lors de la suppression' ;
                             });
                         $modalInstance.dismiss('cancel');
                     }
@@ -329,13 +351,14 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
             });
         }
 
-        function supprimerEtudiantError() {
+        function supprimerEtudiantError(etudiant) {
             $rootScope.currentPageQuestion = $scope.currentPageQuestion;
             $modal.open({
                 templateUrl: 'supprimerEtudiantError',
                 backdrop: true,
                 windowClass: 'modal',
                 controller: function ($scope, $modalInstance, $log) {
+                    $scope.etudToSupp = etudiant;
                     $scope.annuler = function () {
                         $modalInstance.dismiss('cancel');
                     };
@@ -444,6 +467,10 @@ angular.module('app')
 
         dataFactory.listEtudiants = function (code, anneeUniversitaire) {
             return $http.get("http://localhost:8090/etudiant/" + code + "/" + anneeUniversitaire);
+        };
+
+        dataFactory.nbrEtudiantsInPromotion = function (code, anneeUniversitaire) {
+            return $http.get("http://localhost:8090/etudiant/countEtudiants/" + code + "/" + anneeUniversitaire);
         };
 
         return dataFactory;

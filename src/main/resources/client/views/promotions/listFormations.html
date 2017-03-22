@@ -41,11 +41,11 @@
 			</thead>
 			<tbody>
 				<tr data-ng-repeat="f in formations | orderBy:sortType2:sortReverse2 | filter:search" class="formation">
-					<td ng-click="showPromotions(f.codeFormation)">{{f.codeFormation}}</td>
-					<td ng-click="showPromotions(f.codeFormation)">{{f.diplome}}{{f.n0Annee}}</td>
-					<td ng-click="showPromotions(f.codeFormation)">{{f.nomFormation}}</td>
-					<td ng-click="showPromotions(f.codeFormation)">{{f.doubleDiplome}}</td>
-					<td ng-click="showPromotions(f.codeFormation)">{{f.debutAccreditation}} <span class="glyphicon glyphicon-arrow-right"></span> {{f.finAccreditation}}</td>
+					<td ng-class="{'selectedCell' : f.codeFormation == code}" ng-click="showPromotions(f.codeFormation)">{{f.codeFormation}}</td>
+					<td ng-class="{'selectedCell' : f.codeFormation == code}" ng-click="showPromotions(f.codeFormation)">{{f.diplome}}{{f.n0Annee}}</td>
+					<td ng-class="{'selectedCell' : f.codeFormation == code}" ng-click="showPromotions(f.codeFormation)">{{f.nomFormation}}</td>
+					<td ng-class="{'selectedCell' : f.codeFormation == code}" ng-click="showPromotions(f.codeFormation)">{{f.doubleDiplome}}</td>
+					<td ng-class="{'selectedCell' : f.codeFormation == code}" ng-click="showPromotions(f.codeFormation)">{{f.debutAccreditation}} <span class="glyphicon glyphicon-arrow-right"></span> {{f.finAccreditation}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -83,7 +83,7 @@
 					</th>
 					<th>
 						<div class="th">
-							Nb Max Etudiants
+							Nombre Max Etudiants
 						</div>
 					</th>
 					<th></th>
@@ -91,10 +91,10 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="p in promotions | orderBy:sortType1:sortReverse1 | filter:search" class="formation">
-					<td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.codeFormation}}</td>
-					<td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.anneeUniversitaire}}</td>
-					<td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.siglePromotion}}</td>
-					<td ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.nbMaxEtudiant}}</td>
+					<td ng-class="{'selectedCell' : p.promotionPK.anneeUniversitaire == annee}" ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.codeFormation}}</td>
+					<td ng-class="{'selectedCell' : p.promotionPK.anneeUniversitaire == annee}" ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.promotionPK.anneeUniversitaire}}</td>
+					<td ng-class="{'selectedCell' : p.promotionPK.anneeUniversitaire == annee}" ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.siglePromotion}}</td>
+					<td ng-class="{'selectedCell' : p.promotionPK.anneeUniversitaire == annee}" ng-click="showEtudiants(p.promotionPK.codeFormation,p.promotionPK.anneeUniversitaire)">{{p.nbMaxEtudiant}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -108,7 +108,7 @@
 
 
 	<section ng-show="afficherEtudiant" class="panel panel-default table-dynamic">
-		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"> </span> Etudiants</strong>
+		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"> </span> {{nbrEtud}} Etudiants</strong>
 			<span class="add fa fa-user-plus pull-right" ng-click="ajoutEtudiant()"></span>
 		</div>
 		<!--<a ng-href="#/admin/etudiant/new/{{code}}/{{annee}}"><span class="add fa fa-user-plus pull-right"></span></a>-->
@@ -116,6 +116,11 @@
 		<table class="table table-bordered table-striped table-responsive">
 			<thead>
 				<tr>
+                    <th>
+                        <div class="th">
+
+                        </div>
+                    </th>
 					<th>
 						<div class="th">
 							Nom
@@ -161,13 +166,14 @@
 				<!-- currentPageEnseignant / enseignants -->
 
 				<tr data-ng-repeat="e in etudiants | orderBy:sortType:sortReverse | filter:search" class="formation">
+                    <td>{{$index+1}}</td>
 					<td>{{e.nom}}</td>
 					<td>{{e.prenom}}</td>
 					<td>{{e.email}}</td>
 					<td>{{e.mobile}}</td>
 					<td>{{e.universiteOrigine}}</td>
 					<td><span class="edit fa fa-edit" ng-click="edit(e.noEtudiant,code,annee)"></span></td>
-					<td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant)"></span></td>
+					<td><span class="remove fa fa-remove" ng-click="remove(e.noEtudiant,e.nom,e.prenom)"></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -181,11 +187,11 @@
 			<h4 class="modal-title">Suppression d'un étudiant</h4>
 		</div>
 		<div class="modal-body">
-			Voulez vous vraiment supprimer l'étudiant' ?
+			Voulez vous vraiment supprimer l'étudiant : <b>{{etudToSupp}}</b> ?
 		</div>
-		<div class="modal-footer">			
+		<div class="modal-footer">
 			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
-			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+			<button class="btn btn-danger" type="button" ng-click="confirmer()"> Supprimer</button>
 		</div>
 	</div>
 	</script>
@@ -194,10 +200,10 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-			<h4 class="modal-title">Erreur de suppression</h4>
+			<h4 class="modal-title">Suppression impossible</h4>
 		</div>
 		<div class="modal-body">
-			L'étudiant ne peut pas être supprimé !
+			L'étudiant "<b>{{etudToSupp}}</b>" ne peut pas être supprimé !
 		</div>
 		<div class="modal-footer">
 			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
