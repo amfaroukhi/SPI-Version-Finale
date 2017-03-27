@@ -24,7 +24,6 @@ public interface PromotionRepository extends
 	 */
 	List<Promotion> findByNoEnseignant(@Param("noEnseignant") Integer noEnseignant);
 
-	List<Promotion> findByCodeFormation(
-			@Param("codeFormation") String codeFormation);
+	List<Promotion> findByCodeFormation(@Param("codeFormation") String codeFormation);
 	
 }
