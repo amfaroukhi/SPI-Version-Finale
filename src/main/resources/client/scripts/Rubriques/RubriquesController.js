@@ -56,6 +56,8 @@ angular.module('app')
 			$scope.rubriques = {};
 			$scope.rubrique = {
 				type: "RBS"
+				
+			
 			};
 
 			$scope.data = {
@@ -129,8 +131,30 @@ angular.module('app')
 
 
 			$scope.ajouterRubrique = function (rubrique) {
-
+				
+				rubrique.ordre= $scope.rubriques.length + 1;
 				rubriqueSvc.ajouterRubrique(rubrique);
+				
+			};
+			
+			$scope.modifierOrdreUp = function (rubrique,rubrique1) {
+				rubrique1.ordre = rubrique.ordre;
+				rubrique.ordre --;
+				rubriqueSvc.ajouterRubrique(rubrique);
+				rubriqueSvc.ajouterRubrique(rubrique1);
+				$scope.sortType='ordre';
+				retrierTableau();
+				
+			
+			};
+			
+			$scope.modifierOrdreDown = function (rubrique,rubrique1) {
+				rubrique1.ordre = rubrique.ordre;
+				rubrique.ordre ++;
+				rubriqueSvc.ajouterRubrique(rubrique);
+				rubriqueSvc.ajouterRubrique(rubrique1);
+				$scope.sortType='ordre';
+				retrierTableau();
 			};
 
 			$scope.cancel = function () {
@@ -142,16 +166,24 @@ angular.module('app')
 			$scope.sortReverse = false;  // set the default sort order
 			$scope.search = '';
 
+			 
+			
 			$scope.$watch('sortReverse', function () {
 				retrierTableau();
 			});
-
+		
 			$scope.$watch('sortType', function () {
 				retrierTableau();
-			});
 
+			});
+			
+			
+			//$scope.$watch('sortReverse', function (r) {
+				//ajouterRubrique(r);
+			//});
+			
 			function retrierTableau() {
-				$scope.rubriques = $filter('orderBy')($scope.rubriques, $scope.sortType, $scope.sortReverse);
+				$scope.rubriques = $filter('orderBy')($scope.rubriques, $scope.sortType, $scope.sortReverse); console.log("retrier");
 			}
 
 			if ($routeParams.idRubrique) {
@@ -161,7 +193,7 @@ angular.module('app')
 
 
 			rubriqueSvc.fetchPopular(function (data) {
-				$scope.rubriques = $filter('orderBy')(data, "'designation'", $scope.sortReverse);
+				$scope.rubriques = $filter('orderBy')(data, "'ordre'", $scope.sortReverse);
 			})
 		}]);
 

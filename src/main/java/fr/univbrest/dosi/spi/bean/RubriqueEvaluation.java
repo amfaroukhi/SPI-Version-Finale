@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import java.math.BigDecimal;
 
 
@@ -17,8 +19,9 @@ import java.math.BigDecimal;
 public class RubriqueEvaluation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//@RestResource(exported = false)
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq_gen7")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="my_seq_gen7")
 	@SequenceGenerator(name="my_seq_gen7", sequenceName="REV_SEQ")
 	@Column(name="ID_RUBRIQUE_EVALUATION")
 	private long idRubriqueEvaluation;
@@ -28,13 +31,15 @@ public class RubriqueEvaluation implements Serializable {
 	private BigDecimal ordre;
 
 	//uni-directional many-to-one association to Evaluation
+	@RestResource(exported = false)
 	@ManyToOne
-	@JoinColumn(name="ID_EVALUATION",insertable=false, updatable=false)
+	@JoinColumn(name="ID_EVALUATION")
 	private Evaluation evaluation;
 
 	//uni-directional many-to-one association to Rubrique
+	@RestResource(exported = false)
 	@ManyToOne
-	@JoinColumn(name="ID_RUBRIQUE",insertable=false, updatable=false)
+	@JoinColumn(name="ID_RUBRIQUE")
 	private Rubrique rubrique;
 
 	public RubriqueEvaluation() {

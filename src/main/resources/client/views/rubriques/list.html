@@ -1,7 +1,7 @@
 <div class="page page-table" data-ng-controller="rubriqueCtrl">
 
 	<section class="panel panel-default table-dynamic">
-		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques</strong>
+		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques Standards</strong>
 			<a href="#admin/rubrique"><span class="add fa fa-plus pull-right"></span></a>
 		</div>
 
@@ -11,7 +11,15 @@
 			<thead>
 				<tr>
 
-
+					
+					
+					<th width="5%">
+						<div class="th">
+							Ordre 
+							
+						</div>
+					</th>
+					
 					<th>
 						<div class="th">
 							Designation
@@ -19,20 +27,7 @@
 							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
 						</div>
 					</th>
-					<th>
-						<div class="th">
-							Ordre
-							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
-							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'ordre'; sortReverse = !sortReverse"></span>
-						</div>
-					</th>
-					<th>
-						<div class="th">
-							Type
-							<span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
-							<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'type'; sortReverse = !sortReverse"></span>
-						</div>
-					</th>
+					
 					<th colspan="2" width="8%">
 						<div class="th">
 							Actions
@@ -44,9 +39,13 @@
 			<tbody>
 
 				<tr data-ng-repeat="r in rubriques">
+					
+					<td>
+						<span ng-if= "$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUp(r,rubriques[$index-1])"></span><br>
+						<span ng-if="$index!=rubriques.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDown(r,rubriques[$index+1])"></span>
+						{{r.ordre}}
+					</td>
 					<td>{{r.designation}}</td>
-					<td>{{r.ordre}}</td>
-					<td>{{r.type}}</td>
 					<td><a href="#admin/rubrique/{{r.idRubrique}}"><span class="edit fa fa-pencil-square-o" tooltip="Modifier" tooltip-placement="bottom"></a></span></td>
 					<td><span class="remove fa fa-remove" ng-click="supprimerRubrique(r.idRubrique,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
 				</tr>
