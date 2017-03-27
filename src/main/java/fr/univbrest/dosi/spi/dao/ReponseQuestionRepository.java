@@ -14,6 +14,11 @@ import fr.univbrest.dosi.spi.bean.ReponseQuestionPK;
 public interface ReponseQuestionRepository extends PagingAndSortingRepository<ReponseQuestion,ReponseQuestionPK>{
 	
 
-	List<ReponseQuestion> findByIdReponseEvaluation(@Param("idReponseEvaluation") Long idReponseEvaluation);
+	List<ReponseQuestion> findByIdReponseEvaluation(@Param("idReponseEvaluation") long idReponseEvaluation);
+	
+	List<ReponseQuestion> findByIdReponseEvalAndIdQuestionEval(
+			@Param("idReponseEvaluation") Long idReponseEvaluation,
+			@Param("idQuestionEvaluation") Long idQuestionEvaluation
+			);
 	
 }

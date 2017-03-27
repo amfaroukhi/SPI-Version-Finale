@@ -68,5 +68,9 @@ public class QuestionEvaluationController {
 		return questionEvaluationServ.listQuestionsEvaluation();
 	}
 
+	@RequestMapping(value="/questionEval/{idQuestionEvaluation}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public QuestionEvaluation getQeustionEval(@PathVariable("idQuestionEvaluation")Long idQuestionEvaluation){
+		return questionEvaluationServ.getQuestionEvaluation(idQuestionEvaluation);
+	}
 	
 }

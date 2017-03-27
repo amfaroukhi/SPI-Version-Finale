@@ -71,34 +71,24 @@ public class ReponseQuestionControllerTest {
 	
 @Test
 	public void addReponseQuestionTest() throws ClientProtocolException, IOException{
+	
 		
-	
-	
-		/*ReponseQuestion rq = new ReponseQuestion(new BigDecimal(1),questionEval.getQuestionEvaluation(new Long(1)),repEval.getReponseEvaluation(2));
-	
+		/*ReponseQuestion rq = new ReponseQuestion(new BigDecimal(1),questionEval.getQuestionEvaluation(new Long(1)),repEval.getReponseEvaluation(new Long(2)));
+		System.out.println(rq);
 		final HttpClient client = HttpClientBuilder.create().build();
 		final HttpPost mockPost = new HttpPost("http://localhost:8090/reponseQuestion/");
 		ObjectMapper mapper = new ObjectMapper();
 		com.fasterxml.jackson.databind.ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		
-		
 		String jsonInString = ow.writeValueAsString(rq);
-		
 		mockPost.addHeader("content-type", "application/json");
 		mockPost.setEntity(new StringEntity(jsonInString));
-		
 		mapper.readValue(jsonInString, ReponseQuestion.class);
-		
 		HttpResponse mockResponse = client.execute(mockPost);
-
 		Assert.assertEquals(200, mockResponse.getStatusLine().getStatusCode());	
-		
 		final BufferedReader rd = new BufferedReader(new InputStreamReader(mockResponse.getEntity().getContent()));
 		final ObjectMapper map = new ObjectMapper();
 		final ReponseQuestion r = map.readValue(rd, ReponseQuestion.class);
 		repQuestion.delete(r.getId());*/
-		
-		
 		
 	}
 

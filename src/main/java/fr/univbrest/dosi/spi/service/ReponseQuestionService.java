@@ -30,5 +30,16 @@ public class ReponseQuestionService {
 	public final Iterable<ReponseQuestion> getReponseQuestionByEvaluation(Long id){
 		return reponseQuestionRepository.findByIdReponseEvaluation(id);
 	}
+	
+	public final Iterable<ReponseQuestion> getReponseQuestionByRepEvalAndQuestionEval(Long repEval , Long questionEval){
+		return reponseQuestionRepository.findByIdReponseEvalAndIdQuestionEval(repEval, questionEval);
+	}
+	
+	/*public final ReponseQuestion getReponseByPK(ReponseQuestionPK pk){
+		return reponseQuestionRepository.findOne(pk);
+	}*/
+	
+	
+	
 
 }

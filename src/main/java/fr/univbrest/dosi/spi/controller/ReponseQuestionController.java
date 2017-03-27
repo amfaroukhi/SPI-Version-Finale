@@ -58,5 +58,18 @@ public class ReponseQuestionController {
 			){
 		return reponseQuestionService.getReponseQuestionByEvaluation(idEvaluation);
 	}
+	
+	@RequestMapping(value = "/reponses/{idRepEval}/{idQuestEval}" ,produces="application/json",method = RequestMethod.GET )
+	public final Iterable<ReponseQuestion> reponsesByIdEvalAndQuestionEval(
+			@PathVariable(value="idRepEval") final Long idRepEval,
+			@PathVariable(value="idQuestEval") final Long idQuestEval
+			){
+			
+		/*ReponseQuestionPK pk = new ReponseQuestionPK();
+		pk.setIdQuestionEvaluation(idQuestEval);
+		pk.setIdReponseEvaluation(idRepEval);
+				return reponseQuestionService.getReponseByPK(pk);	*/
+		return reponseQuestionService.getReponseQuestionByRepEvalAndQuestionEval(idRepEval, idQuestEval);
+	}
 
 }

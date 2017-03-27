@@ -18,7 +18,8 @@ import java.math.BigDecimal;
 
 @NamedQueries({
 @NamedQuery(name="ReponseQuestion.findAll", query="SELECT r FROM ReponseQuestion r"),
-@NamedQuery(name="ReponseQuestion.findByIdReponseEvaluation", query="SELECT r from ReponseQuestion r where r.id.idReponseEvaluation = :idReponseEvaluation ")
+@NamedQuery(name="ReponseQuestion.findByIdReponseEvaluation", query="SELECT r from ReponseQuestion r where r.id.idReponseEvaluation = :idReponseEvaluation "),
+@NamedQuery(name="ReponseQuestion.findByIdReponseEvalAndIdQuestionEval" , query="SELECT r from ReponseQuestion r where r.id.idReponseEvaluation = :idReponseEvaluation AND r.id.idQuestionEvaluation = :idQuestionEvaluation")
 
 })
 public class ReponseQuestion implements Serializable {
