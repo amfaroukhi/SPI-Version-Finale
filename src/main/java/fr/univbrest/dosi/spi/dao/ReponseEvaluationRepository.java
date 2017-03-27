@@ -13,5 +13,5 @@ public interface ReponseEvaluationRepository extends PagingAndSortingRepository<
 	 
 	List<ReponseEvaluation> findByIdReponseEvaluation(@Param("idReponseEvaluation") long idReponseEvaluation);
 	List<ReponseEvaluation> findByNoEtudiant(@Param("noEtudiant") String noEtudiant);
-	
+	List<ReponseEvaluation> findByIdEvaluationAndNoEtudiant(@Param("idEvaluation") long idEvaluation,@Param("noEtudiant") String noEtudiant);
 }

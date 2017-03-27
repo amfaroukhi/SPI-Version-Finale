@@ -26,5 +26,9 @@ public class ReponseQuestionService {
 	public void ajouterReponseQuestion(ReponseQuestion reponse){
 		reponseQuestionRepository.save(reponse);
 	}
+	
+	public final Iterable<ReponseQuestion> getReponseQuestionByEvaluation(Long id){
+		return reponseQuestionRepository.findByIdReponseEvaluation(id);
+	}
 
 }

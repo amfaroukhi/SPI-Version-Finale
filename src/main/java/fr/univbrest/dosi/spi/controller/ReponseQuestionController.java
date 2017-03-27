@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.univbrest.dosi.spi.bean.ReponseEvaluation;
 import fr.univbrest.dosi.spi.bean.ReponseQuestion;
 import fr.univbrest.dosi.spi.bean.ReponseQuestionPK;
 import fr.univbrest.dosi.spi.service.ReponseEvaluationService;
@@ -49,6 +50,13 @@ public class ReponseQuestionController {
 			){
 		reponseQuestionService.ajouterReponseQuestion(reponseQuestion);
 		return reponseQuestion;
+	}
+	
+	@RequestMapping(value = "/{idEvaluation}" ,produces="application/json",method = RequestMethod.GET)
+	public final Iterable<ReponseQuestion> reponsesByIdEvaluation(
+			@PathVariable(value="idEvaluation") final Long idEvaluation
+			){
+		return reponseQuestionService.getReponseQuestionByEvaluation(idEvaluation);
 	}
 
 }

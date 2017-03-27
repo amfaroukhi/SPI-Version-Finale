@@ -1,6 +1,7 @@
 package fr.univbrest.dosi.spi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,17 @@ public class ReponseEvaluationController {
 		reponseEvaluationService.ajouterReponseEvaluation(reponseEvaluation);
 		return reponseEvaluation; 
 	}
+	
+	@RequestMapping(value="/{idEval}/{noEtu}" , method = RequestMethod.GET, produces="application/json")
+	public Iterable<ReponseEvaluation> ReponseEvalEtu(
+			@PathVariable("idEval") Long idEval,
+			@PathVariable("noEtu") String noEtu
+			){
+		return reponseEvaluationService.getRepEvalByNoEtuAndIdEval(idEval, noEtu);
+		
+	}
+	
+	
 	
 
 	

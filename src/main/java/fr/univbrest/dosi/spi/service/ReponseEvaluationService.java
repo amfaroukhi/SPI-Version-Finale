@@ -43,5 +43,10 @@ public class ReponseEvaluationService {
 		return reponseEvaluationRepository.findOne(id);
 		
 	}
+	
+	public List<ReponseEvaluation> getRepEvalByNoEtuAndIdEval(long idEval , String noEtu){
+		return reponseEvaluationRepository.findByIdEvaluationAndNoEtudiant( idEval , noEtu);
+		
+	}
 
 }

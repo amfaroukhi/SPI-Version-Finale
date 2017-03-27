@@ -13,7 +13,11 @@ import org.springframework.data.rest.core.annotation.RestResource;
  */
 @Entity
 @Table(name="REPONSE_EVALUATION")
-@NamedQuery(name="ReponseEvaluation.findAll", query="SELECT r FROM ReponseEvaluation r")
+@NamedQueries({
+	@NamedQuery(name="ReponseEvaluation.findAll", query="SELECT r FROM ReponseEvaluation r"),
+	@NamedQuery(name="ReponseEvaluation.findByIdEvaluationAndNoEtudiant" , query="SELECT r FROM ReponseEvaluation r WHERE r.evaluation.idEvaluation = :idEvaluation AND r.noEtudiant = :noEtudiant ")
+})
+
 public class ReponseEvaluation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
