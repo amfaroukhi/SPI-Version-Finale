@@ -57,6 +57,15 @@ public class Evaluation implements Serializable {
 
 	public Evaluation() {
 	}
+	
+	
+
+	public Evaluation(long idEvaluation) {
+		super();
+		this.idEvaluation = idEvaluation;
+	}
+
+
 
 	public long getIdEvaluation() {
 		return this.idEvaluation;
