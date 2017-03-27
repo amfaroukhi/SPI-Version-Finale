@@ -1,11 +1,14 @@
 package fr.univbrest.dosi.spi.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.univbrest.dosi.spi.bean.Etudiant;
 import fr.univbrest.dosi.spi.bean.Evaluation;
+import fr.univbrest.dosi.spi.bean.Promotion;
 import fr.univbrest.dosi.spi.dao.EvaluationRepository;
 
 /**
@@ -54,6 +57,10 @@ public class EvaluationService {
 
 		return evaluationRepository.count();
 
+	}
+	
+	public final List<Evaluation> getEvaluationByPromotion(final String codeFormation, final String anneeUniversitaire){
+		return evaluationRepository.findByPromotion(codeFormation,anneeUniversitaire);
 	}
 
 }

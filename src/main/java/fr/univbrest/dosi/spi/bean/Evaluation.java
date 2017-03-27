@@ -13,7 +13,9 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name="Evaluation.findAll", query="SELECT e FROM Evaluation e")
+@NamedQueries({
+@NamedQuery(name="Evaluation.findAll", query="SELECT e FROM Evaluation e"),
+@NamedQuery(name="Evaluation.findByPromotion", query="SELECT e FROM Evaluation e WHERE e.codeFormation = :codeFormation AND e.anneeUniversitaire = :anneeUniversitaire AND e.etat <> 'ELA'")})
 public class Evaluation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
