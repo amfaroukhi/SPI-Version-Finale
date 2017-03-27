@@ -6,6 +6,7 @@
 package fr.univbrest.dosi.spi.bean;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -37,7 +38,12 @@ public class UniteEnseignementPK implements Serializable {
         this.codeUe = codeUe;
     }
 
-    public String getCodeFormation() {
+    public UniteEnseignementPK(String codeFormation) {
+        this.codeFormation = codeFormation;
+
+	}
+
+	public String getCodeFormation() {
         return codeFormation;
     }
 

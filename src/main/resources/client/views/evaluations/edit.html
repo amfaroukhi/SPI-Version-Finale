@@ -13,7 +13,13 @@
                             <div class="form-group col-sm-5">
                                 <label for="" class="col-sm-5 control-label">Formation</label>
                                 <div class="col-sm-7">
-                                    <input required disabled type="text" class="form-control" ng-model="evaluation.codeFormation">
+                                    <select required class="form-control" ng-model="evaluation.codeFormation" ng-change="fetchproms(evaluation.codeFormation);fetchue(evaluation.noEnseignant,evaluation.codeFormation)">
+                                    <option value="">Selectionner la formation</option> 
+                                    <option ng-repeat="f in Formations"
+                                    value="{{f.codeFormation}}">
+                                        {{f.codeFormation}}
+                                    </option>
+                                </select>
                                 </div>
                             </div>
                             <div ng-hide="idEvaluation != null" class="form-group col-sm-5">
@@ -40,8 +46,8 @@
                                     <select required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
                                     <option value="">Selectionner l'Unité d'enseignement</option> 
                                     <option  ng-repeat="currentUE in Unites"  
-                                        value="{{currentUE.uniteEnseignementPK.codeFormation}}/{{currentUE.uniteEnseignementPK.codeUe}}">
-                                        {{currentUE.designation}} - {{currentUE.uniteEnseignementPK.codeFormation}}
+                                        value="{{currentUE.uniteEnseignementPK.codeUe}}">
+                                        {{currentUE.designation}}
                                     </option>
                                 </select>
                                 </div>
