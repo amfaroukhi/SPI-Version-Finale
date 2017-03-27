@@ -423,6 +423,7 @@ angular.module('app')
 			$scope.fetchue = function (a,b) {
 				evaluationSvc.getuebyEnseignantandFormation(function (data) {
 						$scope.Unites = data;
+						$scope.Elements = [];
 					}, $scope.noEnseignant,$scope.evaluation.codeFormation)
 			}
 
@@ -434,9 +435,8 @@ angular.module('app')
 					}, $scope.evaluation.codeFormation, $scope.evaluation.codeUe)
 				}
 				else {
-					$scope.Elements = null;
-					$scope.evaluation.codeFormation = null;
-					$scope.Promotions = null;
+					$scope.Elements = [];
+					$scope.Promotions = [];
 					return;
 				}
 
