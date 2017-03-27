@@ -134,6 +134,12 @@
 					enseignant: 'ENS'
 				})
 
+				.when('/enseignant/evaluation/details/:idEvaluation', {
+					templateUrl: 'views/evaluations/details.html',
+					controller: 'evaluationCtrl',
+					enseignant: 'ENS'
+				})
+				
 				.when('/enseignant/evaluation', {
 					templateUrl: 'views/evaluations/edit.html',
 					controller: 'evaluationCtrl',

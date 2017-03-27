@@ -9,21 +9,21 @@
                 <div class="form-group">
                     <label for="" class="col-sm-4 control-label">Numéro Evaluation<span class="required"> *</span></label>
                     <div class="col-sm-5">
-                        <input  required type="text" class="form-control" 
+                        <input disabled required type="text" class="form-control" 
                                ng-model="evaluation.noEvaluation" maxlength="2" chars="0-9">
                     </div>                    
                 </div>
                 <div class="form-group">
                     <label for="" class="col-sm-4 control-label">Désignation<span class="required"> *</span></label>
                     <div class="col-sm-5">
-                        <input required type="text" class="form-control"
+                        <input disabled required type="text" class="form-control"
                                ng-model="evaluation.designation" maxlength = "16" chars="a-zA-Z 0-9">
                     </div>                    
                 </div> 
                 <div ng-hide ="idEvaluation != null" class="form-group">
                     <label for="" class="col-sm-4 control-label">Unité Enseignement<span class="required"> *</span></label>
                     <div class="col-sm-5">
-                        <select required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
+                        <select disabled required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
                             <option value="">Selectionner l'Unité d'enseignement</option> 
                             <option  ng-repeat="currentUE in Unites"  
                                     value="{{currentUE.uniteEnseignementPK.codeFormation}}/{{currentUE.uniteEnseignementPK.codeUe}}">
@@ -35,7 +35,7 @@
                 <div ng-hide ="idEvaluation != null" class="form-group">
                     <label for="" class="col-sm-4 control-label">Element Constitutif</label>
                     <div class="col-sm-5">
-                        <select class="form-control" ng-model="evaluation.codeEc">
+                        <select disabled class="form-control" ng-model="evaluation.codeEc">
                             <option value="">Selectionner l'élément constitutif</option> 
                             <option ng-repeat="currentEC in Elements"
                                     value="{{currentEC.elementConstitutifPK.codeEc}}">
@@ -47,14 +47,14 @@
 				<div class="form-group">
                     <label for="" class="col-sm-4 control-label">Code Formation<span class="required"> *</span></label>
                     <div class="col-sm-5">
-                        <input required disabled type="text" class="form-control"
+                        <input disabled required disabled type="text" class="form-control"
                                ng-model="evaluation.codeFormation">
                     </div>                    
                 </div>
 				<div ng-hide ="idEvaluation != null" class="form-group">
                     <label for="" class="col-sm-4 control-label">Année Universitaire<span class="required"> *</span></label>
                     <div class="col-sm-5">
-                       <select required class="form-control" ng-model="evaluation.anneeUniversitaire">
+                       <select disabled required class="form-control" ng-model="evaluation.anneeUniversitaire">
                             <option value="">Selectionner l'année universitaire</option> 
                             <option ng-repeat="p in Promotions"
                                     value="{{p.promotionPK.anneeUniversitaire}}">
@@ -66,7 +66,7 @@
                 <div class="form-group">
                     <label for="" class="col-sm-4 control-label">Etat<span class="required"> *</span></label>
                     <div class="col-sm-5">
-                        <select required class="form-control" ng-model="evaluation.etat">
+                        <select disabled required class="form-control" ng-model="evaluation.etat">
                             <option value="">Selectionner un état</option> 
                             <option ng-repeat="etat in Etats"ng-selected="etat.rvAbbreviation == evaluation.etat"
                                     value="{{etat.rvAbbreviation}}">
@@ -79,7 +79,7 @@
                     <label for="" class="col-sm-4 control-label">Début Réponse<span class="required"> *</span></label>
                     <div class="col-sm-5">
                         <div class="input-group ui-datepicker">
-                        <input type="text" 
+                        <input disabled type="text" 
                                class="form-control"
                                datepicker-popup="dd/MM/yyyy"
                                ng-model="evaluation.debutReponse"
@@ -92,7 +92,7 @@
                                ng-focus="open1($event)"
                                ng-change="changerMin()"
                                onkeydown="return false">
-                        <span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
+                      
                     </div>
                         
                     </div>                    
@@ -101,7 +101,7 @@
                     <label for="" class="col-sm-4 control-label">Fin Réponse<span class="required"> *</span></label>
                     <div class="col-sm-5">
                         <div class="input-group ui-datepicker">
-                        <input type="text" 
+                        <input disabled type="text" 
                                class="form-control"
                                datepicker-popup="dd/MM/yyyy"
                                ng-model="evaluation.finReponse"
@@ -113,27 +113,20 @@
                                ng-focus="open($event)"
                                onkeydown="return false"
                                close-text="Close">
-                        <span class="input-group-addon" ng-click="open($event)"><i class="fa fa-calendar"></i></span>
+                        
                         </div>
-                        <span class="label label-danger" ng-show="dateError">Sélectionnez une date supérieure à la date de début de réponse.</span>
+                        
                     
                     </div>                   
                 </div>
                 <div class="form-group">
                     <label for="" class="col-sm-4 control-label">Période</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control"
+                        <input disabled type="text" class="form-control"
                                ng-model="evaluation.periode" chars="0-9 a-zA-Z-éàè" maxlength = "64">
                     </div>                    
                 </div>     
-            <div class="pull-right">
-						<div class="btn-group">
-							<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
-						</div>
-						<div class="btn-group">
-							<button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
-						</div>
-					</div>
+
             </form>
         </div>
     </div>
@@ -146,27 +139,7 @@
     <div class="panel-body"> 
 	
 		<div>
-			<form ng-submit="ajouterRubEval(rubriqueEval.rubrique)">
 			
-				
-				
-				<div class="form-group" >
-                    <label for="" class="col-sm-4 control-label">Rubriques</label>
-                    <div class="col-sm-5">
-                        <select required class="form-control" ng-model="rubriqueEval.rubrique" >
-                            <option value="" >Sélectionnez une rubrique</option> 
-                            <option ng-repeat="r in rubriques" 
-                                    value="{{r}}">
-                                        {{r.designation}}
-                            </option>
-                        </select>
-                    </div> 
-					<div class="btn-group">
-							<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Ajouter </button>
-					</div>
-                </div> 
-			
-			</form>
 			
 			
 			<table class="table table-bordered table-striped table-responsive">
@@ -175,39 +148,13 @@
 
 				<tr data-ng-repeat="r in rubriquesEval">
 					
-					<td>
-						<span ng-if= "$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUp(r,rubriquesEval[$index-1])"></span><br>
-						<span ng-if="$index!=rubriquesEval.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDown(r,rubriquesEval[$index+1])"></span>
-					</td>
+					
 					<td>{{r.rubrique.designation}} </td> 
 					
-					<td><span class="remove fa fa-remove" ng-click="supprimerRubEval(r.idRubriqueEvaluation,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
 					
 					
 					<td>						
 
-						<form ng-submit="ajouterQuestionsRubrique(questionEval.question , r)">
-								
-									<div class="form-group" >
-										<label for="" class="col-sm-4 control-label">Questions</label>
-										<div class="col-sm-5">
-											<select required class="form-control" ng-model="questionEval.question">
-												<option value="" ng-selected>Sélectionnez une question</option> 
-												<option ng-repeat="q in questions" 
-														value="{{q}}">
-															{{q.intitule}}
-												</option>
-											</select>
-										</div> 
-										<div class="btn-group">
-												<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Ajouter </button>
-										</div>
-									</div> 
-								
-							</form>
-					
-							
-						
 						
 						
 						<table class="table table-bordered table-striped table-responsive">
@@ -217,14 +164,9 @@
 
 							<tr data-ng-repeat="q in r.questionsEval">
 					
-								<td>
-									<span ng-if= "$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUpQ(q,r.questionsEval[$index-1])"></span><br>
-									<span ng-if="$index!=r.questionsEval.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDownQ(q,r.questionsEval[$index+1])"></span>
-								</td>
 								<td>{{q.question.intitule}}</td>
 								<td>{{q.question.qualificatif.maximal}}</td>
 								<td>{{q.question.qualificatif.minimal}}</td>
-								<td><span class="remove fa fa-remove" ng-click="supprimerQuestionsRubrique(q.idQuestionEvaluation,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
 								
 							</tr>
 

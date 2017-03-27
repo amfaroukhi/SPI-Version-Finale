@@ -72,8 +72,9 @@
 					<td ng-if="e.codeEc">{{e.codeEc}}</td>
 					<td ng-if="!e.codeEc">None</td>
 					<td>{{e.etat}}</td>
-					<td><a ng-href="#enseignant/evaluation/{{e.idEvaluation}}"><span class="edit fa fa-pencil-square-o" tooltip="Modifier" tooltip-placement="bottom"></span></a></td>
+					<td><a ng-href="#enseignant/evaluation/details/{{e.idEvaluation}}"><span class="edit fa fa-list" tooltip="Consulter" tooltip-placement="bottom"></span></a></td>
 					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+					<td><a ng-href="#enseignant/evaluation/{{e.idEvaluation}}"><span class="cogs fa fa-cogs" tooltip="Parametrer" tooltip-placement="bottom"></span></a></td>
 				</tr>
 
 			</tbody>
