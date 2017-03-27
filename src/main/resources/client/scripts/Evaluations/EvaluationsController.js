@@ -116,16 +116,24 @@ angular.module('app')
 			});
 		};
 
-		this.getuebyEnseignant = function (callback, a) {
-			var url = "http://localhost:8090/ue/getbyens/" + a;
+		this.getuebyEnseignantandFormation = function (callback, a,b) {
+			var url = "http://localhost:8090/ue/getbyensandFormation/" + a + "/" + b;
 			$http.get(url).then(function (response) {
 				callback(response.data);
 
 			});
 		};
 
-		this.getecbyue = function (callback, a) {
-			var url = "http://localhost:8090/ec/" + a;
+		this.getformations = function (callback, a) {
+			var url = "http://localhost:8090/formation/" ;
+			$http.get(url).then(function (response) {
+				callback(response.data);
+
+			});
+		};
+
+		this.getecbyue = function (callback, a,b) {
+			var url = "http://localhost:8090/ec/" + a + "/" +b;
 			$http.get(url).then(function (response) {
 				callback(response.data);
 			});
@@ -263,6 +271,7 @@ angular.module('app')
 			$scope.Elements = [];
 			$scope.Etats = [];
 			$scope.Promotions = [];
+			$scope.Formations = [];
 			$scope.rubriques = [];
 			$scope.questions = [];
 			$scope.rubriquesEval = [];
@@ -278,6 +287,27 @@ angular.module('app')
 			$scope.outoforder = 0;
 			$scope.noEnseignant = 0;
 			$scope.dateError = false;
+
+			evaluationSvc.fetchUser(function (data) {
+				$scope.noEnseignant = data.noEnseignant;
+
+				evaluationSvc.fetchPopular(function (data) {
+					$scope.evaluations = $filter('orderBy')(data, "'designation'", $scope.sortReverse);
+				}, $scope.noEnseignant);
+
+				
+
+			})
+
+			evaluationSvc.fetchEtats(function (data) {
+				$scope.Etats = data;
+
+			})
+
+			evaluationSvc.getformations(function (data) {
+				$scope.Formations = data;
+
+			})
 			
 			getQuestions();
 			getRubriquesEvaluation();
@@ -368,12 +398,7 @@ angular.module('app')
 
 			$scope.ajouterEvaluation = function (evaluation) {
 
-				var str = $scope.evaluation.codeUe;
-				var res = str.split("/");
-				$scope.evaluation.codeUe = res[1];
 				$scope.evaluation.noEnseignant = $scope.noEnseignant;
-
-				$scope.evaluation.codeFormation = res[0];
 				evaluationSvc.ajouterEvaluation(evaluation);
 			};
 
@@ -389,20 +414,24 @@ angular.module('app')
 				evaluationSvc.cancel();
 			};
 
+			$scope.fetchproms = function (a) {
+				evaluationSvc.fetchpromotions(function (data) {
+							$scope.Promotions = data;
+						}, $scope.evaluation.codeFormation)
+			}
+
+			$scope.fetchue = function (a,b) {
+				evaluationSvc.getuebyEnseignantandFormation(function (data) {
+						$scope.Unites = data;
+					}, $scope.noEnseignant,$scope.evaluation.codeFormation)
+			}
+
 			$scope.fetchec = function (a) {
 				if ($scope.evaluation.codeUe != undefined) {
 					evaluationSvc.getecbyue(function (data) {
 						$scope.Elements = data;
-
-						var str = $scope.evaluation.codeUe;
-						var res = str.split("/");
-						$scope.evaluation.codeFormation = res[0];
-
-						evaluationSvc.fetchpromotions(function (data) {
-							$scope.Promotions = data;
-						}, $scope.evaluation.codeFormation)
-
-					}, $scope.evaluation.codeUe)
+					
+					}, $scope.evaluation.codeFormation, $scope.evaluation.codeUe)
 				}
 				else {
 					$scope.Elements = null;
@@ -451,27 +480,7 @@ angular.module('app')
 				this.afficherDetails(idEvaluation);
 			}
 
-			evaluationSvc.fetchUser(function (data) {
-				$scope.noEnseignant = data.noEnseignant;
-
-				evaluationSvc.fetchPopular(function (data) {
-					$scope.evaluations = $filter('orderBy')(data, "'designation'", $scope.sortReverse);
-				}, $scope.noEnseignant);
-
-				evaluationSvc.getuebyEnseignant(function (data) {
-					$scope.Unites = data;
-				}, $scope.noEnseignant)
-
-			})
-
-
-
 			
-
-			evaluationSvc.fetchEtats(function (data) {
-				$scope.Etats = data;
-
-			})
 
 			$scope.modifierOrdreUp = function (rubrique,rubrique1) {
 				rubrique1.ordre = rubrique.ordre;
@@ -659,8 +668,7 @@ angular.module('app')
 			function getRubriquesEvaluation(){	
 			evaluationSvc.fetchRubriquesEvaluation(function (data) {
 				
-				console.log(data);
-				console.log(" 1  dkhelt l fetch rubrique");
+				
 				$scope.rubriquesEval = $filter('orderBy')(data, "'ordre'", $scope.sortReverse);
 				
 			}, $scope.idEvaluation)

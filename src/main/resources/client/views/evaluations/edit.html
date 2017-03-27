@@ -3,139 +3,149 @@
   <div class="panel panel-default ens-edit">
     <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluation</strong></div>
     <div class="panel-body">        
-        <!-- Edition -->
-        <div>          
-            <form class="form-horizontal" ng-submit="execute(evaluation,outoforder)">
-                <div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Numéro Evaluation<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <input  required type="text" class="form-control" 
-                               ng-model="evaluation.noEvaluation" maxlength="2" chars="0-9">
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Désignation<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <input required type="text" class="form-control"
-                               ng-model="evaluation.designation" maxlength = "16" chars="a-zA-Z 0-9">
-                    </div>                    
-                </div> 
-                <div ng-hide ="idEvaluation != null" class="form-group">
-                    <label for="" class="col-sm-4 control-label">Unité Enseignement<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <select required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
-                            <option value="">Selectionner l'Unité d'enseignement</option> 
-                            <option  ng-repeat="currentUE in Unites"  
-                                    value="{{currentUE.uniteEnseignementPK.codeFormation}}/{{currentUE.uniteEnseignementPK.codeUe}}">
-                                        {{currentUE.designation}} - {{currentUE.uniteEnseignementPK.codeFormation}}
-                            </option>
-                        </select>
-                    </div>                    
-                </div> 
-                <div ng-hide ="idEvaluation != null" class="form-group">
-                    <label for="" class="col-sm-4 control-label">Element Constitutif</label>
-                    <div class="col-sm-5">
-                        <select class="form-control" ng-model="evaluation.codeEc">
-                            <option value="">Selectionner l'élément constitutif</option> 
-                            <option ng-repeat="currentEC in Elements"
-                                    value="{{currentEC.elementConstitutifPK.codeEc}}">
-                                        {{currentEC.elementConstitutifPK.codeEc}} - {{currentEC.designation}}
-                            </option>
-                        </select>
-                    </div>                    
-                </div>
-				<div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Code Formation<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <input required disabled type="text" class="form-control"
-                               ng-model="evaluation.codeFormation">
-                    </div>                    
-                </div>
-				<div ng-hide ="idEvaluation != null" class="form-group">
-                    <label for="" class="col-sm-4 control-label">Année Universitaire<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                       <select required class="form-control" ng-model="evaluation.anneeUniversitaire">
-                            <option value="">Selectionner l'année universitaire</option> 
-                            <option ng-repeat="p in Promotions"
+        <!-- Ajout/Modification -->
+                <div>
+                    <form class="form-horizontal" ng-submit="execute(evaluation,outoforder)">
+
+                        <!--Promotion-->
+                        <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div class="form-group col-sm-5">
+                                <label for="" class="col-sm-5 control-label">Formation</label>
+                                <div class="col-sm-7">
+                                    <select required class="form-control" ng-model="evaluation.codeFormation" ng-change="fetchproms(evaluation.codeFormation);fetchue(evaluation.noEnseignant,evaluation.codeFormation)">
+                                    <option value="">Selectionner la formation</option> 
+                                    <option ng-repeat="f in Formations"
+                                    value="{{f.codeFormation}}">
+                                        {{f.codeFormation}}
+                                    </option>
+                                </select>
+                                </div>
+                            </div>
+                            <div ng-hide="idEvaluation != null" class="form-group col-sm-5">
+                                <label for="" class="col-sm-5 control-label">Année universitaire</label>
+                                <div class="col-sm-7">
+                                    <select required class="form-control" ng-model="evaluation.anneeUniversitaire">
+                                    <option value="">Selectionner l'année universitaire</option> 
+                                    <option ng-repeat="p in Promotions"
                                     value="{{p.promotionPK.anneeUniversitaire}}">
                                         {{p.promotionPK.anneeUniversitaire}}
-                            </option>
-                        </select>
-                    </div>                    
-                </div>				
-                <div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Etat<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <select required class="form-control" ng-model="evaluation.etat">
+                                    </option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- UE // EC -->
+                        <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div ng-hide="idEvaluation != null" class="form-group col-sm-5">
+                                <label for="" class="col-sm-5 control-label">Unité d'enseignement</label>
+                                <div class="col-sm-7">
+                                    <select required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
+                                    <option value="">Selectionner l'Unité d'enseignement</option> 
+                                    <option  ng-repeat="currentUE in Unites"  
+                                        value="{{currentUE.uniteEnseignementPK.codeUe}}">
+                                        {{currentUE.designation}}
+                                    </option>
+                                </select>
+                                </div>
+                            </div>
+                            <div ng-hide="idEvaluation != null" class="form-group col-sm-5">
+                                <label for="" class="col-sm-5 control-label">Elément constitutif</label>
+                                <div class="col-sm-7">
+                                    <select class="form-control" ng-model="evaluation.codeEc">
+                                    <option value="">Selectionner l'élément constitutif</option> 
+                                    <option ng-repeat="currentEC in Elements"
+                                    value="{{currentEC.elementConstitutifPK.codeEc}}">
+                                    {{currentEC.elementConstitutifPK.codeEc}} - {{currentEC.designation}}
+                                    </option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- Identif -->
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="form-group col-sm-3">
+                                <label for="" class="col-sm-8 control-label">Numéro d'évaluation</label>
+                                <div class="col-sm-4">
+                                    <input required type="text" class="form-control" ng-model="evaluation.noEvaluation" maxlength="2" chars="0-9">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="" class="col-sm-5 control-label">Désignation</label>
+                                <div class="col-sm-7">
+                                    <input required type="text" class="form-control" ng-model="evaluation.designation" maxlength="16" chars="a-zA-Z 0-9">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Période -->
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Période</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" ng-model="evaluation.periode" chars="0-9 a-zA-Z-éàè" maxlength="64">
+                            </div>
+                        </div>
+
+                        <!-- Etat -->
+                        <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div class="form-group col-sm-3">
+                                <label for="" class="col-sm-3 control-label">Etat</label>
+                                <div class="col-sm-9">
+                                    <select required class="form-control" ng-model="evaluation.etat">
                             <option value="">Selectionner un état</option> 
-                            <option ng-repeat="etat in Etats"ng-selected="etat.rvAbbreviation == evaluation.etat"
+                            <option ng-repeat="etat in Etats" ng-selected="etat.rvAbbreviation == evaluation.etat"
                                     value="{{etat.rvAbbreviation}}">
                                         {{etat.rvMeaning}}
                             </option>
                         </select>
-                    </div>                    
-                </div> 
-                <div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Début Réponse<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <div class="input-group ui-datepicker">
-                        <input type="text" 
-                               class="form-control"
-                               datepicker-popup="dd/MM/yyyy"
-                               ng-model="evaluation.debutReponse"
-                               is-open="opened1"
-                               min="minDate"
-                               datepicker-options="dateOptions" 
-                               date-disabled="disabled(date, mode)"
-                               ng-required="true" 
-                               close-text="Close"
-                               ng-focus="open1($event)"
-                               ng-change="changerMin()"
-                               onkeydown="return false">
-                        <span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
-                    </div>
-                        
-                    </div>                    
-                </div> 
-                <div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Fin Réponse<span class="required"> *</span></label>
-                    <div class="col-sm-5">
-                        <div class="input-group ui-datepicker">
-                        <input type="text" 
-                               class="form-control"
-                               datepicker-popup="dd/MM/yyyy"
-                               ng-model="evaluation.finReponse"
-                               is-open="opened"
-                               min-date="evaluation.debutReponse"
-                               datepicker-options="dateOptions" 
-                               date-disabled="disabled(date, mode)"
-                               ng-required="true" 
-                               ng-focus="open($event)"
-                               onkeydown="return false"
-                               close-text="Close">
-                        <span class="input-group-addon" ng-click="open($event)"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="" class="col-sm-6 control-label">Accessible du</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group ui-datepicker">
+                                        <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="evaluation.debutReponse" is-open="opened1"
+                                            min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                                            ng-required="true" close-text="Fermer" ng-focus="open1($event)" ng-change="changerMin()"
+                                            onkeydown="return false">
+                                        <span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="" class="col-sm-2 control-label">au</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group ui-datepicker">
+                                        <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="evaluation.finReponse" is-open="opened" min-date="evaluation.debutReponse"
+                                            datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true"
+                                            ng-focus="open($event)" onkeydown="return false" close-text="Fermer">
+                                        <span class="input-group-addon" ng-click="open($event)"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <span class="label label-danger" ng-show="dateError">Sélectionnez une date supérieure à la date de début de réponse.</span>
+
+                                </div>
+                            </div>
                         </div>
-                        <span class="label label-danger" ng-show="dateError">Sélectionnez une date supérieure à la date de début de réponse.</span>
-                    
-                    </div>                   
+
+
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="" class="col-sm-4 control-label">Période</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control"
-                               ng-model="evaluation.periode" chars="0-9 a-zA-Z-éàè" maxlength = "64">
-                    </div>                    
-                </div>     
-            <div class="pull-right">
-						<div class="btn-group">
-							<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
-						</div>
-						<div class="btn-group">
-							<button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
-						</div>
-					</div>
-            </form>
-        </div>
     </div>
   </div>
   </section>

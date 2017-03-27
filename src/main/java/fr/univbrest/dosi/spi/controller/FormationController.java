@@ -16,6 +16,7 @@ import fr.univbrest.dosi.spi.service.FormationService;
  *
  */
 @RestController
+@RequestMapping("formation")
 public class FormationController {
 	/**
 	 *
@@ -29,7 +30,7 @@ public class FormationController {
 	 *            l'entité de formation
 	 * @return une formation
 	 */
-	@RequestMapping(value = "/formation/ajouterformation", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public final Formation ajouterFormation(@RequestBody final Formation formation) {
 		return formationService.addFormation(formation);
 	}
@@ -40,12 +41,12 @@ public class FormationController {
 	 *            l'entité de formation
 	 * @return une formation
 	 */
-	@RequestMapping(value = "/formation/update", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/", method = RequestMethod.PUT, headers = "Accept=application/json")
 	public final Formation editFormation(@RequestBody final Formation formation) {
 		return formationService.updateFormation(formation);
 	}
 	
-	@RequestMapping(value = "/countFormation")
+	@RequestMapping(value = "/count")
     public final long countFormation(){
    	 return formationService.countFormation();
     }
@@ -56,7 +57,7 @@ public class FormationController {
 	 *            l'id de formation
 	 * @return une formation
 	 */
-	@RequestMapping(value = "/formation/{codeFormation}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/{codeFormation}",method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public final Formation formation(@PathVariable(value = "codeFormation") final String codeFormation) {
 		return formationService.getFormation(codeFormation);
 
@@ -69,7 +70,7 @@ public class FormationController {
 	 *
 	 * @return list de formation
 	 */
-	@RequestMapping(produces = "application/json", value = "/formations")
+	@RequestMapping(produces = "application/json", method = RequestMethod.GET, value = "/")
 	public final Iterable<Formation> formations() {
 
 		// enseignantService.traitement();
@@ -90,7 +91,7 @@ public class FormationController {
 	 * @param codeFormation
 	 *            l'id de formation
 	 */
-	@RequestMapping(value = "/formation/delete/{codeformation}", headers = "Accept=application/json")
+	@RequestMapping(value = "/{codeformation}", headers = "Accept=application/json",method = RequestMethod.DELETE)
 	public final void removeFormation(@PathVariable("codeformation") final String codeFormation) {
 		formationService.deleteFormation(codeFormation);
 	}

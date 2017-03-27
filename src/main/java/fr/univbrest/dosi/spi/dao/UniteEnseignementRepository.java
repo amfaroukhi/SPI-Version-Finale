@@ -22,4 +22,8 @@ public interface UniteEnseignementRepository extends PagingAndSortingRepository<
 	 * @return liste des unite enseignement
 	 */
 	List<UniteEnseignement> findByNoEnseignant(@Param("noEnseignant") Integer noEnseignant);
+	List<UniteEnseignement> findByCodeFormation(@Param("codeFormation") String codeFormation);
+	List<UniteEnseignement> findByEnseignantandFormation(@Param("codeFormation") String codeFormation, @Param("noEnseignant") Integer noEnseignant);
+
+
 }
