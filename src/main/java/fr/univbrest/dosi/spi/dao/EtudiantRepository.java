@@ -15,13 +15,16 @@ import fr.univbrest.dosi.spi.bean.Promotion;
  *
  */
 @RepositoryRestResource(collectionResourceRel = "etudiant", path = "etudiant")
-public interface EtudiantRepository extends PagingAndSortingRepository<Etudiant, String> {
+public interface EtudiantRepository extends
+		PagingAndSortingRepository<Etudiant, String> {
 
 	List<Etudiant> findByNom(@Param("nom") String nom);
 
-	 
 	@Override
 	Etudiant save(@RequestBody Etudiant etu);
+
 	List<Etudiant> findByPromotion(@Param("promotion") Promotion promotion);
-	
+
+	Promotion findPromotionByNoEtudiant(@Param("noEtudiant") String noEtudiant);
+
 }

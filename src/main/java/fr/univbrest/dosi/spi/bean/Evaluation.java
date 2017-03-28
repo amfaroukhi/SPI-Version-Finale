@@ -1,12 +1,19 @@
 package fr.univbrest.dosi.spi.bean;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the EVALUATION database table.
@@ -14,31 +21,31 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name="Evaluation.findAll", query="SELECT e FROM Evaluation e"),
-@NamedQuery(name="Evaluation.findByPromotion", query="SELECT e FROM Evaluation e WHERE e.codeFormation = :codeFormation AND e.anneeUniversitaire = :anneeUniversitaire AND e.etat <> 'ELA'")})
+		@NamedQuery(name = "Evaluation.findAll", query = "SELECT e FROM Evaluation e"),
+		@NamedQuery(name = "Evaluation.findByPromotion", query = "SELECT e FROM Evaluation e WHERE e.codeFormation = :codeFormation AND e.anneeUniversitaire = :anneeUniversitaire") })
 public class Evaluation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="my_seq_gen3")
-	@SequenceGenerator(name="my_seq_gen3", sequenceName="EVE_SEQ")
-	@Column(name="ID_EVALUATION")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "my_seq_gen3")
+	@SequenceGenerator(name = "my_seq_gen3", sequenceName = "EVE_SEQ")
+	@Column(name = "ID_EVALUATION")
 	private long idEvaluation;
 
-	@Column(name="ANNEE_UNIVERSITAIRE")
+	@Column(name = "ANNEE_UNIVERSITAIRE")
 	private String anneeUniversitaire;
 
-	@Column(name="CODE_EC")
+	@Column(name = "CODE_EC")
 	private String codeEc;
 
-	@Column(name="CODE_FORMATION")
+	@Column(name = "CODE_FORMATION")
 	private String codeFormation;
 
-	@Column(name="CODE_UE")
+	@Column(name = "CODE_UE")
 	private String codeUe;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="DEBUT_REPONSE")
+	@Column(name = "DEBUT_REPONSE")
 	private Date debutReponse;
 
 	private String designation;
@@ -46,28 +53,24 @@ public class Evaluation implements Serializable {
 	private String etat;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="FIN_REPONSE")
+	@Column(name = "FIN_REPONSE")
 	private Date finReponse;
 
-	@Column(name="NO_ENSEIGNANT")
+	@Column(name = "NO_ENSEIGNANT")
 	private BigDecimal noEnseignant;
 
-	@Column(name="NO_EVALUATION")
+	@Column(name = "NO_EVALUATION")
 	private BigDecimal noEvaluation;
 
 	private String periode;
 
 	public Evaluation() {
 	}
-	
-	
 
 	public Evaluation(long idEvaluation) {
 		super();
 		this.idEvaluation = idEvaluation;
 	}
-
-
 
 	public long getIdEvaluation() {
 		return this.idEvaluation;

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.univbrest.dosi.spi.bean.Enseignant;
 import fr.univbrest.dosi.spi.bean.Etudiant;
 import fr.univbrest.dosi.spi.bean.Promotion;
 import fr.univbrest.dosi.spi.dao.EtudiantRepository;
@@ -21,9 +20,10 @@ public class EtudiantService {
 	@Autowired
 	private EtudiantRepository etudiantRepository;
 
-	public  Etudiant addEtudiant(final Etudiant etudiant) {
+	public Etudiant addEtudiant(final Etudiant etudiant) {
 		if (etudiantRepository.exists(etudiant.getNoEtudiant())) {
-			throw new SPIException("l'etudiant que vous souhaitez ajouter exsite déja ");
+			throw new SPIException(
+					"l'etudiant que vous souhaitez ajouter exsite déja ");
 		}
 		return etudiantRepository.save(etudiant);
 	}
@@ -31,7 +31,7 @@ public class EtudiantService {
 	public final void deletEtudiant(final String noEtudiant) {
 		etudiantRepository.delete(noEtudiant);
 	}
-	
+
 	public final long countEtudiant() {
 		return etudiantRepository.count();
 	}
@@ -48,16 +48,15 @@ public class EtudiantService {
 	public final Etudiant getEtudiant(final String noEtudiant) {
 		return etudiantRepository.findOne(noEtudiant);
 	}
-	
-	public final List<Etudiant> getEtudiantByPromotion(final Promotion promotion){
+
+	public final List<Etudiant> getEtudiantByPromotion(final Promotion promotion) {
 		return etudiantRepository.findByPromotion(promotion);
 	}
-	
+
 	public final Iterable<Etudiant> listEtudiants() {
 		final Iterable<Etudiant> etudiants = etudiantRepository.findAll();
 		return etudiants;
 	}
-
 
 	public final void deleteEtudiant(final String id) {
 		if (etudiantRepository.exists(id)) {
@@ -65,12 +64,13 @@ public class EtudiantService {
 		} else {
 			throw new SPIException("Cant delete Etudiant");
 		}
-		 
+
 	}
-	
+
 	public final List<Etudiant> getEtudiantByNom(final String nom) {
 		return etudiantRepository.findByNom(nom);
 	}
+
 	/**
 	 *
 	 * @return getter
@@ -93,7 +93,8 @@ public class EtudiantService {
 	 * @param etudiantRepository
 	 *            setter
 	 */
-	public final void setEtudiantRepository(final EtudiantRepository etudiantRepository) {
+	public final void setEtudiantRepository(
+			final EtudiantRepository etudiantRepository) {
 		this.etudiantRepository = etudiantRepository;
 	}
 
@@ -101,13 +102,19 @@ public class EtudiantService {
 	 *
 	 * @param etudiant
 	 *            l'entité etudiant
-	 * @return  etudiant modifier
+	 * @return etudiant modifier
 	 */
 	public final Etudiant updateEtudiant(final Etudiant etudiant) {
 		if (etudiantRepository.exists(etudiant.getNoEtudiant())) {
 			return etudiantRepository.save(etudiant);
 		} else {
-			throw new SPIException("l'etudiant que vous souhaitez modifier n'exsite pas ");
+			throw new SPIException(
+					"l'etudiant que vous souhaitez modifier n'exsite pas ");
 		}
+	}
+
+	public final Promotion findPromotionByNoEtudiant(final String noEtudiant) {
+		return etudiantRepository.findPromotionByNoEtudiant(noEtudiant);
+
 	}
 }

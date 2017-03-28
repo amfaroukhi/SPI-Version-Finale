@@ -1,4 +1,3 @@
-
 package fr.univbrest.dosi.spi.controller;
 
 import java.util.List;
@@ -25,71 +24,75 @@ public class EtudiantController {
 
 	@Autowired
 	private EtudiantService etudiantService;
-	
+
 	@Autowired
 	User user;
-	
+
 	@Autowired
 	private PromotionService promotionService;
-	
-	@RequestMapping(value = "/",produces = "application/json")
+
+	@RequestMapping(value = "/", produces = "application/json")
 	public final Iterable<Etudiant> etudiants() {
 
 		return etudiantService.listEtudiants();
 
 	}
-	
+
 	@RequestMapping(value = "/{codeFormation}/{anneeUniversitaire}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public final Iterable<Etudiant> etudiantsByPromotion(@PathVariable(value = "codeFormation") 
-	final String codeFormation ,@PathVariable(value = "anneeUniversitaire") final String anneeUniversitaire ) {
+	public final Iterable<Etudiant> etudiantsByPromotion(
+			@PathVariable(value = "codeFormation") final String codeFormation,
+			@PathVariable(value = "anneeUniversitaire") final String anneeUniversitaire) {
 		PromotionPK p = new PromotionPK(codeFormation, anneeUniversitaire);
 		Promotion pro = promotionService.getPromotion(p);
 		return etudiantService.getEtudiantByPromotion(pro);
 	}
-	
+
 	@RequestMapping(value = "/countEtudiants/{codeFormation}/{anneeUniversitaire}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public final long etudiantsInPromotion(@PathVariable(value = "codeFormation") 
-	final String codeFormation ,@PathVariable(value = "anneeUniversitaire") final String anneeUniversitaire ) {
+	public final long etudiantsInPromotion(
+			@PathVariable(value = "codeFormation") final String codeFormation,
+			@PathVariable(value = "anneeUniversitaire") final String anneeUniversitaire) {
 		PromotionPK p = new PromotionPK(codeFormation, anneeUniversitaire);
 		Promotion pro = promotionService.getPromotion(p);
 		return etudiantService.getEtudiantByPromotion(pro).size();
 
 	}
-	
-	
+
 	@RequestMapping(value = "/countEtudiant")
-    public final long countEtudiant(){
-   	 return etudiantService.countEtudiant();
-    }
-	
+	public final long countEtudiant() {
+		return etudiantService.countEtudiant();
+	}
+
 	/**
 	 *
 	 * @param etudiant
 	 *            l'entité de l'etudiant
 	 * @return le message d'ajout
 	 */
-	
-	@RequestMapping(value = "/", method = RequestMethod.POST, consumes= "application/json")
-	public final Etudiant addEtudiant(@RequestBody final  EtudiantPromotion  etudiantPromotion) {
-		Promotion promotion = promotionService.getPromotion(etudiantPromotion.getPromotion().getPromotionPK());
+
+	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = "application/json")
+	public final Etudiant addEtudiant(
+			@RequestBody final EtudiantPromotion etudiantPromotion) {
+		Promotion promotion = promotionService.getPromotion(etudiantPromotion
+				.getPromotion().getPromotionPK());
 		Etudiant etudiant = etudiantPromotion.getEtudiant();
 		etudiant.setPromotion(promotion);
 		return etudiantService.addEtudiant(etudiant);
-		
-		
+
 	}
-	
-	@RequestMapping(value="/", method = RequestMethod.PUT,  consumes= "application/json")
-	public final Etudiant updateEtudiant(@RequestBody final EtudiantPromotion etudiantPromotion){
-		Promotion promotion = promotionService.getPromotion(etudiantPromotion.getPromotion().getPromotionPK());
+
+	@RequestMapping(value = "/", method = RequestMethod.PUT, consumes = "application/json")
+	public final Etudiant updateEtudiant(
+			@RequestBody final EtudiantPromotion etudiantPromotion) {
+		Promotion promotion = promotionService.getPromotion(etudiantPromotion
+				.getPromotion().getPromotionPK());
 		Etudiant etudiant = etudiantPromotion.getEtudiant();
 		etudiant.setPromotion(promotion);
 		return etudiantService.updateEtudiant(etudiant);
 	}
-	
-	
+
 	@RequestMapping(value = "/{noetudiant}", method = RequestMethod.DELETE)
-	public final void deleteEtudiant(@PathVariable(value = "noetudiant") final String noEtudiant) {
+	public final void deleteEtudiant(
+			@PathVariable(value = "noetudiant") final String noEtudiant) {
 		// this.checkDroits(TypeDroit.DELETE);
 		etudiantService.deleteEtudiant(noEtudiant);
 	}
@@ -98,9 +101,7 @@ public class EtudiantController {
 	 *
 	 * @return liste des etudiant
 	 */
-	
 
-	
 	/**
 	 *
 	 * @param noEtudiant
@@ -108,7 +109,8 @@ public class EtudiantController {
 	 * @return un etudiant
 	 */
 	@RequestMapping(value = "/{noetudiant}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public final Etudiant getEtudiant(@PathVariable(value = "noetudiant") final String noEtudiant) {
+	public final Etudiant getEtudiant(
+			@PathVariable(value = "noetudiant") final String noEtudiant) {
 		return etudiantService.getEtudiant(noEtudiant);
 	}
 
@@ -120,13 +122,19 @@ public class EtudiantController {
 	 */
 	// @RequestMapping(value ="/getetu/{id}")
 	@RequestMapping(value = "/getbynom/{nom}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public final List<Etudiant> getEtudiantByNom(@PathVariable(value = "nom") final String nom) {
+	public final List<Etudiant> getEtudiantByNom(
+			@PathVariable(value = "nom") final String nom) {
 		return etudiantService.getEtudiantByNom(nom);
 	}
 
 	public EtudiantService getEtudiantService() {
 		return etudiantService;
 	}
-	
-	
+
+	@RequestMapping(value = "/promo/{noetudiant}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public final Promotion getPromoEtu(
+			@PathVariable(value = "noetudiant") final String noEtudiant) {
+		return etudiantService.findPromotionByNoEtudiant(noEtudiant);
+	}
+
 }

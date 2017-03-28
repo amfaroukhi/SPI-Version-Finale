@@ -1,4 +1,4 @@
-<div class="page page-table" ng-controller=EtudiantController>
+<div class="page page-table" ng-controller="EtudiantDetailsCtrl">
 
     <section class="panel panel-default table-dynamic">
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Infos Generales</strong>
@@ -23,7 +23,10 @@
                     Université d'origine
                 </div></th>
                 <th><div class="th">
-                    Promotion
+                    Code formation
+                </div></th>
+                <th><div class="th">
+                    Ann&eacutee universitaire
                 </div></th>
             </tr>
             </thead>
@@ -34,9 +37,50 @@
                 <td>{{etudiant.email}}</td>
                 <td>{{etudiant.mobile}}</td>
                 <td>{{etudiant.universiteOrigine}}</td>
-                <td>{{codeF}}</td>
+                <td>{{promo.promotionPK.codeFormation}}</td>
+                <td>{{promo.promotionPK.anneeUniversitaire}}</td>
             </tr>
             </tbody>
+        </table>
+        
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Liste des evaluations</strong>
+        </div>
+        
+        <table class="table table-bordered table-striped table-responsive">
+        <thead>
+        	<tr>
+        		<th><div class="th">
+                    Designation
+                </div></th>
+                <th><div class="th">
+                    Debut Reponse
+                </div></th>
+                <th><div class="th">
+                    Fin Reponse
+                </div></th>
+                <th><div class="th">
+                    Periode
+                </div></th>
+                <th><div class="th">
+                    Code UE
+                </div></th>
+                <th><div class="th">
+                    Etat
+                </div></th>
+        	</tr>
+        <thead>
+        <tbody>
+        	<tr ng-repeat = "e in evaluations" class="formation" ng-if="e.etat != 'ELA'">
+        		<td>{{e.designation}}</td>
+        		<td>{{e.debutReponse}}</td>
+        		<td>{{e.finReponse}}</td>
+        		<td>{{e.periode}}</td>
+        		<td>{{e.codeUe}}</td>
+        		<td ng-if="e.etat == 'CLO'">Cl&ocirctur&eacute</td>
+        		<td ng-if="e.etat == 'ELA'">En cours d'	&eacutelaboration</td>
+        		<td ng-if="e.etat == 'DIS'">Mise &agrave disposition</td>
+        	</tr>
+        </tbody>
         </table>
     </section>
 
