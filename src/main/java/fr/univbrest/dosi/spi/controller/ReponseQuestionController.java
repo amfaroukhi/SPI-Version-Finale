@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.univbrest.dosi.spi.bean.RepQstRepEvalQstEval;
 import fr.univbrest.dosi.spi.bean.ReponseEvaluation;
 import fr.univbrest.dosi.spi.bean.ReponseQuestion;
 import fr.univbrest.dosi.spi.bean.ReponseQuestionPK;
+import fr.univbrest.dosi.spi.service.QuestionEvaluationService;
 import fr.univbrest.dosi.spi.service.ReponseEvaluationService;
 import fr.univbrest.dosi.spi.service.ReponseQuestionService;
 
@@ -19,6 +21,9 @@ public class ReponseQuestionController {
 	
 	@Autowired
 	private ReponseQuestionService reponseQuestionService;
+	
+	@Autowired
+	private QuestionEvaluationService questionEvalService;
 	
 	@Autowired
 	private ReponseEvaluationService reponseEvaluationService;
@@ -38,11 +43,17 @@ public class ReponseQuestionController {
 	
 	@RequestMapping(value="/",method = RequestMethod.POST, consumes ="application/json")
 	public final ReponseQuestion ajouter(
-			@RequestBody final ReponseQuestion reponseQuestion
+			@RequestBody final RepQstRepEvalQstEval repQstRepEvalQstEval
 			){
-		reponseQuestionService.ajouterReponseQuestion(reponseQuestion);
-		return reponseQuestion;
+		
+		ReponseQuestion rq = new ReponseQuestion();
+		rq = repQstRepEvalQstEval.getReponseQuestion();
+		rq.setId(new ReponseQuestionPK(repQstRepEvalQstEval.getIdReponseEvaluation(), repQstRepEvalQstEval.getIdQuestionEvaluation()));
+//		rq.setReponseEvaluation(repQstRepEvalQstEval.getReponseEvaluation());
+		return reponseQuestionService.ajouterReponseQuestion(rq);
+		
 	}
+	
 	
 	@RequestMapping(value="/",method = RequestMethod.PUT, consumes ="application/json")
 	public final ReponseQuestion modifier(

@@ -25,9 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univbrest.dosi.spi.Application;
 import fr.univbrest.dosi.spi.bean.Evaluation;
 import fr.univbrest.dosi.spi.bean.QuestionEvaluation;
+import fr.univbrest.dosi.spi.bean.RepQstRepEvalQstEval;
 import fr.univbrest.dosi.spi.bean.ReponseEvaluation;
 import fr.univbrest.dosi.spi.bean.ReponseQuestion;
-import fr.univbrest.dosi.spi.service.EvaluationService;
+import fr.univbrest.dosi.spi.bean.ReponseQuestionPK;
 import fr.univbrest.dosi.spi.service.QuestionEvaluationService;
 import fr.univbrest.dosi.spi.service.ReponseEvaluationService;
 import fr.univbrest.dosi.spi.service.ReponseQuestionService;
@@ -37,20 +38,15 @@ import fr.univbrest.dosi.spi.service.ReponseQuestionService;
 @SpringApplicationConfiguration(classes = Application.class)
 public class ReponseQuestionControllerTest {
 	
-	
+	@Autowired
+	ReponseQuestionService business;
 	
 	@Autowired
-	ReponseQuestionService repQuestion;
-	
-	@Autowired
-	ReponseEvaluationService repEval;
+	ReponseEvaluationService reponseEval;
 	
 	@Autowired
 	QuestionEvaluationService questionEval;
 	
-	
-	@Autowired
-	EvaluationService evalService;
 	
 	
 	
@@ -69,29 +65,43 @@ public class ReponseQuestionControllerTest {
 	}
 	
 	
-@Test
+	@Test
 	public void addReponseQuestionTest() throws ClientProtocolException, IOException{
-	
 		
-		/*ReponseQuestion rq = new ReponseQuestion(new BigDecimal(1),questionEval.getQuestionEvaluation(new Long(1)),repEval.getReponseEvaluation(new Long(2)));
-		System.out.println(rq);
+		ReponseQuestion rq = new ReponseQuestion();
+		rq.setPositionnement(new BigDecimal(1));
+		ReponseEvaluation rps=reponseEval.getReponseEvaluation(1);
+		QuestionEvaluation qst=questionEval.getQuestionEvaluation(new Long(22));
+		ReponseQuestionPK rpsQst= new ReponseQuestionPK(22,1);
+
+		rq.setId(rpsQst);
+		RepQstRepEvalQstEval Test = new RepQstRepEvalQstEval(1l,rq,1l);
+		
+		
+		
+		
 		final HttpClient client = HttpClientBuilder.create().build();
 		final HttpPost mockPost = new HttpPost("http://localhost:8090/reponseQuestion/");
 		ObjectMapper mapper = new ObjectMapper();
 		com.fasterxml.jackson.databind.ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String jsonInString = ow.writeValueAsString(rq);
+		String jsonInString = ow.writeValueAsString(Test);
+		
 		mockPost.addHeader("content-type", "application/json");
 		mockPost.setEntity(new StringEntity(jsonInString));
-		mapper.readValue(jsonInString, ReponseQuestion.class);
+		
+		mapper.readValue(jsonInString, RepQstRepEvalQstEval.class);
+		
 		HttpResponse mockResponse = client.execute(mockPost);
+
 		Assert.assertEquals(200, mockResponse.getStatusLine().getStatusCode());	
+		
 		final BufferedReader rd = new BufferedReader(new InputStreamReader(mockResponse.getEntity().getContent()));
 		final ObjectMapper map = new ObjectMapper();
 		final ReponseQuestion r = map.readValue(rd, ReponseQuestion.class);
-		repQuestion.delete(r.getId());*/
+		business.delete(r.getId());
+		
 		
 	}
-
 	
 	
 
