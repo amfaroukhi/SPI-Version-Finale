@@ -1,5 +1,7 @@
 package fr.univbrest.dosi.spi.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.univbrest.dosi.spi.bean.Evaluation;
 import fr.univbrest.dosi.spi.bean.Rubrique;
 import fr.univbrest.dosi.spi.service.RubriqueService;
 
@@ -81,4 +84,6 @@ public class RubriqueController {
 	public final void removeRubrique(@PathVariable("idRubrique") final long idRubrique) {
 		rubriqueService.deleteRubrique(idRubrique);
 	}
+	
+
 }

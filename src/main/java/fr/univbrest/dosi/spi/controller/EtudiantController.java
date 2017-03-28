@@ -1,3 +1,4 @@
+
 package fr.univbrest.dosi.spi.controller;
 
 import java.util.List;
@@ -44,6 +45,14 @@ public class EtudiantController {
 		PromotionPK p = new PromotionPK(codeFormation, anneeUniversitaire);
 		Promotion pro = promotionService.getPromotion(p);
 		return etudiantService.getEtudiantByPromotion(pro);
+	}
+	
+	@RequestMapping(value = "/countEtudiants/{codeFormation}/{anneeUniversitaire}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public final long etudiantsInPromotion(@PathVariable(value = "codeFormation") 
+	final String codeFormation ,@PathVariable(value = "anneeUniversitaire") final String anneeUniversitaire ) {
+		PromotionPK p = new PromotionPK(codeFormation, anneeUniversitaire);
+		Promotion pro = promotionService.getPromotion(p);
+		return etudiantService.getEtudiantByPromotion(pro).size();
 
 	}
 	

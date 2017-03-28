@@ -19,5 +19,7 @@ import fr.univbrest.dosi.spi.bean.Evaluation;
 public interface EvaluationRepository extends PagingAndSortingRepository<Evaluation, Long> {
 	
 	List<Evaluation> findBynoEnseignant(@Param("noEnseignant") BigDecimal noEnseignant);
+	List<Evaluation> findByPromotion(@Param("codeFormation") String codeFromation, 
+									@Param("anneeUniversitaire") String anneeUniversitaire);
 
 }

@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @NamedQueries({
     @NamedQuery(name = "UniteEnseignement.findAll", query = "SELECT u FROM UniteEnseignement u"),
     @NamedQuery(name = "UniteEnseignement.findByCodeFormation", query = "SELECT u FROM UniteEnseignement u WHERE u.uniteEnseignementPK.codeFormation = :codeFormation"),
+    @NamedQuery(name = "UniteEnseignement.findByEnseignantandFormation", query = "SELECT u FROM UniteEnseignement u WHERE u.uniteEnseignementPK.codeFormation = :codeFormation and  u.noEnseignant.noEnseignant = :noEnseignant"),
     @NamedQuery(name = "UniteEnseignement.findByCodeUe", query = "SELECT u FROM UniteEnseignement u WHERE u.uniteEnseignementPK.codeUe = :codeUe"),
     @NamedQuery(name = "UniteEnseignement.findByDesignation", query = "SELECT u FROM UniteEnseignement u WHERE u.designation = :designation"),
     @NamedQuery(name = "UniteEnseignement.findBySemestre", query = "SELECT u FROM UniteEnseignement u WHERE u.semestre = :semestre"),

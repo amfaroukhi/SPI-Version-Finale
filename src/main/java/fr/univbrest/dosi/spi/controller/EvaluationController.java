@@ -68,6 +68,12 @@ public class EvaluationController {
 		return (List<Evaluation>) evaluationService.getbyens(ens);
 	}
 	
+	@RequestMapping(value = "/getbypromotion/{codeFormation}/{anneeUniversitaire}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public final List<Evaluation> getEvaluationByPromotion(@PathVariable("codeFormation") final String codeFormation, 
+														@PathVariable("anneeUniversitaire") final String anneeUniversitaire){
+		return (List<Evaluation>) evaluationService.getEvaluationByPromotion(codeFormation, anneeUniversitaire);
+	}
+	
 	/**
 	 *
 	 * @return list de evaluation

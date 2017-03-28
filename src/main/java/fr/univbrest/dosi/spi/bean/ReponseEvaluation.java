@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 
 /**
  * The persistent class for the REPONSE_EVALUATION database table.
@@ -11,7 +13,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="REPONSE_EVALUATION")
-@NamedQuery(name="ReponseEvaluation.findAll", query="SELECT r FROM ReponseEvaluation r")
+@NamedQueries({
+	@NamedQuery(name="ReponseEvaluation.findAll", query="SELECT r FROM ReponseEvaluation r"),
+	@NamedQuery(name="ReponseEvaluation.findByIdEvaluationAndNoEtudiant" , query="SELECT r FROM ReponseEvaluation r WHERE r.evaluation.idEvaluation = :idEvaluation AND r.noEtudiant = :noEtudiant ")
+})
+
 public class ReponseEvaluation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +37,7 @@ public class ReponseEvaluation implements Serializable {
 	private String prenom;
 
 	//uni-directional many-to-one association to Evaluation
+	 @RestResource(exported=false)
 	@ManyToOne
 	@JoinColumn(name="ID_EVALUATION")
 	private Evaluation evaluation;
@@ -84,6 +91,10 @@ public class ReponseEvaluation implements Serializable {
 
 	public void setEvaluation(Evaluation evaluation) {
 		this.evaluation = evaluation;
+	}
+	
+	public void setIdEvaluation(long id){
+		this.evaluation.setIdEvaluation(id);
 	}
 
 }

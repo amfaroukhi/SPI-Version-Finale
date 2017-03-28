@@ -1,0 +1,289 @@
+<div class="page page-table" ng-controller="evaluationCtrl">
+<section class="panel panel-default table-dynamic">
+  <div class="panel panel-default ens-edit">
+    <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluation</strong></div>
+    <div class="panel-body">        
+        <!-- Edition -->
+        <div>          
+            <form class="form-horizontal" ng-submit="execute(evaluation,outoforder)">
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Numéro Evaluation<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <input disabled required type="text" class="form-control" 
+                               ng-model="evaluation.noEvaluation" maxlength="2" chars="0-9">
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Désignation<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <input disabled required type="text" class="form-control"
+                               ng-model="evaluation.designation" maxlength = "16" chars="a-zA-Z 0-9">
+                    </div>                    
+                </div> 
+                <div ng-hide ="idEvaluation != null" class="form-group">
+                    <label for="" class="col-sm-4 control-label">Unité Enseignement<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <select disabled required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)">
+                            <option value="">Selectionner l'Unité d'enseignement</option> 
+                            <option  ng-repeat="currentUE in Unites"  
+                                    value="{{currentUE.uniteEnseignementPK.codeFormation}}/{{currentUE.uniteEnseignementPK.codeUe}}">
+                                        {{currentUE.designation}} - {{currentUE.uniteEnseignementPK.codeFormation}}
+                            </option>
+                        </select>
+                    </div>                    
+                </div> 
+                <div ng-hide ="idEvaluation != null" class="form-group">
+                    <label for="" class="col-sm-4 control-label">Element Constitutif</label>
+                    <div class="col-sm-5">
+                        <select disabled class="form-control" ng-model="evaluation.codeEc">
+                            <option value="">Selectionner l'élément constitutif</option> 
+                            <option ng-repeat="currentEC in Elements"
+                                    value="{{currentEC.elementConstitutifPK.codeEc}}">
+                                        {{currentEC.elementConstitutifPK.codeEc}} - {{currentEC.designation}}
+                            </option>
+                        </select>
+                    </div>                    
+                </div>
+				<div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Code Formation<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <input disabled required disabled type="text" class="form-control"
+                               ng-model="evaluation.codeFormation">
+                    </div>                    
+                </div>
+				<div ng-hide ="idEvaluation != null" class="form-group">
+                    <label for="" class="col-sm-4 control-label">Année Universitaire<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                       <select disabled required class="form-control" ng-model="evaluation.anneeUniversitaire">
+                            <option value="">Selectionner l'année universitaire</option> 
+                            <option ng-repeat="p in Promotions"
+                                    value="{{p.promotionPK.anneeUniversitaire}}">
+                                        {{p.promotionPK.anneeUniversitaire}}
+                            </option>
+                        </select>
+                    </div>                    
+                </div>				
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Etat<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <select disabled required class="form-control" ng-model="evaluation.etat">
+                            <option value="">Selectionner un état</option> 
+                            <option ng-repeat="etat in Etats"ng-selected="etat.rvAbbreviation == evaluation.etat"
+                                    value="{{etat.rvAbbreviation}}">
+                                        {{etat.rvMeaning}}
+                            </option>
+                        </select>
+                    </div>                    
+                </div> 
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Début Réponse<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <div class="input-group ui-datepicker">
+                        <input disabled type="text" 
+                               class="form-control"
+                               datepicker-popup="dd/MM/yyyy"
+                               ng-model="evaluation.debutReponse"
+                               is-open="opened1"
+                               min="minDate"
+                               datepicker-options="dateOptions" 
+                               date-disabled="disabled(date, mode)"
+                               ng-required="true" 
+                               close-text="Close"
+                               ng-focus="open1($event)"
+                               ng-change="changerMin()"
+                               onkeydown="return false">
+                      
+                    </div>
+                        
+                    </div>                    
+                </div> 
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Fin Réponse<span class="required"> *</span></label>
+                    <div class="col-sm-5">
+                        <div class="input-group ui-datepicker">
+                        <input disabled type="text" 
+                               class="form-control"
+                               datepicker-popup="dd/MM/yyyy"
+                               ng-model="evaluation.finReponse"
+                               is-open="opened"
+                               min-date="evaluation.debutReponse"
+                               datepicker-options="dateOptions" 
+                               date-disabled="disabled(date, mode)"
+                               ng-required="true" 
+                               ng-focus="open($event)"
+                               onkeydown="return false"
+                               close-text="Close">
+                        
+                        </div>
+                        
+                    
+                    </div>                   
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Période</label>
+                    <div class="col-sm-5">
+                        <input disabled type="text" class="form-control"
+                               ng-model="evaluation.periode" chars="0-9 a-zA-Z-éàè" maxlength = "64">
+                    </div>                    
+                </div>     
+
+            </form>
+        </div>
+    </div>
+  </div>
+  </section>
+
+  <section class="panel panel-default table-dynamic"   ng-hide ="idEvaluation == null">
+	<div class="panel panel-default ens-edit">
+    <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques </strong></div>
+    <div class="panel-body"> 
+	
+		<div>
+			
+			
+			
+			<table class="table table-bordered table-striped table-responsive">
+			
+			<tbody>
+
+				<tr data-ng-repeat="r in rubriquesEval">
+					
+					
+					<td>{{r.rubrique.designation}} </td> 
+					
+					
+					
+					<td>						
+
+						
+						
+						<table class="table table-bordered table-striped table-responsive">
+			
+								
+							<tbody>
+
+							<tr data-ng-repeat="q in r.questionsEval">
+					
+								<td>{{q.question.intitule}}</td>
+								<td>{{q.question.qualificatif.maximal}}</td>
+								<td>{{q.question.qualificatif.minimal}}</td>
+								
+							</tr>
+
+							</tbody>
+						</table>
+					
+					</td>
+					
+					
+				</tr>
+
+			</tbody>
+		</table>
+			
+			
+			
+			
+		
+		</div>
+	
+	</div>
+	</div>
+	</div>
+  </section>
+  
+  
+  
+  <script type="text/ng-template" id="supprimerEvaluation">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Suppression d'évaluation</h4>
+		</div>
+		<div class="modal-body">
+			Voulez vous vraiment supprimer l'évaluation ?
+		</div>
+		<div class="modal-footer">			
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+		</div>
+	</div>
+	</script>
+
+	<script type="text/ng-template" id="supprimerEvaluationError">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Erreur de suppression</h4>
+		</div>
+		<div class="modal-body">
+			L'évaluation ne peut pas être supprimée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
+    
+
+	<script type="text/ng-template" id="confirmerModif">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Modification réussie</h4>
+		</div>
+		<div class="modal-body">
+			L'évaluation a été modifiée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
+
+    <script type="text/ng-template" id="erreurModif">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Modification impossible</h4>
+		</div>
+		<div class="modal-body">
+			L'évaluation n'a pas pu être modifiée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
+
+    <script type="text/ng-template" id="confirmerAjout">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Ajout réussi</h4>
+		</div>
+		<div class="modal-body">
+			L'évaluation a été ajoutée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-success" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
+
+    <script type="text/ng-template" id="erreurAjout">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Ajout impossible</h4>
+		</div>
+		<div class="modal-body">
+			L'évaluation n'a pas pu être ajoutée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
+
+</div>

@@ -20,6 +20,15 @@ public class ReponseQuestionPK implements Serializable {
 
 	public ReponseQuestionPK() {
 	}
+	
+	
+	public ReponseQuestionPK(long idReponseEvaluation, long idQuestionEvaluation) {
+		super();
+		this.idReponseEvaluation = idReponseEvaluation;
+		this.idQuestionEvaluation = idQuestionEvaluation;
+	}
+
+
 	public long getIdReponseEvaluation() {
 		return this.idReponseEvaluation;
 	}

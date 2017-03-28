@@ -52,4 +52,12 @@ public class UniteEnseignementService {
 	public final Iterable<UniteEnseignement> getAllUniteEnseignements() {
 		return uniteEnseignementRepository.findAll();
 	}
+	
+	public final Iterable<UniteEnseignement> getUEbyFormation(String CodeFormation) {
+		return uniteEnseignementRepository.findByCodeFormation(CodeFormation);
+	}
+	
+	public final Iterable<UniteEnseignement> getUEByEnseignantandFormation(String CodeFormation, Integer noEnseignant) {
+		return uniteEnseignementRepository.findByEnseignantandFormation(CodeFormation,noEnseignant);
+	}
 }

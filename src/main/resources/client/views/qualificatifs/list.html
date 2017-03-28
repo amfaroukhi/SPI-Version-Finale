@@ -40,8 +40,8 @@
 					</a>
 					<td>{{q.maximal}}</td>
 					<td><a href="#admin/qualificatif/{{q.idQualificatif}}"><span class="edit fa fa-pencil-square-o" ng-click="modifierQuestion(q.idQuestion)" tooltip="Modifier" tooltip-placement="bottom"></span></a></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerQualificatif(q.idQualificatif,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
-					
+					<td><span class="remove fa fa-remove" ng-click="supprimerQualificatif(q.idQualificatif,$index, q.minimal,q.maximal)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+
 				</tr>
 
 			</tbody>
@@ -61,9 +61,9 @@
 			<h4 class="modal-title">Suppression de qualificatif</h4>
 		</div>
 		<div class="modal-body">
-			Voulez vous vraiment supprimer le qualificatif ?
+			Voulez vous vraiment supprimer le couple de qualificatifs : <b>{{min}} - {{max}}</b> ?
 		</div>
-		<div class="modal-footer">			
+		<div class="modal-footer">
 			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
 			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
 		</div>
@@ -74,10 +74,10 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-			<h4 class="modal-title">Erreur de suppression</h4>
+			<h4 class="modal-title">Suppression impossible</h4>
 		</div>
 		<div class="modal-body">
-			Le qualificatif ne peut pas être supprimé !
+			Le couple de qualificatifs "<b>{{min}} - {{max}}</b>" ne peut pas être supprimé !
 		</div>
 		<div class="modal-footer">
 			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
