@@ -151,7 +151,12 @@
 					enseignant: 'ENS'
 				})
 
-
+				//                   ------------Etudiant Evaluation-----------		
+				.when('/etudiant/evaluations', {
+					templateUrl: 'views/evaluationsetu/list.html',
+					controller: 'evaluationetuCtrl',
+					enseignant: 'ETU'
+				})
 
 
 				//                   ------------Question------------	

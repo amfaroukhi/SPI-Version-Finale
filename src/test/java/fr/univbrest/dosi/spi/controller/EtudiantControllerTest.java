@@ -32,6 +32,7 @@ import fr.univbrest.dosi.spi.bean.Promotion;
 import fr.univbrest.dosi.spi.bean.PromotionPK;
 import fr.univbrest.dosi.spi.bean.Rubrique;
 import fr.univbrest.dosi.spi.service.EtudiantService;
+import fr.univbrest.dosi.spi.service.PromotionService;
 import fr.univbrest.dosi.spi.service.QuestionService;
 
 	
@@ -40,6 +41,10 @@ public class EtudiantControllerTest {
 	
 	@Autowired
 	EtudiantService business;
+	
+	@Autowired
+	PromotionService promobusiness;
+
 
 	
 	@Test
@@ -65,7 +70,7 @@ public class EtudiantControllerTest {
 	@Test
 	public void addEtudiantTest() throws ClientProtocolException, IOException{
 		Etudiant etudiant = new Etudiant();
-		etudiant.setNoEtudiant("2140777");
+		etudiant.setNoEtudiant("99999999");
 		etudiant.setNom("ALAMI");
 		etudiant.setPrenom("Ayman");
 		etudiant.setSexe("M");
@@ -100,13 +105,13 @@ public class EtudiantControllerTest {
 		final BufferedReader rd = new BufferedReader(new InputStreamReader(mockResponse.getEntity().getContent()));
 		final ObjectMapper map = new ObjectMapper();
 		final Etudiant e = map.readValue(rd, Etudiant.class);
-		business.deleteEtudiant(e.getNoEtudiant());
+		business.deleteEtudiant("99999999");
 	}
 
 	@Test
 	public void updateEtudiantTest() throws ClientProtocolException, IOException{
 		Etudiant etudiant = new Etudiant();
-		etudiant.setNoEtudiant("2140777");
+		etudiant.setNoEtudiant("99999999");
 		etudiant.setNom("ALAMI");
 		etudiant.setPrenom("Ayman");
 		etudiant.setSexe("M");
@@ -141,7 +146,7 @@ public class EtudiantControllerTest {
 		
 		Assert.assertEquals(200, mockResponse.getStatusLine().getStatusCode());	
 		
-		business.deleteEtudiant(e.getNoEtudiant());
+		business.deleteEtudiant("99999999");
 	}
 
 	
@@ -153,7 +158,7 @@ public class EtudiantControllerTest {
 	public final void deleteEtudiantTest() throws ClientProtocolException, IOException {
 		
 		Etudiant etudiant = new Etudiant();
-		etudiant.setNoEtudiant("2140777");
+		etudiant.setNoEtudiant("9999999");
 		etudiant.setNom("ALAMI");
 		etudiant.setPrenom("Ayman");
 		etudiant.setSexe("M");
@@ -166,7 +171,7 @@ public class EtudiantControllerTest {
 		etudiant.setPaysOrigine("MA");
 		etudiant.setUniversiteOrigine("UAE");
 		PromotionPK promotionPK = new PromotionPK("M2DOSI","2013-2014");
-		Promotion promotion = new Promotion(promotionPK);
+		Promotion promotion = promobusiness.getPromotion(promotionPK);
 		etudiant.setPromotion(promotion);
 		Etudiant temp =  business.addEtudiant(etudiant);
 		

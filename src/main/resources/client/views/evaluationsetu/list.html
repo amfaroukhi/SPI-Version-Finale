@@ -1,0 +1,121 @@
+<div class="page page-table" data-ng-controller="evaluationCtrl">
+
+	<section class="panel panel-default table-dynamic">
+		<div class="panel-heading">
+			<strong><span class="glyphicon glyphicon-th"></span>
+				Evaluations</strong> <a href="#enseignant/evaluation"><span
+				class="add fa fa-plus pull-right"></span></a>
+		</div>
+
+		<table class="table table-bordered table-striped table-responsive">
+			<thead>
+
+				<th>
+					<div class="th">
+						Désignation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+
+				<th>
+					<div class="th">
+						NO_Evaluation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th>
+					<div class="th">
+						Année Universitaire <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th>
+					<div class="th">
+						Code Formation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th>
+					<div class="th">
+						Unité Enseignement <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th>
+					<div class="th">
+						Element Constitutif <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th>
+					<div class="th">
+						Etat <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th colspan="2" width="8%">
+					<div class="th">
+						Actions
+					</div>
+				</th>
+
+
+			</thead>
+			<tbody>
+
+				<tr data-ng-repeat="e in evaluations ">
+					<td>{{e.designation}}</td>
+					<td>{{e.noEvaluation}}</td>
+					<td>{{e.anneeUniversitaire}}</td>
+					<td>{{e.codeFormation}}</td>
+					<td>{{e.codeUe}}</td>
+					<td ng-if="e.codeEc">{{e.codeEc}}</td>
+					<td ng-if="!e.codeEc">None</td>
+					<td>{{e.etat}}</td>
+					<td><a ng-href="#enseignant/evaluation/details/{{e.idEvaluation}}"><span class="edit fa fa-list" tooltip="Consulter" tooltip-placement="bottom"></span></a></td>
+					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+					<td><a ng-href="#enseignant/evaluation/{{e.idEvaluation}}"><span class="cogs fa fa-cogs" tooltip="Parametrer" tooltip-placement="bottom"></span></a></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<footer class="table-footer">
+			<div class="row">
+
+			</div>
+		</footer>
+	</section>
+
+	<script type="text/ng-template" id="supprimerEvaluation">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Suppression d'évaluation</h4>
+		</div>
+		<div class="modal-body">
+			Voulez vous vraiment supprimer l'évaluation ?
+		</div>
+		<div class="modal-footer">			
+			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+		</div>
+	</div>
+	</script>
+
+	<script type="text/ng-template" id="supprimerEvaluationError">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+			<h4 class="modal-title">Erreur de suppression</h4>
+		</div>
+		<div class="modal-body">
+			L'évaluation ne peut pas être supprimée !
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+		</div>
+	</div>
+	</script>
+
+</div>

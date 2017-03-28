@@ -28,7 +28,7 @@ public class EtudiantService {
 		return etudiantRepository.save(etudiant);
 	}
 
-	public final void deletEtudiant(final String noEtudiant) {
+	public final void deleteEtudiant(final String noEtudiant) {
 		etudiantRepository.delete(noEtudiant);
 	}
 
@@ -58,8 +58,14 @@ public class EtudiantService {
 		return etudiants;
 	}
 
+<<<<<<< HEAD
 	public final void deleteEtudiant(final String id) {
 		if (etudiantRepository.exists(id)) {
+=======
+
+	public final void deletEtudiant(final String id) {
+		if (etudiantRepository.findOne(id) != null) {
+>>>>>>> 55328d69684b4f7075d36c176da918861b7b7beb
 			etudiantRepository.delete(id);
 		} else {
 			throw new SPIException("Cant delete Etudiant");

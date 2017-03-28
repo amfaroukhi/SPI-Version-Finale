@@ -461,7 +461,7 @@ angular.module('app')
         };
 
         dataFactory.listFormations = function () {
-            return $http.get("http://localhost:8090/formations");
+            return $http.get("http://localhost:8090/formation/");
         };
 
         dataFactory.listPromotions = function (codeFormation) {

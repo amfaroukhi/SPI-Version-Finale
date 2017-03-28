@@ -2,7 +2,7 @@
 angular.module('app')
   .service('PromotionsService', ['$http', function ($http) {
    this.listFormations = function(){
-	   var url = "http://localhost:8090/formations";
+	   var url = "http://localhost:8090/formation/";
 	   $http.get(url).then(function(response){
 		   callback(response.data);
 	   });
