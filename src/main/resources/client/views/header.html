@@ -15,37 +15,26 @@
 		<span class="icon-bar"></span>
 	</div>
 
-	<div class="top-nav" ng-controller="AuthenticationController">
-		<ul class="nav-left list-unstyled">
+	<div class="top-nav" data-ng-controller="NavCtrl">
+		<ul class="nav-left list-unstyled" >
 			<li>
 				<a href="#/" data-toggle-min-nav class="toggle-min"><i class="fa fa-bars"></i></a>
 			</li>
-			<!--<li class="dropdown text-normal nav-profile pull-right" dropdown is-open="status.isopenProfile">
-				<a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-					<img src="images/admin.jpg" alt="" class="img-circle img30_30">
-					<span class="hidden-xs">
-                        <span>{{username}}</span>
-					</span>
-				</a>
-				<ul class="dropdown-menu dropdown-dark with-arrow">
-					<li>
-						<a ng-click="deconnexion()">
-							<i class="fa fa-sign-out"></i>
-							<span data-i18n="Déconnexion"></span>
-						</a>
-					</li>
-				</ul>
-			</li>-->
 		</ul>
-
+		
 		<ul class="nav-right pull-right list-unstyled">
+		<li><br/>{{etu.nom}} {{etu.prenom}}</li>
+		<li><br/>{{ens.nom}} {{ens.prenom}}</li>
+		<li><br/>{{adm}}</li>
 			<li class="dropdown text-normal nav-profile pull-right" dropdown is-open="status.isopenProfile">
 				<a href="javascript:;" class="dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+					
 					<img src="images/admin.jpg" alt="" class="img-circle img30_30">
-					<span class="hidden-xs">
-                        <span>{{username}}</span>
-					</span>
+					<!--span class="hidden-xs">
+                        
+					</span-->
 				</a>
+				
 				<ul class="dropdown-menu dropdown-dark with-arrow pull-right">
 					<li>
 						<a ng-click="deconnexion()">

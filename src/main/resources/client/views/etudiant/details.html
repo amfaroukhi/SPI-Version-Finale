@@ -1,0 +1,43 @@
+<div class="page page-table" ng-controller=EtudiantController>
+
+    <section class="panel panel-default table-dynamic">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Infos Generales</strong>
+        </div>
+
+        <table class="table table-bordered table-striped table-responsive">
+            <thead>
+            <tr>
+                <th><div class="th">
+                    Nom
+                </div></th>
+                <th><div class="th">
+                    Prénom
+                </div></th>
+                <th><div class="th">
+                    E-mail
+                </div></th>
+                <th><div class="th">
+                    Mobile
+                </div></th>
+                <th><div class="th">
+                    Université d'origine
+                </div></th>
+                <th><div class="th">
+                    Promotion
+                </div></th>
+            </tr>
+            </thead>
+            <tbody><!-- currentPageEnseignant / enseignants -->
+            <tr class="formation">
+                <td>{{etudiant.nom}}</td>
+                <td>{{etudiant.prenom}}</td>
+                <td>{{etudiant.email}}</td>
+                <td>{{etudiant.mobile}}</td>
+                <td>{{etudiant.universiteOrigine}}</td>
+                <td>{{codeF}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>

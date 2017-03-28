@@ -55,6 +55,11 @@
 				})
 
 				//                   ------------etudiants------------
+				.when('/etudiant/:noEtudiant', {
+					templateUrl: 'views/etudiant/details.html',
+					admin: 'ADM',
+					etudiant: 'ETU'
+				})
 				.when('/admin/etudiants', {
 					templateUrl: 'views/etudiant/list.html',
 					admin: 'ADM'
@@ -306,11 +311,9 @@
 						} else {
 							$location.path("/pages/signin");
 						}
-
 					}).error(function (data) {
 						$location.path("/pages/signin");
 					});
-
 				});
 		}]).run(function ($rootScope, $route, $location, AuthService) {
 			$rootScope.$on("$routeChangeStart", function (e, to) {
@@ -320,7 +323,7 @@
 				}
 				AuthService.getUser().success(function (data) {
 					if (data) {
-						if (to.admin == data.role || to.enseignant == data.role) {
+						if (to.admin == data.role || to.enseignant == data.role || to.etudiant == data.role) {
 							e.preventDefault();
 						}
 						else {

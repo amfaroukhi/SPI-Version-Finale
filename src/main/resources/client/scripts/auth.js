@@ -27,6 +27,20 @@ angular.module('app.auth', [])
 					method: "GET"
 				}
 				return $http(config);
+			},
+			getInfoEtudiant: function (noEtudiant) {
+				config = {
+					url: '/etudiant/'+noEtudiant,
+					method: "GET"
+				}
+				return $http(config);
+			},
+			getInfoEnseignant: function (noEnseignant) {
+				config = {
+						url: 'enseignant/getens/'+noEnseignant,
+						method: "GET"
+				}
+				return $http(config);
 			}
 		}
 
@@ -37,10 +51,11 @@ angular.module('app.auth', [])
 	 */
 	.controller(
 	'AuthenticationController',
-	['$scope', '$location', '$animate', 'AuthService',
-		function ($scope, $location, $animate, AuthService) {
-			$scope.login = {};
-
+	['$scope', '$location', '$animate', 'AuthService', 'dataFactory', '$routeParams',
+		function ($scope, $location, $animate, AuthService, $routeParams, dataFactory) {
+			this.login = {};
+			$scope.etu = {};
+			
 			/*
 			 * // Nom utilisateur et image (affichés dans le header)
 			 * $scope.username = auth.username(); $scope.userimg = ""; //
@@ -53,11 +68,40 @@ angular.module('app.auth', [])
 			// Executé lors du click sur le bouton de login
 			this.submit = function () {
 				var authuser = {
-					"username": $scope.login.username,
-					"pwd": $scope.login.password,
+					"username": this.login.username,
+					"pwd": this.login.password,
 				};
+				
 				AuthService.authLocal(authuser).success(function () {
-					$location.path('/');
+					AuthService.getUser().success(function (data){
+						if(data.role == 'ETU'){
+							AuthService.getInfoEtudiant(data.noEtudiant)
+							.success(function (data){
+								
+								$scope.etu = data;
+						        $location.path('/etudiant/'+$scope.etu.noEtudiant);
+						       
+							})
+							.error(function(){
+								console.log("ca ne marche absolument pas");								
+							});
+						}
+						else if (data.role == 'ENS'){
+							AuthService.getInfoEnseignant(data.noEnseignant)
+							.success(function(data){
+								$scope.ens = data;
+								$location.path('/');
+							});
+						}
+						else{
+							$scope.adm = "Administrateur";
+							$location.path('/');
+							console.log("Yugen");
+						}
+					})
+					.error(function() {
+						
+					});
 				})
 					.error(function () {
 						// si la connexion a échoué : "secoue" le formulaire

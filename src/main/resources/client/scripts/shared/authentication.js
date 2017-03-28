@@ -2,14 +2,30 @@
   'use strict';
   var app = angular.module('app.authentication', []);
 
+  app.service('AuthentificationService', ['$http', function ($http) {
+	   this.etudiantCourant = function(noEtudiant,callback){
+		   var url = "http://localhost:8090/etudiant/"+noEtudiant;
+		   $http.get(url).then(function(response){
+			   callback(response.data);
+		   });
+	   };
+	  }]);
   /**
    Controleur pour la page d'authentification.
    */
-  app.controller('AuthenticationController', 
-    ['$scope', '$location', '$animate',
-    function($scope, $location, $animate){
+  /*
+  app.controller('AuthenticationController',
+    ['$scope', '$location', '$animate','$routeParams','AuthentificationService',
+    function($scope, $location, $animate, $routeParams, AuthentificationService){
+    	
+      var noEtudiant = $routeParams.noEtudiant;
+      
+      AuthentificationService.etudiantCourant(noEtudiant,function(data){
+    	  $scope.etudiant = data;
+    	  console.log(data)
+	});
+      
       $scope.login = {};
-
       // Nom utilisateur et image (affichés dans le header)
       $scope.username = auth.username();
       $scope.userimg = "";    
@@ -27,7 +43,6 @@
           // Redirection vers la page d'accueil
           // TODO : redirection vers la page à laquelle on souhaitait 
           // accéder avant ce login.
-          
         $scope.username = auth.username();
           $location.path('/');
         } else {
@@ -42,6 +57,6 @@
     }]
   );
 
-
+*/
 }).call(this);
 

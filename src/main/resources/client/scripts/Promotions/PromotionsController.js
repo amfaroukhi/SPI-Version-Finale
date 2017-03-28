@@ -40,7 +40,6 @@ angular.module('app')
 		console.log($routeParams.codeFormation);
     	PromotionsService.listPromotions(codeFormation,function(data){
     			$scope.promotions=data;
-                console.log(data);
     	});
     	
     	$scope.showToto = function(){

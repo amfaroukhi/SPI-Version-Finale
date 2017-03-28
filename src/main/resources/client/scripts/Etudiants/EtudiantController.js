@@ -9,7 +9,9 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
         $scope.noEtudiant = $routeParams.noEtudiant;
         $scope.codeFormation = $routeParams.codeFormation;
         $scope.anneeUniversitaire = $routeParams.anneeUniversitaire;
-
+        
+        
+        
         $scope.formations = [];
         $scope.promotions = [];
 
@@ -178,6 +180,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 .then(function (response) {
                     $scope.etudiant = response.data;
                     $scope.error = false;
+                    console.log(response.data);
                     console.log($scope.etudiant);
                 }, function (error) {
                     console.log("err");
