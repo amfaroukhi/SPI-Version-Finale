@@ -144,7 +144,6 @@ public class Etudiant implements Serializable {
         @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION")})
     @RestResource(exported=false)
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Promotion promotion;
 
     public Etudiant() {

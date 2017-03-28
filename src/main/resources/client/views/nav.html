@@ -18,4 +18,9 @@
 		<li><a href="#/dashboard"><i class="fa fa-dashboard"></i><span data-i18n="Tableau de bord"></span></a></li>
 		<li><a href="#/enseignant/evaluations"><i class="fa fa-list-alt"></i> <span>Gestion des évaluations</span></a><!--fa-list-alt-->
 	</ul>
+
+	<ul ng-if="role =='ETU'" id="nav" data-slim-scroll data-collapse-nav data-highlight-active>
+		<li><a href="#/dashboard"><i class="fa fa-dashboard"></i><span data-i18n="Tableau de bord"></span></a></li>
+		<li><a href="#/etudiant/evaluations"><i class="fa fa-list-alt"></i> <span>Evaluations</span></a><!--fa-list-alt-->
+	</ul>
 </div>

@@ -21,14 +21,14 @@ public class EtudiantService {
 	@Autowired
 	private EtudiantRepository etudiantRepository;
 
-	public  Etudiant addEtudiant(final Etudiant etudiant) {
+	public Etudiant addEtudiant(final Etudiant etudiant) {
 		if (etudiantRepository.exists(etudiant.getNoEtudiant())) {
 			throw new SPIException("l'etudiant que vous souhaitez ajouter exsite déja ");
 		}
 		return etudiantRepository.save(etudiant);
 	}
 
-	public final void deletEtudiant(final String noEtudiant) {
+	public final void deleteEtudiant(final String noEtudiant) {
 		etudiantRepository.delete(noEtudiant);
 	}
 	
@@ -59,8 +59,8 @@ public class EtudiantService {
 	}
 
 
-	public final void deleteEtudiant(final String id) {
-		if (etudiantRepository.exists(id)) {
+	public final void deletEtudiant(final String id) {
+		if (etudiantRepository.findOne(id) != null) {
 			etudiantRepository.delete(id);
 		} else {
 			throw new SPIException("Cant delete Etudiant");
