@@ -5,7 +5,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
         $scope.DomainUniv;
         $scope.etudiantPromotion = {};
         $scope.DomainPays;
-        $scope.etudiant={};
+        // $scope.etudiant={};
         $scope.noEtudiant = $routeParams.noEtudiant;
         $scope.codeFormation = $routeParams.codeFormation;
         $scope.anneeUniversitaire = $routeParams.anneeUniversitaire;
@@ -30,13 +30,38 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
         $scope.sortType2 = 'codeFormation'; // set the default sort type
         $scope.sortReverse1 = false;  // set the default sort order
 
+        hideStatus();
+        function hideStatus() {
+            setTimeout(function () {
+                $scope.$apply(function () {
+                    $rootScope.status = "";
+                });
+            }, 5000);
+        }
+
+        $scope.fermerMsg = function () {
+            $rootScope.status = "";
+        }
 
         getEtudiant();
         getDomainUniv();
         getDomainPays();
         listFormations();
+        getDomainOuiNon();
 
-        $scope.etudiant.sexe ="F";
+        $scope.designOuiNon = function (abv) {
+            var meaning = "yes";
+            angular.forEach($scope.DomainOuiNon, function (value, key) {
+                if (value.rvAbbreviation == abv) {
+                    meaning = value.rvMeaning;
+                }
+            });
+            return meaning;
+        }
+
+        $scope.etudiant = {
+            sexe: "M"
+        }
 
         $scope.open1 = function ($event) {
             $event.preventDefault();
@@ -86,7 +111,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
                 });
         }
 
@@ -105,7 +130,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
                 });
         }
 
@@ -122,7 +147,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
                 });
         }
         $scope.showEtudiants = function (code, anneeUiversitaire) {
@@ -138,7 +163,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
                 });
         }
         showEtudiants = function (code, anneeUiversitaire) {
@@ -160,7 +185,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des formations: ' + error.message;
                 });
         }
 
@@ -172,7 +197,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 }, function (error) {
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
                 });
         }
 
@@ -185,7 +210,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 }, function (error) {
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération du nombre des etudiants: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération du nombre des etudiants: ' + error.message;
                 });
 
         }
@@ -198,6 +223,11 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
             dataFactory.getEtudiant($scope.noEtudiant)
                 .then(function (response) {
                     $scope.etudiant = response.data;
+                    if ($scope.etudiant == "") {
+                        $scope.etudiant = {
+                            sexe: "M"
+                        };
+                    }
                     $scope.error = false;
                     console.log(response.data);
                     console.log($scope.etudiant);
@@ -205,7 +235,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
                 });
         }
 
@@ -219,7 +249,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
                 });
         }
 
@@ -233,21 +263,34 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
                 });
         }
 
-        var getPromotion = function () {
+         function getDomainOuiNon() {
+            dataFactory.getDomainOuiNon()
+                .then(function (response) {
+                    $scope.DomainOuiNon = response.data;
+                    $scope.error = false;
+                }, function (error) {
+                    $scope.success = false;
+                    $scope.error = true;
+                    // $scope.status = 'Erreur lors de la récupération des domaines ' + error.message;
+                });
+        }
+
+        var getPromotion = function (callback) {
             dataFactory.getPromotion($scope.codeFormation, $scope.anneeUniversitaire)
                 .then(function (response) {
                     $scope.etudiantPromotion.promotion = response.data;
                     $scope.error = false;
                     InsererFormationRequette();
+                    callback();
                 }, function (error) {
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
                 });
         }
 
@@ -258,23 +301,23 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
             console.log("---");
             dataFactory.insertEtudiant($scope.etudiantPromotion)
                 .then(function (response) {
-                    $scope.status = 'Insertion étudiant effectuée!';
-
+                    $rootScope.status = "L'étudiant " + $scope.etudiant.nom + " " + $scope.etudiant.prenom + " a été ajouté avec succès !";
+                    hideStatus();
                     $scope.error = false;
                     $scope.success = true;
 
                 }, function (error) {
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de l\'insertion de l\'étudiant: ' + error.message;
+                    // $scope.status = 'Erreur lors de l\'insertion de l\'étudiant: ' + error.message;
                 });
         }
 
         $scope.insertEtudiant = function () {
 
-            getPromotion();
-            $location.path('/admin/formationsPromo/' + $scope.codeFormation + '/' + $scope.anneeUniversitaire);
-            console.log($scope.afficherPromotion);
+            getPromotion(function () {
+                $location.path('/admin/formationsPromo/' + $scope.codeFormation + '/' + $scope.anneeUniversitaire);
+            });
 
         };
 
@@ -295,7 +338,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     console.log("err");
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
+                    // $scope.status = 'Erreur lors de la récupération de la liste des etudiants: ' + error.message;
                 });
         }
 
@@ -306,21 +349,25 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
             console.log("---");
             dataFactory.updateEtudiant($scope.etudiantPromotion)
                 .then(function (response) {
-                    $scope.status = 'MAJ étudiant effectuée!';
-
+                    $rootScope.status = "L'étudiant " + $scope.etudiant.nom + " " + $scope.etudiant.prenom + " a été mis à jour avec succès !";
+                    hideStatus();
                     $scope.error = false;
                     $scope.success = true;
 
                 }, function (error) {
                     $scope.success = false;
                     $scope.error = true;
-                    $scope.status = 'Erreur lors de la MAJ de l\'étudiant: ' + error.message;
+                    // $scope.status = 'Erreur lors de la MAJ de l\'étudiant: ' + error.message;
                 });
         }
 
         $scope.remove = function (noEtudiant,nom,prenom) {
             $rootScope.code = $scope.code;
             $rootScope.annee = $scope.annee;
+            dataFactory.getEtudiant(noEtudiant)
+                .then(function (response) {
+                    $rootScope.etudiant = response.data;
+                });
 
             $modal.open({
                 templateUrl: 'supprimerEtudiant',
@@ -333,7 +380,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                         dataFactory.deleteEtudiant(noEtudiant)
                             .success(function (response) {
                                 showEtudiants($scope.code, $scope.annee);
-                                $scope.status = 'Suppression effectuée!';
+                                $rootScope.status = "L'étudiant " + $scope.etudiant.nom + " " + $scope.etudiant.prenom + " a été supprimé avec succès !";
+                                hideStatus();
                                 $scope.error = false;
                                 $scope.success = true;
                                 // getFormations();
@@ -343,7 +391,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                                 supprimerEtudiantError($scope.etudToSupp);
                                 $scope.success = false;
                                 $scope.error = true;
-                                $scope.status = 'Erreur lors de la suppression' ;
+                                // $scope.status = 'Erreur lors de la suppression' ;
                             });
                         $modalInstance.dismiss('cancel');
                     }
@@ -369,34 +417,9 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
             });
         };
 
-        // $scope.remove = function (noEtudiant) {
-        //     var supp = confirm("voulez-vous bien supprimer cet étudiant?");
-        //     console.log("===< " + supp);
-        //     if (supp == true) {
-        //         console.log("je suis ici");
-        //         dataFactory.deleteEtudiant(noEtudiant)
-        //             .then(function (response) {
-        //                 $scope.showEtudiants($scope.code, $scope.annee);
-        //                 $scope.status = 'Suppression effectuée!';
-        //                 $scope.error = false;
-        //                 $scope.success = true;
-        //                 // getFormations();
-        //             }, function (error) {
-        //                 alert("Impossible de supprimer cet étudiant");
-        //                 $scope.success = false;
-        //                 $scope.error = true;
-        //                 $scope.status = 'Erreur lors de la suppression' + error.message;
-        //             });
-        //     }
-        // }
 
         $scope.ajoutEtudiant = function () {
-            // $scope.etudiant = {
-            //     sexe: "M"
-            // };
-            console.log($scope.etudiant);
             $scope.$watch($scope.etudiant, function () {
-                console.log("in watch");
                 $location.path("/admin/etudiant/new/" + $scope.code + "/" + $scope.annee);
             });
         }
@@ -448,7 +471,6 @@ angular.module('app')
         };
 
         dataFactory.deleteEtudiant = function (noEtudiant) {
-            console.log("factory");
             return $http.delete(urlBase + "" + noEtudiant);
         };
 
@@ -458,6 +480,10 @@ angular.module('app')
 
         dataFactory.getDomainPays = function () {
             return $http.get("http://localhost:8090/domain/getBydomain/PAYS");
+        };
+
+        dataFactory.getDomainOuiNon = function () {
+            return $http.get("http://localhost:8090/domain/getBydomain/OUI_NON");
         };
 
         dataFactory.listFormations = function () {

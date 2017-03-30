@@ -39,12 +39,7 @@ angular.module('app')
 		};
 
 		this.ajouterRubrique = function (rubrique) {
-			rubrique["Content-Type"] = "application/json";
-			$http.post("http://localhost:8090/rubrique", rubrique).then(function (reponse) {
-				window.location.href = "http://localhost:8090/index.html#/admin/rubriques";
-			}, function (erreur) {
-				alert("il ya une erreur");
-			});
+			return $http.post("http://localhost:8090/rubrique", rubrique);
 		};
 	}]);
 
@@ -74,23 +69,27 @@ angular.module('app')
 					, codeF)
 			};
 
-			// $scope.supprimerRubrique = function (idRubrique, indextableau) {
-			// 	console.log("index tableau " + indextableau);
-			// 	var r = confirm("Voulez vous vraiment supprimer ? ");
+			hideStatus();
+			function hideStatus() {
+				setTimeout(function () {
+					$scope.$apply(function () {
+						$rootScope.status = "";
+					});
+				}, 5000);
+			}
 
-			// 	if (r == true) {
-			// 		rubriqueSvc.supprimerRubrique(idRubrique).then(function (res) {
-			// 			$scope.rubriques.splice(indextableau, 1);
-			// 		}, function (err) {
-			// 			alert("Impossible de supprimer cette rubrique ");
-			// 			console.log("Erreur suppression serveur")
-			// 		});
-			// 	}
-			// };
+			$scope.fermerMsg = function(){
+				$rootScope.status = "";
+			}
+			
+            // $scope.fermerMsg();
 
 			// ******** supprimer une rubrique (Modal)********
 			$scope.supprimerRubrique = function (idRubrique, indextableau, desi) {
 				$rootScope.rubriques = $scope.rubriques;
+				rubriqueSvc.afficherDetails(function (data) {
+					$rootScope.rubrique = data;
+				}, idRubrique);
 				$modal.open({
 					templateUrl: 'supprimerRubrique',
 					backdrop: true,
@@ -100,6 +99,8 @@ angular.module('app')
 						$scope.confirmer = function () {
 							rubriqueSvc.supprimerRubrique(idRubrique)
 								.success(function () {
+									$rootScope.status = "La rubrique \"" + $scope.rubrique.designation + "\" a été supprimée avec succès !";
+									hideStatus();
 									$scope.rubriques.splice(indextableau, 1);
 								})
 								.error(function () {
@@ -134,8 +135,16 @@ angular.module('app')
 
 			$scope.ajouterRubrique = function (rubrique) {
 				
-				rubrique.ordre= $scope.rubriques.length + 1;
-				rubriqueSvc.ajouterRubrique(rubrique);
+				rubriqueSvc.ajouterRubrique(rubrique).success(function (response) {
+					if (rubrique.idRubrique == undefined) {
+						$rootScope.status = "La rubrique \"" + rubrique.designation + "\" a été ajoutée avec succès !";
+					}
+					else {
+						$rootScope.status = "La rubrique \"" + rubrique.designation + "\" a été modifiée avec succès !";
+					}
+					window.location.href = "http://localhost:8090/index.html#/admin/rubriques";
+					hideStatus();
+				});
 				
 			};
 			

@@ -9,7 +9,6 @@
 
 		<table class="table table-bordered table-striped table-responsive">
 			<thead>
-
 				<th>
 					<div class="th">
 						Désignation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'designation'; sortReverse = !sortReverse"></span>
@@ -19,31 +18,31 @@
 
 				<th>
 					<div class="th">
-						NO_Evaluation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
+						Numéro d'évaluation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
 						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'noEvaluation'; sortReverse = !sortReverse"></span>
 					</div>
 				</th>
 				<th>
 					<div class="th">
-						Année Universitaire <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
-						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
-					</div>
-				</th>
-				<th>
-					<div class="th">
-						Code Formation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
+						Formation <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
 						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'codeFormation'; sortReverse = !sortReverse"></span>
 					</div>
 				</th>
 				<th>
 					<div class="th">
-						Unité Enseignement <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
+						Année universitaire <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
+						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'anneeUniversitaire'; sortReverse = !sortReverse"></span>
+					</div>
+				</th>
+				<th>
+					<div class="th">
+						Unité d'nseignement <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
 						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'codeUe'; sortReverse = !sortReverse"></span>
 					</div>
 				</th>
 				<th>
 					<div class="th">
-						Element Constitutif <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
+						Elément constitutif <span class="glyphicon glyphicon-chevron-up" ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
 						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'codeEc'; sortReverse = !sortReverse"></span>
 					</div>
 				</th>
@@ -53,30 +52,28 @@
 						<span class="glyphicon glyphicon-chevron-down" ng-click="sortType = 'etat'; sortReverse = !sortReverse"></span>
 					</div>
 				</th>
-				<th colspan="2" width="8%">
+				<th colspan="3" width="8%">
 					<div class="th">
 						Actions
 					</div>
 				</th>
-
-
+				<th></th>
 			</thead>
 			<tbody>
-
 				<tr data-ng-repeat="e in evaluations ">
 					<td>{{e.designation}}</td>
 					<td>{{e.noEvaluation}}</td>
-					<td>{{e.anneeUniversitaire}}</td>
 					<td>{{e.codeFormation}}</td>
-					<td>{{e.codeUe}}</td>
-					<td ng-if="e.codeEc">{{e.codeEc}}</td>
-					<td ng-if="!e.codeEc">None</td>
-					<td>{{e.etat}}</td>
+					<td>{{e.anneeUniversitaire}}</td>
+					<td>{{designUE(e.codeUe)}}</td>
+					<td ng-if="e.codeEc">{{designEC(e.codeEc)}}</td>
+					<td ng-if="!e.codeEc">-</td>
+					<td>{{designEtatEvaluation(e.etat)}}</td>
 					<td><a ng-href="#enseignant/evaluation/details/{{e.idEvaluation}}"><span class="edit fa fa-list" tooltip="Consulter" tooltip-placement="bottom"></span></a></td>
-					<td><span class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
-					<td><a ng-href="#enseignant/evaluation/{{e.idEvaluation}}"><span class="cogs fa fa-cogs" tooltip="Parametrer" tooltip-placement="bottom"></span></a></td>
+					<td><a ng-hide="e.etat == 'CLO'" ng-href="#enseignant/evaluation/{{e.idEvaluation}}"><span class="cogs fa fa-cogs" tooltip="Paramétrer" tooltip-placement="bottom"></span></a></td>
+					<td><span ng-hide="e.etat == 'CLO'" class="remove fa fa-remove" ng-click="supprimerEvaluation(e.idEvaluation,e.designation,$index)" tooltip="Supprimer" tooltip-placement="bottom"></span></td>
+					
 				</tr>
-
 			</tbody>
 		</table>
 
@@ -94,7 +91,7 @@
 			<h4 class="modal-title">Suppression d'évaluation</h4>
 		</div>
 		<div class="modal-body">
-			Voulez vous vraiment supprimer l'évaluation ?
+			Voulez vous vraiment supprimer l'évaluation <b>"{{designEval}}"</b>?
 		</div>
 		<div class="modal-footer">			
 			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
@@ -107,10 +104,10 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-			<h4 class="modal-title">Erreur de suppression</h4>
+			<h4 class="modal-title">Suppression impossible</h4>
 		</div>
 		<div class="modal-body">
-			L'évaluation ne peut pas être supprimée !
+			L'évaluation <b>"{{designEval}}"</b> ne peut pas être supprimée !
 		</div>
 		<div class="modal-footer">
 			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>

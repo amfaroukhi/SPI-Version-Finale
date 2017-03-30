@@ -151,12 +151,27 @@
 					enseignant: 'ENS'
 				})
 
-				//                   ------------Etudiant Evaluation-----------		
-				.when('/etudiant/evaluations', {
-					templateUrl: 'views/evaluationsetu/list.html',
-					controller: 'evaluationetuCtrl',
-					enseignant: 'ETU'
+				//                   ------------Reponse Evaluation-----------		
+				.when('/etudiant/:noEtudiant', {
+					templateUrl: 'views/reponsesevaluations/list.html',
+					controller: 'reponseEvaluationCtrl',
+					admin : 'ADM',
+					etudiant: 'ETU'
 				})
+
+				.when('/etudiant/evaluation/:noEtudiant/:idEvaluation/:idReponseEvaluation', {
+					templateUrl: 'views/reponsesevaluations/details.html',
+					controller: 'reponseEvaluationCtrl',
+					etudiant: 'ETU'
+				})
+				
+				.when('/etudiant/evaluation/reponse/:noEtudiant/:idEvaluation/:idReponseEvaluation', {
+					templateUrl: 'views/reponsesevaluations/consultation.html',
+					controller: 'reponseEvaluationCtrl',
+					etudiant: 'ETU'
+				})
+
+				
 
 
 				//                   ------------Question------------	

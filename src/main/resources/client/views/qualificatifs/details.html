@@ -4,17 +4,22 @@
 		<div class="panel-body">
 			<!-- Edition -->
 			<div>
-				<form class="form-horizontal form-validation" ng-submit="ajouterQualificatif(qualificatif)">
-					<div class="form-group">
-						<label for="" class="col-sm-4 control-label">Minimal <span class="required">*</span></label>
+				<form class="form-horizontal form-validation" ng-submit="qualif.$valid && ajouterQualificatif(qualificatif)" name="qualif">
+					
+					<div class="form-group has-error" ng-class="{ 'has-error': qualif.minimal.$error.required && qualif.minimal.$invalid}">
+						<label for="minimal" class="col-sm-4 control-label">Maximal</label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" required maxlength="16" ng-model="qualificatif.minimal">
+							<input type="text" class="form-control has-feedback" id="minimal" name="minimal" required maxlength="16" ng-model="qualificatif.minimal"
+							 tooltip="{{qualif.minimal.$valid ? '' : 'minimal de l\'étudiant obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
+							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="qualif.minimal.$valid"></span>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="" class="col-sm-4 control-label">Maximal <span class="required">*</span></label>
+					<div class="form-group has-error" ng-class="{ 'has-error': qualif.maximal.$error.required && qualif.maximal.$invalid}">
+						<label for="maximal" class="col-sm-4 control-label">Maximal</label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" required maxlength="16" ng-model="qualificatif.maximal">
+							<input type="text" class="form-control has-feedback" id="maximal" name="maximal" required maxlength="16" ng-model="qualificatif.maximal"
+							 tooltip="{{qualif.maximal.$valid ? '' : 'maximal de l\'étudiant obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
+							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="qualif.maximal.$valid"></span>
 						</div>
 					</div>
 

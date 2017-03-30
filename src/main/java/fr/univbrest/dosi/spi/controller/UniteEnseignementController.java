@@ -75,7 +75,11 @@ public class UniteEnseignementController {
 	public final Iterable<UniteEnseignement> getue(@PathVariable(value = "noenseignant") final Integer noEnseignant, @PathVariable(value = "CodeFormation") final String CodeFormation) {
 		return  ueService.getUEByEnseignantandFormation(CodeFormation,noEnseignant);
 	}
-
+	
+	@RequestMapping(value = "getbyens/{noenseignant}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public final Iterable<UniteEnseignement> getue(@PathVariable(value = "noenseignant") final Integer noEnseignant) {
+		return  ueService.getUEByEnseignant(noEnseignant);
+	}
 	
 	/**
 	 *

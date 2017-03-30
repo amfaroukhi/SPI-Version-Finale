@@ -3,181 +3,200 @@
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Etudiant</strong></div>
         <div class="panel-body">
 
-            <!-- Add -->
+            <!-- Edit -->
             <div>
-                <form class="form-horizontal" ng-submit="updateEtudiant(etudiant)">
+                <form class="form-horizontal" ng-submit="newEtud.$valid && updateEtudiant(etudiant)" name="newEtud">
                     <div class="form-group">
-                        <label  class="col-sm-4 control-label">Code Promotion</label>
-                        <div class="col-sm-5">
-                            <input disabled ng-hide type="text" class="form-control"
-                                   ng-model="codeFormation">
+                        <label class="col-sm-4 control-label">Code formation</label>
+                        <div class="col-sm-4">
+                            <input disabled type="text" class="form-control" ng-model="codeFormation">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label   class="col-sm-4 control-label">Année Universitaire</label>
-                        <div class="col-sm-5">
-                            <input disabled ng-hide type="text" class="form-control"
-                                   ng-model="anneeUniversitaire">
+                        <label class="col-sm-4 control-label">Année universitaire</label>
+                        <div class="col-sm-4">
+                            <input disabled type="text" class="form-control" ng-model="anneeUniversitaire">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label   class="col-sm-4 control-label">Numero Etudiant</label>
-                        <div class="col-sm-5">
-                            <input required disabled type="text" class="form-control"
-                                   ng-model="etudiant.noEtudiant">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-sm-4 control-label">Nom<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="text" class="form-control"
-                                   ng-model="etudiant.nom" required maxlength="50">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Prénom<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="text" class="form-control"
-                                   ng-model="etudiant.prenom" required maxlength="50">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Sexe<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <label class="ui-radio"><input name="radio1" type="radio" value="M" data-ng-model="etudiant.sexe"><span>Homme</span></label>
-                            <label class="ui-radio"><input name="radio1" type="radio" value="F" data-ng-model="etudiant.sexe" ><span>Femme</span></label>
-                        </div>
-                    </div>
-					<div class="form-group">
-						<label for="" class="col-sm-4 control-label">Date de naissance<span
-							class="required"> * </span></label>
-						<div class="col-sm-5">
-							<div class="input-group ui-datepicker">
-								<input type="text" class="form-control" onkeydown="return false"
-									datepicker-popup="dd/MM/yyyy"
-									ng-model="etudiant.dateNaissance" is-open="opened1"
-									min="minDate" datepicker-options="dateOptions"
-									date-disabled="disabled(date, mode)" ng-required="true"
-									close-text="Close" onkeydown="return false"	ng-focus="open1($event)">
-                                    <span class="input-group-addon"	ng-click="open1($event)" ><i class="fa fa-calendar"></i></span>
-							</div>
-
+                    <div class="form-group has-error" ng-class="{ 'has-error': newEtud.noEtudiant.$error.required || newEtud.noEtudiant.$invalid || newEtud.noEtudiant.$error.pattern}">
+						<label for="noEtudiant" class="col-sm-4 control-label">Numéro d'étudiant</label>
+						<div class="col-sm-4">
+							<input class="form-control has-feedback" id="noEtudiant" name="noEtudiant" required ng-model="etudiant.noEtudiant"
+							 tooltip-trigger="focus" tooltip-placement="top" tooltip="{{newEtud.noEtudiant.$valid ? '' : 'Numéro d\'étudiant obligatoire. Caractères numériques.'}}"
+							 chars="0-9" ng-pattern="/^(?:[1-9]|[1-9]\d{0,50})$/" maxlength="50">
+							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.noEtudiant.$valid"></span>
 						</div>
 					</div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Lieu de naissance<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="text" class="form-control"
-                                   ng-model="etudiant.lieuNaissance" maxlength="255">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Nationalité<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="text" class="form-control"
-                                   ng-model="etudiant.nationalite" maxlength="50">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Téléphone</label>
-                        <div class="col-sm-5">
-                            <input type="tel" class="form-control"
-                                   ng-model="etudiant.telephone" maxlength="20">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Mobile</label>
-                        <div class="col-sm-5">
-                            <input type="tel" class="form-control"
-                                   ng-model="etudiant.mobile" maxlength="20">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Email<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="email" class="form-control"
-                                   ng-model="etudiant.email" maxlength="255">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Email UBO</label>
-                        <div class="col-sm-5">
-                            <input type="email" class="form-control"
-                                   ng-model="etudiant.emailUbo" maxlength="255">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Adresse<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="text" class="form-control"
-                                   ng-model="etudiant.adresse" maxlength="255">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Code Postal</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control"
-                                   ng-model="etudiant.codePostal" maxlength="10">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Ville<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <input required type="text" class="form-control"
-                                   ng-model="etudiant.ville" maxlength="255">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Pays d'origine<span class="required"> * </span></label>
-                        <div class="col-sm-5">
 
-                            <select required class="form-control" ng-model="etudiant.paysOrigine" >
-                                <option ng-repeat="domPays in DomainPays" value="{{domPays.rvAbbreviation}}">{{domPays.rvMeaning}}</option>
-                            </select>
+                    <!--**** Colonne gauche ****-->
+                    <div class="col-sm-5">
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.nom.$error.required && newEtud.nom.$invalid}">
+                            <label for="nom" class="col-sm-4 control-label">Nom</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control has-feedback" id="nom" name="nom" required maxlength="50" ng-model="etudiant.nom"
+                                    tooltip="{{newEtud.nom.$valid ? '' : 'Nom de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+                                    tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.nom.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Sexe</label>
+                            <div class="col-sm-8">
+                                <label class="ui-radio"><input name="radio1" type="radio" value="M" ng-model="etudiant.sexe"><span>Homme</span></label>
+                                <label class="ui-radio"><input name="radio1" type="radio" value="F" ng-model="etudiant.sexe"><span>Femme</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.dateNaissance.$error.required && newEtud.dateNaissance.$invalid}">
+                            <label for="dateNaissance" class="col-sm-4 control-label">Date de naissance</label>
+                            <div class="col-sm-8">
+                                <div class="input-group ui-datepicker">
+                                    <input type="text" class="form-control has-feedback" id="dateNaissance" name="dateNaissance" datepicker-popup="dd/MM/yyyy"
+                                        ng-model="etudiant.dateNaissance" is-open="opened1" min="minDate" datepicker-options="dateOptions"
+                                        date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-focus="open1($event)"
+                                        onkeydown="return false" ng-click="open1($event)" tooltip="{{newEtud.dateNaissance.$valid ? '' : 'dateNaissance de l\'étudiant obligatoire.'}}"
+                                        tooltip-trigger="focus" tooltip-placement="top">
+                                    <span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.lieuNaissance.$error.required && newEtud.lieuNaissance.$invalid}">
+                            <label for="lieuNaissance" class="col-sm-4 control-label">Lieu de naissance</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control has-feedback" id="lieuNaissance" name="lieuNaissance" required maxlength="50" ng-model="etudiant.lieuNaissance"
+                                    tooltip="{{newEtud.lieuNaissance.$valid ? '' : 'Lieu de naissance de l\'étudiant obligatoire.'}}"
+                                    tooltip-trigger="focus" tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.lieuNaissance.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.nationalite.$error.required && newEtud.nationalite.$invalid}">
+                            <label for="nationalite" class="col-sm-4 control-label">Nationalité</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control has-feedback" id="nationalite" name="nationalite" required maxlength="50" ng-model="etudiant.nationalite"
+                                    tooltip="{{newEtud.nationalite.$valid ? '' : 'Nationalité de l\'étudiant obligatoire.'}}"
+                                    tooltip-trigger="focus" tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.nationalite.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.adresse.$error.required && newEtud.adresse.$invalid}">
+                            <label for="adresse" class="col-sm-4 control-label">Adresse</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control has-feedback" id="adresse" name="adresse" required maxlength="255" ng-model="etudiant.adresse"
+                                    tooltip="{{newEtud.adresse.$valid ? '' : 'Adresse de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+                                    tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.adresse.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Code Postal</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="etudiant.codePostal" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.$error.required && newEtud.ville.$invalid}">
+                            <label for="ville" class="col-sm-4 control-label">Ville</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control has-feedback" id="ville" name="ville" required maxlength="255" ng-model="etudiant.ville"
+                                    tooltip="{{newEtud.ville.$valid ? '' : 'Ville de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+                                    tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.ville.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.paysOrigine.$error.required && newEtud.paysOrigine.$invalid}">
+                            <label for="paysOrigine" class="col-sm-4 control-label">Pays d'origine</label>
+                            <div class="col-sm-8">
+                                <select required class="form-control has-feedback" ng-model="etudiant.paysOrigine" id="paysOrigine" name="paysOrigine">
+									<option value="">Veuillez sélectionner le pays d'origine</option>
+									<option ng-repeat="domPays in DomainPays" value="{{domPays.rvAbbreviation}}" 
+                                    ng-selected="domPays.rvAbbreviation == etudiant.paysOrigine">{{domPays.rvMeaning}}</option>
+								</select>
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.paysOrigine.$valid"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Université d'origine<span class="required"> * </span></label>
-                        <div class="col-sm-5">
-                            <select required class="form-control" ng-model="etudiant.universiteOrigine" >
-                                <option ng-repeat="dom in DomainUniv" value="{{dom.rvAbbreviation}}">{{dom.rvMeaning}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Groupe TP</label>
-                        <div class="col-sm-5">
-                            <select  class="form-control" ng-model="etudiant.groupeTp" >
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-4 control-label">Groupe d'Anglais</label>
-                        <div class="col-sm-5">
 
-                            <select  class="form-control" ng-model="etudiant.groupeAnglais" >
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
+
+                    <div class="col-sm-1"></div>
+
+                    <!--**** Colonne droite ****-->
+                    <div class="col-sm-5">
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.prenom.$error.required && newEtud.prenom.$invalid}">
+                            <label for="prenom" class="col-sm-4 control-label">Prénom</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control has-feedback" id="prenom" name="prenom" required maxlength="50" ng-model="etudiant.prenom"
+                                    tooltip="{{newEtud.prenom.$valid ? '' : 'Prénom de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+                                    tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.prenom.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Téléphone</label>
+                            <div class="col-sm-8">
+                                <input type="tel" class="form-control" ng-model="etudiant.telephone" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Mobile</label>
+                            <div class="col-sm-8">
+                                <input type="tel" class="form-control" ng-model="etudiant.mobile" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.email.$error.required || !newEtud.email.$valid}">
+                            <label for="email" class="col-sm-4 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control has-feedback" id="email" name="email"
+                                    required maxlength="255" ng-model="etudiant.email" tooltip="{{newEtud.email.$valid ? '' : 'Email de l\'étudiant obligatoire. Entrez un email valide.'}}"
+                                    tooltip-trigger="focus" tooltip-placement="top">
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.email.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Email UBO</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" ng-model="etudiant.emailUbo" maxlength="255">
+                            </div>
+                        </div>
+                        <div class="form-group has-error" ng-class="{ 'has-error': newEtud.universiteOrigine.$error.required && newEtud.universiteOrigine.$invalid}">
+                            <label for="universiteOrigine" class="col-sm-4 control-label">Université d'origine</label>
+                            <div class="col-sm-8">
+                                <select required class="form-control has-feedback" ng-model="etudiant.universiteOrigine" id="universiteOrigine" name="universiteOrigine">
+									<option value="">Veuillez sélectionner l'université d'origine</option>
+									<option ng-repeat="dom in DomainUniv" value="{{dom.rvAbbreviation}}"
+                                    ng-selected="dom.rvAbbreviation == etudiant.universiteOrigine">{{dom.rvMeaning}}</option>
+								</select>
+                                <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.universiteOrigine.$valid"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Groupe TP</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="etudiant.groupeTp">
+								<option value=""></option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+							</select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Groupe d'Anglais</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="etudiant.groupeAnglais">
+								<option value=""></option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+							</select>
+                            </div>
                         </div>
                     </div>
 
                     <div class="pull-right">
-						<div class="btn-group">
-							<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
-						</div>
-						<div class="btn-group">
-							<button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
-						</div>
-					</div>
-
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Valider</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="reset" class="btn btn-danger pull-right" ng-click="cancel()"><span class="glyphicon glyphicon-remove"> </span> Annuler</button>
+                        </div>
+                    </div>
                 </form>
-
-
             </div>
         </div>
     </div>

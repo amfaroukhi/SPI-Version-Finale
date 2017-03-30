@@ -99,7 +99,7 @@
 		  $scope.nbrEtu = response.data;
 	  });
 	  
-	  $http.get("http://localhost:8090/countFormation")
+	  $http.get("http://localhost:8090/formation/count")
 	  .then(function(reponse){
 		  $scope.nbrFrm = reponse.data;
 	  });

@@ -96,7 +96,7 @@ angular.module('app.auth', [])
 						else{
 							$scope.adm = "Administrateur";
 							$location.path('/');
-							console.log("Yugen");
+							console.log("here admin");
 						}
 					})
 					.error(function() {

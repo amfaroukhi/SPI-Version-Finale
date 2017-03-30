@@ -1,5 +1,9 @@
 <div class="page page-table" data-ng-controller="rubriqueCtrl">
-
+	<div class="alert alert-success" id="success" ng-show="status">
+		<button type="button" class="close" ng-click="fermerMsg()">&times;</button>
+		<span class="glyphicon glyphicon-exclamation-sign"></span>
+		<strong>{{status}}</strong>
+	</div>
 	<section class="panel panel-default table-dynamic">
 		<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques Standards</strong>
 			<a href="#admin/rubrique"><span class="add fa fa-plus pull-right"></span></a>
@@ -43,7 +47,6 @@
 					<td>
 						<span ng-if= "$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUp(r,rubriques[$index-1])"></span><br>
 						<span ng-if="$index!=rubriques.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDown(r,rubriques[$index+1])"></span>
-						{{r.ordre}}
 					</td>
 					<td>{{r.designation}}</td>
 					<td><a href="#admin/rubrique/{{r.idRubrique}}"><span class="edit fa fa-pencil-square-o" tooltip="Modifier" tooltip-placement="bottom"></a></span></td>

@@ -86,6 +86,20 @@ angular.module('app').controller('QuestionsController',
             $scope.currentPage = 1;
             $scope.row = "intitule";
 
+            hideStatus();
+            function hideStatus() {
+                setTimeout(function () {
+                    $scope.$apply(function () {
+                        $rootScope.status = "";
+                    });
+                }, 5000);
+            }
+
+            $scope.fermerMsg = function () {
+                $rootScope.status = "";
+            }
+            // $scope.fermerMsg();
+
             $scope.select = function (page) {
                 var end, start;
                 start = (page - 1) * $scope.numPerPage;
@@ -142,6 +156,10 @@ angular.module('app').controller('QuestionsController',
             // ******** supprimer une question (Modal)********
             $scope.supprimerQuestion = function (idQuestion, index, qst) {
                 $rootScope.currentPageQuestion = $scope.currentPageQuestion;
+                questionsFactory.getQuestion(idQuestion)
+                    .then(function (response) {
+                        $rootScope.question = response.data;
+                    });
                 $modal.open({
                     templateUrl: 'supprimerQuestion',
                     backdrop: true,
@@ -151,8 +169,10 @@ angular.module('app').controller('QuestionsController',
                         $scope.confirmer = function () {
                             questionsFactory.deleteQuestion(idQuestion)
                                 .success(function () {
+                                    $rootScope.status = "La question \"" + $scope.question.intitule + "\" a été supprimée avec succès !";
                                     getQuestions(function () {
                                         select();
+                                        hideStatus();
                                     });
                                 })
                                 .error(function () {
@@ -194,7 +214,7 @@ angular.module('app').controller('QuestionsController',
                     }, function (error) {
                         $scope.success = false;
                         $scope.error = true;
-                        $scope.status = 'Erreur lors de la récupération de la liste des questions: ' + error.message;
+                        // $scope.status = 'Erreur lors de la récupération de la liste des questions: ' + error.message;
                     });
             }
         }]
@@ -203,8 +223,8 @@ angular.module('app').controller('QuestionsController',
 
 // ================================== QstDetailsController ==================================
 angular.module('app').controller('QstDetailsController',
-    ['$scope', '$routeParams', '$window','$location', 'questionsFactory',
-        function ($scope, $routeParams, $window,$location, questionsFactory) {
+    ['$scope', '$rootScope', '$routeParams', '$window', '$location', 'questionsFactory', '$filter',
+        function ($scope, $rootScope, $routeParams, $window, $location, questionsFactory, $filter) {
 
             $scope.edit = false;
             getQualificatifs();
@@ -228,15 +248,21 @@ angular.module('app').controller('QstDetailsController',
 
             // ******** valide le formulaire d'ajout/modif d'une question ********
             $scope.submit = function () {
-                if ($scope.question)
-                    if ($routeParams.id == "nouveau") {
-                        questionsFactory.addQuestion($scope.question);
-                    }
-                    else { //if ($routeParams.id == "modification"){
-                        questionsFactory.addQuestion($scope.question);
-                    }
+                // var promise;
+                if ($routeParams.id == "nouveau") {
+                    $rootScope.status = "La question \"" + $scope.question.intitule + "\" a été ajoutée avec succès !"
+                    questionsFactory.addQuestion($scope.question).success(function () {
+                        $window.location.href = "http://localhost:8090/index.html#/admin/questions";
+                        
+                    });
+                }
+                else { //if ($routeParams.id == "modification"){
+                    $rootScope.status = "La question \"" + $scope.question.intitule + "\" a été modifiée avec succès !"
+                    questionsFactory.editQuestion($scope.question).success(function () {
+                        $window.location.href = "http://localhost:8090/index.html#/admin/questions";
+                    });
+                }
                 $scope.edit = false;
-                $window.location.href = "http://localhost:8090/index.html#/admin/questions";
             }
 
             // ******** annule l'édition ********
@@ -248,12 +274,12 @@ angular.module('app').controller('QstDetailsController',
             function getQualificatifs() {
                 questionsFactory.getQualificatifs()
                     .then(function (response) {
-                        $scope.qualificatifs = response.data;
+                        $scope.qualificatifs = $filter('orderBy')(response.data, "minimal");;
                         $scope.error = false;
                     }, function (error) {
                         $scope.success = false;
                         $scope.error = true;
-                        $scope.status = 'Erreur lors de la récupération de la liste des questions: ' + error.message;
+                        // $scope.status = 'Erreur lors de la récupération de la liste des questions: ' + error.message;
                     });
             }
 
@@ -266,7 +292,7 @@ angular.module('app').controller('QstDetailsController',
                     }, function (error) {
                         $scope.success = false;
                         $scope.error = true;
-                        $scope.status = 'Erreur lors de la récupération de la liste des questions: ' + error.message;
+                        // $scope.status = 'Erreur lors de la récupération de la liste des questions: ' + error.message;
                     });
             }
         }]
