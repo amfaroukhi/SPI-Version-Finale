@@ -253,7 +253,6 @@ angular.module('app').controller('QstDetailsController',
                     $rootScope.status = "La question \"" + $scope.question.intitule + "\" a été ajoutée avec succès !"
                     questionsFactory.addQuestion($scope.question).success(function () {
                         $window.location.href = "http://localhost:8090/index.html#/admin/questions";
-                        
                     });
                 }
                 else { //if ($routeParams.id == "modification"){

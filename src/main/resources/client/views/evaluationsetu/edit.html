@@ -113,7 +113,7 @@
                                     <div class="input-group ui-datepicker">
                                         <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="evaluation.debutReponse" is-open="opened1"
                                             min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                                            ng-required="true" close-text="Fermer" ng-focus="open1($event)" ng-change="changerMin()"
+                                            ng-required="true" close-text="Fermer" current-text="Aujourd'hui" clear-text="Effacer" ng-focus="open1($event)" ng-change="changerMin()"
                                             onkeydown="return false">
                                         <span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
                                     </div>
@@ -126,7 +126,7 @@
                                     <div class="input-group ui-datepicker">
                                         <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="evaluation.finReponse" is-open="opened" min-date="evaluation.debutReponse"
                                             datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true"
-                                            ng-focus="open($event)" onkeydown="return false" close-text="Fermer">
+                                            ng-focus="open($event)" onkeydown="return false" close-text="Fermer" current-text="Aujourd'hui" clear-text="Effacer">
                                         <span class="input-group-addon" ng-click="open($event)"><i class="fa fa-calendar"></i></span>
                                     </div>
                                     <span class="label label-danger" ng-show="dateError">Sélectionnez une date supérieure à la date de début de réponse.</span>
@@ -228,8 +228,8 @@
 							<tr data-ng-repeat="q in r.questionsEval">
 					
 								<td>
-									<span ng-if= "$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUpQ(q,r.questionsEval[$index-1])"></span><br>
-									<span ng-if="$index!=r.questionsEval.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDownQ(q,r.questionsEval[$index+1])"></span>
+									<span ng-if= "$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUpQ(q,q[$index-1])"></span><br>
+									<span ng-if="$index!=r.questionsEval.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDownQ(q,q[$index+1])"></span>
 								</td>
 								<td>{{q.question.intitule}}</td>
 								<td>{{q.question.qualificatif.maximal}}</td>

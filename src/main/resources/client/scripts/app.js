@@ -14,11 +14,7 @@
 			'app.page.ctrls', 'app.auth']).config(
 		['$routeProvider', function ($routeProvider, $urlRouterProvider) {
 			return $routeProvider
-				.when('/', {
-					redirectTo: '/dashboard',
-					admin: 'ADM',
-					enseignant: 'ENS'
-				}) 	//                   ------------Enseignant------------
+				//                   ------------Enseignant------------
 				.when('/admin/enseignants', {
 					templateUrl: 'views/enseignants/list.html',
 					admin: 'ADM'
@@ -57,8 +53,7 @@
 				//                   ------------etudiants------------
 				.when('/etudiant/:noEtudiant', {
 					templateUrl: 'views/etudiant/details.html',
-					admin: 'ADM',
-					etudiant: 'ETU'
+					admin: 'ADM'
 				})
 				.when('/admin/etudiants', {
 					templateUrl: 'views/etudiant/list.html',
@@ -144,7 +139,7 @@
 					controller: 'evaluationCtrl',
 					enseignant: 'ENS'
 				})
-				
+
 				.when('/enseignant/evaluation', {
 					templateUrl: 'views/evaluations/edit.html',
 					controller: 'evaluationCtrl',
@@ -155,7 +150,6 @@
 				.when('/etudiant/:noEtudiant', {
 					templateUrl: 'views/reponsesevaluations/list.html',
 					controller: 'reponseEvaluationCtrl',
-					admin : 'ADM',
 					etudiant: 'ETU'
 				})
 
@@ -164,14 +158,14 @@
 					controller: 'reponseEvaluationCtrl',
 					etudiant: 'ETU'
 				})
-				
+
 				.when('/etudiant/evaluation/reponse/:noEtudiant/:idEvaluation/:idReponseEvaluation', {
 					templateUrl: 'views/reponsesevaluations/consultation.html',
 					controller: 'reponseEvaluationCtrl',
 					etudiant: 'ETU'
 				})
 
-				
+
 
 
 				//                   ------------Question------------	
@@ -188,6 +182,12 @@
 					templateUrl: 'views/dashboard.html',
 					admin: 'ADM',
 					enseignant: 'ENS'
+				})
+				.when('/', {
+					redirectTo: '/dashboard',
+					admin: 'ADM',
+					enseignant: 'ENS',
+					etudiant: 'ETU'
 				})
 
 				.when('/ui/typography', {

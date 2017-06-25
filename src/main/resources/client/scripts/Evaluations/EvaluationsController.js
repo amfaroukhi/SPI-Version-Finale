@@ -14,7 +14,7 @@ angular.module('app').service('cgrcSvc', ['$http', '$modal', function ($http, $m
 }]);
 
 // ================================== evaluation Service ==================================
-angular.module('app').service('evaluationSvc', ['$http', '$modal', function ($http, $modal) {
+angular.module('app').service('evaluationSvc', ['$http', '$modal', '$rootScope', function ($http, $modal, $rootScope) {
 
 
 	this.fetchRubriques = function (callback) {
@@ -228,11 +228,16 @@ angular.module('app').service('evaluationSvc', ['$http', '$modal', function ($ht
 	this.modifierEvaluation = function (evaluation) {
 		evaluation["Content-Type"] = "application/json";
 
-		$http.put("http://localhost:8090/evaluation/", evaluation).then(function (reponse) {
-			confirmerModif();
-		}, function (erreur) {
-			erreurModif();
-		});
+		return $http.put("http://localhost:8090/evaluation/", evaluation)
+			.error(function () {
+				$rootScope.error = "Erreur lors de la modification de l\'évaluation !"
+				// erreurAjout();
+			});
+		// .then(function (reponse) {
+		// 	confirmerModif();
+		// }, function (erreur) {
+		// 	erreurModif();
+		// });
 	};
 
 
@@ -261,12 +266,17 @@ angular.module('app').service('evaluationSvc', ['$http', '$modal', function ($ht
 
 	this.ajouterEvaluation = function (evaluation) {
 		evaluation["Content-Type"] = "application/json";
-		$http.post("http://localhost:8090/evaluation/", evaluation).then(function (reponse) {
-			confirmerAjout();
+		return $http.post("http://localhost:8090/evaluation/", evaluation)
+			.error(function () {
+				$rootScope.error = "Une évaluation avec les mêmes informations existe déjà !"
+				// erreurAjout();
+			});
+		// .then(function (reponse) {
+		// 	// confirmerAjout();
 
-		}, function (erreur) {
-			erreurAjout()
-		});
+		// }, function (erreur) {
+		// 	erreurAjout()
+		// });
 	};
 }]);
 
@@ -305,6 +315,20 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 
 		getQuestions();
 		getRubriquesEvaluation();
+
+		hideStatus();
+        function hideStatus() {
+            setTimeout(function () {
+                $scope.$apply(function () {
+                    $rootScope.status = "";
+                    $rootScope.error = "";
+                });
+            }, 5000);
+        }
+
+        $scope.fermerMsg = function () {
+            $rootScope.status = "";
+        }
 
 		evaluationSvc.fetchUser(function (data) {
 			$scope.noEnseignant = data.noEnseignant;
@@ -409,6 +433,8 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 						evaluationSvc.supprimerEvaluation(idEvaluation)
 							.success(function () {
 								$scope.evaluations.splice(index, 1);
+								$rootScope.status = "L'évaluation " + designation + " a été supprimée avec succès !";
+                   				hideStatus();
 							})
 							.error(function () {
 								supprimerEvaluationError(designation);
@@ -469,14 +495,36 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 		$scope.ajouterEvaluation = function (evaluation) {
 
 			$scope.evaluation.noEnseignant = $scope.noEnseignant;
-			evaluationSvc.ajouterEvaluation(evaluation);
+			evaluationSvc.ajouterEvaluation(evaluation)
+				.then(function (response) {
+					$rootScope.error = "";
+					$rootScope.status = "L'évaluation " + evaluation.designation + " a été bien ajoutée ";
+					window.location.href = "http://localhost:8090/index.html#/enseignant/evaluation/" + response.data.idEvaluation;
+					
+				});
 		};
+
+		
+		// $scope.modifierEvaluation = function () {
+
+		// 	evaluationSvc.modifierEvaluation($scope.evaluation);
+
+			
+		// };
 
 		$scope.modifierEvaluation = function (evaluation) {
 
 
 			$scope.evaluation.noEnseignant = $scope.noEnseignant;
-			evaluationSvc.ajouterEvaluation(evaluation);
+			evaluationSvc.modifierEvaluation(evaluation)
+				.then(function (response) {
+					$rootScope.error = "";
+					$rootScope.status = "L'évaluation " + evaluation.designation + " a été mise à jour.";
+					window.location.href = "http://localhost:8090/index.html#/enseignant/evaluations";
+					
+				});
+
+			
 		};
 
 		$scope.cancel = function () {
@@ -495,6 +543,7 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 				$scope.Unites = data;
 				$scope.evaluation.codeUe = "";
 				$scope.evaluation.codeEc = "";
+				$scope.evaluation.anneeUniversitaire = "";
 				$scope.Elements = [];
 			}, $scope.noEnseignant, $scope.evaluation.codeFormation)
 		}
@@ -515,10 +564,6 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 
 		};
 
-		$scope.modifierEvaluation = function () {
-
-			evaluationSvc.modifierEvaluation($scope.evaluation);
-		};
 
 
 
@@ -599,8 +644,8 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 		};
 
 		$scope.ajouterRubEval = function (r) {
-			
-			
+
+
 			//getRubriquesEvaluation(function(){
 			$scope.rubriqueEval.evaluation = $scope.evaluation;
 			$scope.rubriqueEval.rubrique = angular.fromJson(r);
@@ -635,6 +680,7 @@ angular.module('app').controller('evaluationCtrl', ['$scope', 'evaluationSvc', '
 				.then(function () {
 					getRubriquesEvaluation();
 					getQuestions();
+					$scope.selectedQuestion = ""
 				});
 			//});
 

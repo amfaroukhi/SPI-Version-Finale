@@ -10,15 +10,16 @@
 						<label for="intitule" class="col-sm-4 control-label">Intitulé</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control has-feedback" id="intitule" name="intitule" required maxlength="64" ng-model="question.intitule"
-							 tooltip="{{quest.intitule.$valid ? '' : 'intitule de l\'étudiant obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
+							 tooltip="{{quest.intitule.$valid ? '' : 'L\'intitulé de la question est obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
 							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="quest.intitule.$valid"></span>
 						</div>
 					</div>
 					<div class="form-group has-error" ng-class="{ 'has-error': quest.qualificatif.$error.required && quest.qualificatif.$invalid}">
 						<label for="qualificatif" class="col-sm-4 control-label">Qualificatif</label>
 						<div class="col-sm-5">
-							<select required class="form-control has-feedback" ng-model="question.qualificatif" 
-							data-ng-options="qlf as qlf.minimal+' - '+qlf.maximal for qlf in qualificatifs track by qlf.idQualificatif" id="qualificatif" name="qualificatif">
+							<select required class="form-control has-feedback" ng-model="question.qualificatif" tooltip="{{quest.qualificatif.$valid ? '' : 'Le couple de qualificatifs est obligatoire.'}}"
+							 tooltip-trigger="focus" tooltip-placement="top" data-ng-options="qlf as qlf.minimal+' - '+qlf.maximal for qlf in qualificatifs track by qlf.idQualificatif"
+							 id="qualificatif" name="qualificatif">
 									<option value="">Sélectionnez un couple de qualificatifs</option>
 								</select>
 							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="quest.qualificatif.$valid"></span>

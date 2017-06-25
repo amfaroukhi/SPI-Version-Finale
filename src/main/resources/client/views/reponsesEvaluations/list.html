@@ -1,121 +1,175 @@
 <div class="page page-table" data-ng-controller="reponseEvaluationCtrl">
 
+    <div class="page page-profile">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="panel panel-profile">
+                    <div class="panel-heading text-center bg-info">
+                        <img alt="" src="images/g1.jpg" class="img-circle img80_80">
+                        <h3>{{etudiant.prenom}} {{etudiant.nom}}</h3>
+                        <p>{{promo.promotionPK.codeFormation}} {{promo.promotionPK.anneeUniversitaire}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Infos générales</strong></div>
+                    <div class="panel-body">
+                        <div class="media col-md-6">
+                            <div class="media-body">
+                                <ul class="list-unstyled list-info">
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-user"></span>
+                                        <label>Nom</label> {{etudiant.prenom}} {{etudiant.nom}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-envelope"></span>
+                                        <label>Email</label> {{etudiant.email}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-home"></span>
+                                        <label>Adresse</label> {{etudiant.adresse}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-earphone"></span>
+                                        <label>Contact</label> {{etudiant.mobile}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-flag"></span>
+                                        <label>Nationalité</label> {{etudiant.nationalite}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="media:first-child col-md-6">
+                            <div class="media-body">
+                                <ul class="list-unstyled list-info">
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-user"></span>
+                                        <label>Sexe</label><span ng-if="etudiant.sexe == 'M'">Homme</span>
+                                        <span ng-if="etudiant.sexe == 'F'">Femme</span>
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-envelope"></span>
+                                        <label>Naissance</label> {{etudiant.dateNaissance}} à {{etudiant.lieuNaissance}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-home"></span>
+                                        <label>Ville</label> {{etudiant.ville}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-earphone"></span>
+                                        <label>Pays d'origine</label> {{etudiant.paysOrigine}}
+                                    </li>
+                                    <li>
+                                        <span class="icon glyphicon glyphicon-flag"></span>
+                                        <label>Université d'origine</label> {{etudiant.universiteOrigine}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	 <section class="panel panel-default table-dynamic">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Infos Generales</strong>
+    </div>
+
+    <section class="panel panel-default table-dynamic">
+        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluations</strong>
         </div>
 
         <table class="table table-bordered table-striped table-responsive">
             <thead>
-            <tr>
-                <th><div class="th">
-                    Nom
-                </div></th>
-                <th><div class="th">
-                    Prénom
-                </div></th>
-                <th><div class="th">
-                    E-mail
-                </div></th>
-                <th><div class="th">
-                    Mobile
-                </div></th>
-                <th><div class="th">
-                    Université d'origine
-                </div></th>
-                <th><div class="th">
-                    Code formation
-                </div></th>
-                <th><div class="th">
-                    Ann&eacutee universitaire
-                </div></th>
-            </tr>
-            </thead>
-            <tbody><!-- currentPageEnseignant / enseignants -->
-            <tr class="formation">
-                <td>{{etudiant.nom}}</td>
-                <td>{{etudiant.prenom}}</td>
-                <td>{{etudiant.email}}</td>
-                <td>{{etudiant.mobile}}</td>
-                <td>{{etudiant.universiteOrigine}}</td>
-                <td>{{promo.promotionPK.codeFormation}}</td>
-                <td>{{promo.promotionPK.anneeUniversitaire}}</td>
-            </tr>
-            </tbody>
-        </table>
-        
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Liste des evaluations</strong>
-        </div>
-        
-        <table class="table table-bordered table-striped table-responsive">
-        <thead>
-        	<tr>
-        		<th><div class="th">
-                    Designation
-                </div></th>
-                <th><div class="th">
-                    Debut Reponse
-                </div></th>
-                <th><div class="th">
-                    Fin Reponse
-                </div></th>
-                <th><div class="th">
-                    Periode
-                </div></th>
-                <th><div class="th">
-                    Code UE
-                </div></th>
-                <th><div class="th">
-                    Etat
-                </div></th>
-        	</tr>
-        <thead>
-        <tbody>
-        	<tr ng-repeat = "e in evaluations" class="formation" ng-if="e.etat != 'ELA'">
-        		<td>{{e.designation}}</td>
-        		<td>{{e.debutReponse}}</td>
-        		<td>{{e.finReponse}}</td>
-        		<td>{{e.periode}}</td>
-        		<td>{{e.codeUe}}</td>
-        		<td ng-if="e.etat == 'CLO'">Cl&ocirctur&eacute</td>
-        		<td ng-if="e.etat == 'ELA'">En cours d'	&eacutelaboration</td>
-        		<td ng-if="e.etat == 'DIS'">Mise &agrave disposition</td>
-				<td ng-if="e.etat == 'DIS'"><span  ng-click= "ajouterReponseEval(e) " class="edit fa fa-edit" tooltip="Répondre" tooltip-placement="bottom"></span></td>
-				<td ng-if="e.etat == 'CLO'"><span  ng-click= "consulterReponseEval(e) " class="list fa fa-list" tooltip="Consulter réponse" tooltip-placement="bottom"></span></td>	
-        	</tr>
-        </tbody>
+                <tr>
+                    <th>
+                        <div class="th">
+                            Designation
+                        </div>
+                    </th>
+                    <th>
+                        <div class="th">
+                            Debut Reponse
+                        </div>
+                    </th>
+                    <th>
+                        <div class="th">
+                            Fin Reponse
+                        </div>
+                    </th>
+                    <th>
+                        <div class="th">
+                            Periode
+                        </div>
+                    </th>
+                    <th>
+                        <div class="th">
+                            Code UE
+                        </div>
+                    </th>
+                    <th>
+                        <div class="th">
+                            Etat
+                        </div>
+                    </th>
+                    <th colspan="2">
+                        <div class="th">
+                            Actions
+                        </div>
+                    </th>
+                </tr>
+                <thead>
+                    <tbody>
+                        <tr ng-repeat="e in evaluations" class="formation" ng-if="e.etat != 'ELA'">
+                            <td>{{e.designation}}</td>
+                            <td>{{e.debutReponse}}</td>
+                            <td>{{e.finReponse}}</td>
+                            <td>{{e.periode}}</td>
+                            <td>{{e.codeUe}}</td>
+                            <td ng-if="e.etat == 'CLO'">Cl&ocirctur&eacute</td>
+                            <td ng-if="e.etat == 'ELA'">En cours d' &eacutelaboration</td>
+                            <td ng-if="e.etat == 'DIS'">Mise &agrave disposition</td>
+                            <td><span ng-if="e.etat == 'DIS'" ng-click="ajouterReponseEval(e) " class="edit fa fa-edit" tooltip="Répondre" tooltip-placement="bottom"></span></td>
+                            <td><span ng-click="consulterReponseEval(e) " class="list fa fa-list" tooltip="Consulter réponse"
+                                    tooltip-placement="bottom"></span></td>
+                            
+                        </tr>
+                    </tbody>
         </table>
     </section>
 
-	<script type="text/ng-template" id="supprimerEvaluation">
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-			<h4 class="modal-title">Suppression d'évaluation</h4>
-		</div>
-		<div class="modal-body">
-			Voulez vous vraiment supprimer l'évaluation ?
-		</div>
-		<div class="modal-footer">			
-			<button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
-			<button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
-		</div>
-	</div>
-	</script>
 
-	<script type="text/ng-template" id="supprimerEvaluationError">
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-			<h4 class="modal-title">Erreur de suppression</h4>
-		</div>
-		<div class="modal-body">
-			L'évaluation ne peut pas être supprimée !
-		</div>
-		<div class="modal-footer">
-			<button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
-		</div>
-	</div>
-	</script>
+
+
+    <script type="text/ng-template" id="supprimerEvaluation">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Suppression d'évaluation</h4>
+            </div>
+            <div class="modal-body">
+                Voulez vous vraiment supprimer l'évaluation ?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+                <button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="supprimerEvaluationError">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Erreur de suppression</h4>
+            </div>
+            <div class="modal-body">
+                L'évaluation ne peut pas être supprimée !
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+            </div>
+        </div>
+    </script>
 
 </div>

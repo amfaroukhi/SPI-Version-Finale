@@ -9,9 +9,9 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
         $scope.noEtudiant = $routeParams.noEtudiant;
         $scope.codeFormation = $routeParams.codeFormation;
         $scope.anneeUniversitaire = $routeParams.anneeUniversitaire;
-        
-        
-        
+
+
+
         $scope.formations = [];
         $scope.promotions = [];
 
@@ -201,9 +201,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 });
         }
 
-        function nbrEtudiants(code, annee)
-             {
-            dataFactory.nbrEtudiantsInPromotion(code,annee)
+        function nbrEtudiants(code, annee) {
+            dataFactory.nbrEtudiantsInPromotion(code, annee)
                 .then(function (response) {
                     $scope.nbrEtud = response.data;
                     $scope.error = false;
@@ -267,7 +266,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 });
         }
 
-         function getDomainOuiNon() {
+        function getDomainOuiNon() {
             dataFactory.getDomainOuiNon()
                 .then(function (response) {
                     $scope.DomainOuiNon = response.data;
@@ -305,6 +304,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     hideStatus();
                     $scope.error = false;
                     $scope.success = true;
+                    $location.path('/admin/formationsPromo/' + $scope.codeFormation + '/' + $scope.anneeUniversitaire);
 
                 }, function (error) {
                     $scope.success = false;
@@ -316,7 +316,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
         $scope.insertEtudiant = function () {
 
             getPromotion(function () {
-                $location.path('/admin/formationsPromo/' + $scope.codeFormation + '/' + $scope.anneeUniversitaire);
+
             });
 
         };
@@ -324,7 +324,6 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
         $scope.updateEtudiant = function () {
 
             getEtudiantMaj();
-            $location.path('/admin/formationsPromo/' + $scope.codeFormation + '/' + $scope.anneeUniversitaire);
 
         };
 
@@ -354,6 +353,8 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                     $scope.error = false;
                     $scope.success = true;
 
+                    $location.path('/admin/formationsPromo/' + $scope.codeFormation + '/' + $scope.anneeUniversitaire);
+
                 }, function (error) {
                     $scope.success = false;
                     $scope.error = true;
@@ -361,7 +362,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 });
         }
 
-        $scope.remove = function (noEtudiant,nom,prenom) {
+        $scope.remove = function (noEtudiant, nom, prenom) {
             $rootScope.code = $scope.code;
             $rootScope.annee = $scope.annee;
             dataFactory.getEtudiant(noEtudiant)
@@ -374,7 +375,7 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
                 backdrop: true,
                 windowClass: 'modal',
                 controller: function ($scope, $modalInstance, $log, questionsFactory) {
-                    $scope.etudToSupp = nom + " "+ prenom;
+                    $scope.etudToSupp = nom + " " + prenom;
 
                     $scope.confirmer = function () {
                         dataFactory.deleteEtudiant(noEtudiant)
@@ -443,9 +444,34 @@ angular.module('app').controller('EtudiantController', ['$scope', '$rootScope', 
               getEtudiants();*/
     }
 ]);
+angular.module('app').directive('chars', function () {
+    'use strict';
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function ($scope, $elem, attrs, ctrl) {
+            var regReplace,
+                preset = {
+                    'only-numbers': '0-9',
+                    'numbers': '0-9\\s',
+                    'only-letters': 'A-Za-z',
+                    'letters': 'A-Za-z\\s',
+                    'email': '\\wÑñ@._\\-',
+                    'alpha-numeric': '\\w\\s',
+                    'latin-alpha-numeric': '\\w\\sÑñáéíóúüÁÉÍÓÚÜ'
+                },
+                filter = preset[attrs.chars] || attrs.chars;
+            $elem.on('input', function () {
+                regReplace = new RegExp('[^' + filter + ']', 'ig');
+                ctrl.$setViewValue($elem.val().replace(regReplace, ''));
+                ctrl.$render();
+            });
 
-angular.module('app')
-    .factory('dataFactory', ['$http', function ($http) {
+        }
+    };
+});
+
+angular.module('app').factory('dataFactory', ['$http', function ($http) {
 
         var urlBase = 'http://localhost:8090/etudiant/';
         var dataFactory = {};

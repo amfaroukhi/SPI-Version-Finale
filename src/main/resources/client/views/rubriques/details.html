@@ -4,13 +4,15 @@
 		<div class="panel-body">
 			<!-- Edition -->
 			<div>
-				<form class="form-horizontal form-validation" ng-submit="ajouterRubrique(rubrique)">
+				<form class="form-horizontal form-validation" ng-submit="rub.$valid && ajouterRubrique(rubrique)" name="rub">
 					
 					
-					<div class="form-group">
-						<label for="" class="col-sm-4 control-label">Designation <span class="required">*</span></label>
+					<div class="form-group has-error" ng-class="{ 'has-error': rub.intitule.$error.required && rub.intitule.$invalid}">
+						<label for="intitule" class="col-sm-4 control-label">Désignation</label>
 						<div class="col-sm-5">
-							<input type="text" class="form-control" required maxlength="32" ng-model="rubrique.designation">
+							<input type="text" class="form-control has-feedback" id="intitule" name="intitule" required maxlength="32" ng-model="rubrique.designation"
+							 tooltip="{{rub.intitule.$valid ? '' : 'La désignation de la rubrique est obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
+							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="rub.intitule.$valid"></span>
 						</div>
 					</div>
 

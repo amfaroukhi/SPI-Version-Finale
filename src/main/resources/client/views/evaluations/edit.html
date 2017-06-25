@@ -1,4 +1,14 @@
 <div class="page page-table" ng-controller="evaluationCtrl">
+    <div class="alert alert-success" id="success" ng-show="status">
+        <button type="button" class="close" ng-click="fermerMsg()">&times;</button>
+        <span class="glyphicon glyphicon-exclamation-sign"></span>
+        <strong>{{status}}</strong>
+    </div>
+    <div class="alert alert-danger" id="danger" ng-show="error">
+        <button type="button" class="close" ng-click="fermerMsg()">&times;</button>
+        <span class="glyphicon glyphicon-exclamation-sign"></span>
+        <strong>{{error}}</strong>
+    </div>
     <section class="panel panel-default table-dynamic">
         <div class="panel panel-default ens-edit">
             <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Evaluation</strong></div>
@@ -14,7 +24,9 @@
                             <div class="form-group col-sm-5 has-error" ng-class="{ 'has-error': Eval.codeFormation.$error.required || Eval.codeFormation.$invalid}">
                                 <label for="codeFormation" class="col-sm-5 control-label">Formation</label>
                                 <div class="col-sm-7">
-                                    <select required class="form-control" ng-model="evaluation.codeFormation" id="codeFormation" name="codeFormation" ng-change="fetchproms(evaluation.codeFormation);fetchue(evaluation.noEnseignant,evaluation.codeFormation)">
+                                    <select required class="form-control" tooltip="{{Eval.codeFormation.$valid ? '' : 'Sélectionnez la formation concernée.'}}"
+                                        tooltip-trigger="focus" tooltip-placement="top" ng-model="evaluation.codeFormation" id="codeFormation"
+                                        name="codeFormation" ng-change="fetchproms(evaluation.codeFormation);fetchue(evaluation.noEnseignant,evaluation.codeFormation)">
                                         <option value="">Selectionnez une formation</option> 
                                         <option ng-repeat="f in Formations" value="{{f.codeFormation}}">{{f.codeFormation}}</option>
                                     </select>
@@ -24,7 +36,8 @@
                             <div class="form-group col-sm-5 has-error" ng-class="{ 'has-error': Eval.anneeU.$error.required || Eval.anneeU.$invalid}">
                                 <label for="anneeU" class="col-sm-5 control-label">Année universitaire</label>
                                 <div class="col-sm-7">
-                                    <select required class="form-control" ng-model="evaluation.anneeUniversitaire" id="anneeU" name="anneeU">
+                                    <select required class="form-control" tooltip="{{Eval.anneeU.$valid ? '' : 'Sélectionnez la promotion concernée.'}}" tooltip-trigger="focus"
+                                        tooltip-placement="top" ng-model="evaluation.anneeUniversitaire" id="anneeU" name="anneeU">
                                         <option value="">Selectionnez une année</option> 
                                         <option ng-repeat="p in Promotions" value="{{p.promotionPK.anneeUniversitaire}}">{{p.promotionPK.anneeUniversitaire}}</option>
                                     </select>
@@ -58,7 +71,9 @@
                             <div class="form-group col-sm-5 has-error" ng-class="{ 'has-error': Eval.codeUe.$error.required || Eval.codeUe.$invalid}">
                                 <label for="codeUe" class="col-sm-5 control-label">Unité d'enseignement</label>
                                 <div class="col-sm-7">
-                                    <select required class="form-control" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)" id="codeUe" name="codeUe">
+                                    <select required class="form-control" tooltip="{{Eval.codeUe.$valid ? '' : 'Sélectionnez l\'unité d\'enseignement concernée.'}}"
+                                        tooltip-trigger="focus" tooltip-placement="top" ng-model="evaluation.codeUe" ng-change="fetchec(evaluation.codeUe)"
+                                        id="codeUe" name="codeUe">
                                         <option value="">Selectionnez une UE</option> 
                                         <option ng-repeat="currentUE in Unites" value="{{currentUE.uniteEnseignementPK.codeUe}}"> 
                                         {{currentUE.designation}}</option>
@@ -103,7 +118,7 @@
                                 <label for="noEvaluation" class="col-sm-8 control-label">Numéro d'évaluation</label>
                                 <div class="col-sm-4">
                                     <input class="form-control has-feedback" id="noEvaluation" name="noEvaluation" required ng-model="evaluation.noEvaluation"
-                                        tooltip-trigger="focus" tooltip-placement="top" tooltip="{{Eval.noEvaluation.$valid ? '' : 'noEvaluation de l\'étudiant obligatoire.'}}"
+                                        tooltip-trigger="focus" tooltip-placement="top" tooltip="{{Eval.noEvaluation.$valid ? '' : 'Numéro de l\'évaluation est obligatoire. Caractères numériques'}}"
                                         maxlength="2" chars="0-9" ng-pattern="/^(?:[1-9]|[1-9]\d{0,3})$/">
                                     <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="Eval.noEvaluation.$valid"></span>
                                 </div>
@@ -118,7 +133,7 @@
                                 <label for="designation" class="col-sm-5 control-label">Désignation</label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control has-feedback" id="designation" name="designation" required maxlength="16" chars="a-zA-Z 0-9"
-                                        ng-model="evaluation.designation" tooltip="{{Eval.designation.$valid ? '' : 'designation de l\'étudiant obligatoire.'}}"
+                                        ng-model="evaluation.designation" tooltip="{{Eval.designation.$valid ? '' : 'Désignation de l\'évaluation obligatoire.'}}"
                                         tooltip-trigger="focus" tooltip-placement="top">
                                     <span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="Eval.designation.$valid"></span>
                                 </div>
@@ -139,7 +154,8 @@
                             <div class="form-group col-sm-3 has-error" ng-class="{ 'has-error': Eval.etat.$error.required || Eval.etat.$invalid}">
                                 <label for="etat" class="col-sm-3 control-label">Etat</label>
                                 <div class="col-sm-9">
-                                    <select required class="form-control" ng-model="evaluation.etat" id="etat" name="etat">
+                                    <select required class="form-control" tooltip="{{Eval.etat.$valid ? '' : 'Sélectionnez un état pour l\'évaluation.'}}" tooltip-trigger="focus"
+                                        tooltip-placement="top" ng-model="evaluation.etat" id="etat" name="etat">
                                         <option value="">Selectionnez une état</option> 
                                         <option ng-repeat="etat in Etats" ng-selected="etat.rvAbbreviation == evaluation.etat" value="{{etat.rvAbbreviation}}">{{etat.rvMeaning}}</option>
                                     </select>
@@ -152,9 +168,10 @@
                                     <div class="input-group ui-datepicker">
                                         <input type="text" class="form-control has-feedback" id="debutReponse" name="debutReponse" datepicker-popup="dd/MM/yyyy"
                                             ng-model="evaluation.debutReponse" is-open="opened1" min="minDate" datepicker-options="dateOptions"
-                                            date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-focus="open1($event)"
-                                            onkeydown="return false" ng-click="open1($event)" tooltip="{{Eval.debutReponse.$valid ? '' : 'debutReponse de l\'étudiant obligatoire.'}}"
-                                            tooltip-trigger="focus" tooltip-placement="top">
+                                            date-disabled="disabled(date, mode)" ng-required="true" close-text="Fermer" current-text="Aujourd'hui"
+                                            clear-text="Effacer" ng-focus="open1($event)" onkeydown="return false" ng-click="open1($event)"
+                                            tooltip="{{Eval.debutReponse.$valid ? '' : 'Sélectionnez une date.'}}" tooltip-trigger="focus"
+                                            tooltip-placement="top">
                                         <span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
@@ -164,10 +181,11 @@
                                 <div class="col-sm-6">
                                     <div class="input-group ui-datepicker">
                                         <input type="text" class="form-control has-feedback" id="finReponse" name="finReponse" datepicker-popup="dd/MM/yyyy" ng-model="evaluation.finReponse"
-                                            is-open="opened" min-date="evaluation.debutReponse" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                                            ng-required="true" close-text="Fermer" ng-focus="open($event)" onkeydown="return false"
-                                            ng-click="open($event)" tooltip="{{Eval.finReponse.$valid ? '' : 'finReponse de l\'étudiant obligatoire.'}}"
-                                            tooltip-trigger="focus" tooltip-placement="top">
+                                            is-open="opened" min-date="evaluation.debutReponse" datepicker-options="dateOptions"
+                                            date-disabled="disabled(date, mode)" ng-required="true" close-text="Fermer" current-text="Aujourd'hui"
+                                            clear-text="Effacer" ng-focus="open($event)" onkeydown="return false" ng-click="open($event)"
+                                            tooltip="{{Eval.finReponse.$valid ? '' : 'Sélectionnez une date.'}}" tooltip-trigger="focus"
+                                            tooltip-placement="top">
                                         <span class="input-group-addon" ng-click="open($event)"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
@@ -189,31 +207,147 @@
         </div>
     </section>
 
-    <section class="panel panel-default table-dynamic" ng-hide="idEvaluation == null">
+    <section class="panel panel-default table-dynamic" ng-hide="idEvaluation == null || evaluation.etat == 'DIS' || evaluation.etat == 'CLO'">
         <div class="panel panel-default ens-edit">
-            <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Rubriques </strong></div>
+            <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Composition de l'évaluation </strong></div>
             <div class="panel-body">
-
                 <div>
-                    <form ng-submit="ajouterRubEval(rubriqueEval.rubrique)">
-
-
-
-                        <div class="form-group">
-                            <label for="" class="col-sm-4 control-label">Rubriques</label>
-                            <div class="col-sm-5">
-                                <select required class="form-control" ng-model="rubriqueEval.rubrique" ng-options="r.designation for r in rubriques">
-                            <option value="" >Sélectionnez une rubrique</option>
-                        </select>
-                            </div>
-                            <div class="btn-group">
-                                <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Ajouter </button>
+                    <form class="form-horizontal" name="newRub">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="" class="col-sm-4 control-label">Rubriques</label>
+                                <div class="col-sm-7">
+                                    <select required class="form-control" id="selectedRubrique" name="selectedRubrique" tooltip-trigger="focus" tooltip-placement="top"
+                                        tooltip="{{newRub.selectedRubrique.$valid ? '' : 'Sélectionnez une rubrique.'}}" ng-model="rubriqueEval.rubrique"
+                                        ng-options="r.designation for r in rubriques">
+                                        <option value="" >Sélectionnez une rubrique</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn-sm btn-success pull-right" ng-click="newRub.selectedRubrique.$valid && ajouterRubEval(rubriqueEval.rubrique)">
+                                        <span class="glyphicon glyphicon-plus"> </span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-
+                        <!--<div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="" class="col-sm-4 control-label">Questions</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="selectedQuestion" ng-options="q.intitule for q in questions">
+						                <option value="" ng-selected>Sélectionnez une question</option>
+					                </select>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!--<button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Ajouter </button>-->
                     </form>
 
 
+                    <form name="newQuest">
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <select ng-hide="true" required class="form-control" id="selectedQuestion" name="selectedQuestion" ng-model="selectedQuestion"
+                                    ng-options="q.intitule for q in questions">
+									<option value="" ng-selected>Sélectionnez une question</option>
+								</select>
+                            </div>
+                            <!--<div class="btn-group">
+                                <button type="submit" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok"> </span> Ajouter </button>
+                            </div>-->
+                        </div>
+
+                        <br>
+
+                        <table class="table table-bordered table-responsive composition" data-ng-repeat="r in rubriquesEval">
+                            <thead class="composition">
+                                <th width="3%">
+                                    <div class="th">
+                                        <span ng-if="$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUp(r,rubriquesEval[$index-1])"></span><br>
+                                        <span ng-if="$index!=rubriquesEval.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDown(r,rubriquesEval[$index+1])"></span>
+                                    </div>
+                                </th>
+                                <th width="43%">
+                                    <div class="th">
+                                        {{r.rubrique.designation}}
+
+                                    </div>
+                                </th>
+                                
+                                <th width="2%">
+                                    <div class="th">
+                                        <span class="remove fa fa-remove" ng-click="supprimerRubEval(r.idRubriqueEvaluation,$index)" tooltip="Supprimer la rubrique"
+                                            tooltip-placement="bottom"></span>
+                                    </div>
+                                </th>
+                                <th colspan="3">
+                                    <div class="th">
+                                        
+                                    </div>
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="6">
+                                    <div class="form-group">
+                                        <div class="col-sm-4"></div>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" ng-model="selectedQuestion" ng-options="q.intitule for q in questions">
+						                         <option value="" ng-selected>Sélectionnez une question</option>
+					                        </select>
+                                        </div>
+                                        <span class="add fa fa-plus" ng-click="ajouterQuestionsRubrique(selectedQuestion , r)"
+                                            tooltip="Ajouter une question" tooltip-placement="bottom"></span>
+                                    </div></td>
+                                </tr>
+                                <tr data-ng-repeat="q in r.questionsEval">
+                                    <td class="td">
+                                        <span ng-if="$index!=0 " class="glyphicon glyphicon-chevron-up" ng-click="modifierOrdreUpQ(q,r.questionsEval[$index-1])"></span><br>
+                                        <span ng-if="$index!=r.questionsEval.length -1 " class="glyphicon glyphicon-chevron-down" ng-click="modifierOrdreDownQ(q,r.questionsEval[$index+1])"></span>
+                                    </td>
+                                    <td colspan="2">{{q.question.intitule}}</td>
+                                    <td width="25%">{{q.question.qualificatif.maximal}}</td>
+                                    <td width="25%">{{q.question.qualificatif.minimal}}</td>
+                                    <td width="2%">
+                                        <span class="remove fa fa-remove" ng-click="supprimerQuestionsRubrique(q.idQuestionEvaluation,$index)" tooltip="Supprimer la question"
+                                            tooltip-placement="bottom"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+
+
+                    <!--<form class="form-horizontal" name="newRub">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="" class="col-sm-4 control-label">Rubriques</label>
+                                <div class="col-sm-7">
+                                    <select required class="form-control" id="selectedRubrique" name="selectedRubrique" tooltip-trigger="focus" tooltip-placement="top"
+                                        tooltip="{{newRub.selectedRubrique.$valid ? '' : 'Sélectionnez une rubrique.'}}" ng-model="rubriqueEval.rubrique"
+                                        ng-options="r.designation for r in rubriques">
+                                        <option value="" >Sélectionnez une rubrique</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn-sm btn-success pull-right" ng-click="newRub.selectedRubrique.$valid && ajouterRubEval(rubriqueEval.rubrique)">
+                                        <span class="glyphicon glyphicon-plus"> </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="" class="col-sm-4 control-label">Questions</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="selectedQuestion" ng-options="q.intitule for q in questions">
+						                <option value="" ng-selected>Sélectionnez une question</option>
+					                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>-->
+
+                    <!--
                     <table class="table table-bordered table-striped table-responsive">
 
                         <tbody>
@@ -232,12 +366,12 @@
 
                                 <td>
 
-                                    <form ng-submit="ajouterQuestionsRubrique(questionEval.question , r)">
+                                    <form ng-submit="ajouterQuestionsRubrique(selectedQuestion , r)">
 
                                         <div class="form-group">
                                             <label for="" class="col-sm-4 control-label">Questions</label>
                                             <div class="col-sm-5">
-                                                <select required class="form-control" ng-model="questionEval.question" ng-options="q.intitule for q in questions">
+                                                <select required class="form-control" ng-model="selectedQuestion" ng-options="q.intitule for q in questions">
 												<option value="" ng-selected>Sélectionnez une question</option>
 											</select>
                                             </div>
@@ -280,111 +414,137 @@
                             </tr>
 
                         </tbody>
-                    </table>
-
-
-
-
+                    </table>-->
 
                 </div>
-
             </div>
         </div>
-</div>
-</section>
+    </section>
 
 
 
-<script type="text/ng-template" id="supprimerEvaluation">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-            <h4 class="modal-title">Suppression d'évaluation</h4>
+    <script type="text/ng-template" id="supprimerEvaluation">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Suppression d'évaluation</h4>
+            </div>
+            <div class="modal-body">
+                Voulez vous vraiment supprimer l'évaluation ?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+                <button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+            </div>
         </div>
-        <div class="modal-body">
-            Voulez vous vraiment supprimer l'évaluation ?
-        </div>
-        <div class="modal-footer">
-            <button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
-            <button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
-        </div>
-    </div>
-</script>
+    </script>
 
-<script type="text/ng-template" id="supprimerEvaluationError">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-            <h4 class="modal-title">Erreur de suppression</h4>
+    <script type="text/ng-template" id="supprimerEvaluationError">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Erreur de suppression</h4>
+            </div>
+            <div class="modal-body">
+                L'évaluation ne peut pas être supprimée !
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+            </div>
         </div>
-        <div class="modal-body">
-            L'évaluation ne peut pas être supprimée !
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
-        </div>
-    </div>
-</script>
+    </script>
 
 
-<script type="text/ng-template" id="confirmerModif">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-            <h4 class="modal-title">Modification réussie</h4>
+    <script type="text/ng-template" id="confirmerModif">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Modification réussie</h4>
+            </div>
+            <div class="modal-body">
+                L'évaluation a été modifiée !
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" ng-click="annuler()"> OK</button>
+            </div>
         </div>
-        <div class="modal-body">
-            L'évaluation a été modifiée !
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-success" type="button" ng-click="annuler()"> OK</button>
-        </div>
-    </div>
-</script>
+    </script>
 
-<script type="text/ng-template" id="erreurModif">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-            <h4 class="modal-title">Modification impossible</h4>
+    <script type="text/ng-template" id="erreurModif">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Modification impossible</h4>
+            </div>
+            <div class="modal-body">
+                L'évaluation n'a pas pu être modifiée !
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+            </div>
         </div>
-        <div class="modal-body">
-            L'évaluation n'a pas pu être modifiée !
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
-        </div>
-    </div>
-</script>
+    </script>
 
-<script type="text/ng-template" id="confirmerAjout">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-            <h4 class="modal-title">Ajout réussi</h4>
+    <script type="text/ng-template" id="confirmerAjout">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Ajout réussi</h4>
+            </div>
+            <div class="modal-body">
+                L'évaluation a été ajoutée !
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" ng-click="annuler()"> OK</button>
+            </div>
         </div>
-        <div class="modal-body">
-            L'évaluation a été ajoutée !
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-success" type="button" ng-click="annuler()"> OK</button>
-        </div>
-    </div>
-</script>
+    </script>
 
-<script type="text/ng-template" id="erreurAjout">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
-            <h4 class="modal-title">Ajout impossible</h4>
+    <script type="text/ng-template" id="erreurAjout">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Ajout impossible</h4>
+            </div>
+            <div class="modal-body">
+                {{error}}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+            </div>
         </div>
-        <div class="modal-body">
-            L'évaluation n'a pas pu être ajoutée !
+    </script>
+
+    <script type="text/ng-template" id="supprimerRubrique">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Suppression de la rubrique</h4>
+            </div>
+            <div class="modal-body">
+                Voulez vous vraiment supprimer la rubrique ?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+                <button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-danger" type="button" ng-click="annuler()"> OK</button>
+    </script>
+
+    <script type="text/ng-template" id="supprimerQuestion">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="annuler()">&times;</button>
+                <h4 class="modal-title">Suppression de la question</h4>
+            </div>
+            <div class="modal-body">
+                Voulez vous vraiment supprimer la question ?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" ng-click="annuler()">Annuler</button>
+                <button class="btn btn-success" type="button" ng-click="confirmer()"> Supprimer</button>
+            </div>
         </div>
-    </div>
-</script>
+    </script>
 
 </div>

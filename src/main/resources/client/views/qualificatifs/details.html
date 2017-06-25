@@ -10,7 +10,7 @@
 						<label for="minimal" class="col-sm-4 control-label">Maximal</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control has-feedback" id="minimal" name="minimal" required maxlength="16" ng-model="qualificatif.minimal"
-							 tooltip="{{qualif.minimal.$valid ? '' : 'minimal de l\'étudiant obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
+							 tooltip="{{qualif.minimal.$valid ? '' : 'La valeur minimale du qualificatif est obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
 							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="qualif.minimal.$valid"></span>
 						</div>
 					</div>
@@ -18,7 +18,7 @@
 						<label for="maximal" class="col-sm-4 control-label">Maximal</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control has-feedback" id="maximal" name="maximal" required maxlength="16" ng-model="qualificatif.maximal"
-							 tooltip="{{qualif.maximal.$valid ? '' : 'maximal de l\'étudiant obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
+							 tooltip="{{qualif.maximal.$valid ? '' : 'La valeur maximale du qualificatif est obligatoire.'}}" tooltip-trigger="focus" tooltip-placement="top">
 							<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="qualif.maximal.$valid"></span>
 						</div>
 					</div>

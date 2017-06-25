@@ -30,15 +30,15 @@ angular.module('app.auth', [])
 			},
 			getInfoEtudiant: function (noEtudiant) {
 				config = {
-					url: '/etudiant/'+noEtudiant,
+					url: '/etudiant/' + noEtudiant,
 					method: "GET"
 				}
 				return $http(config);
 			},
 			getInfoEnseignant: function (noEnseignant) {
 				config = {
-						url: 'enseignant/getens/'+noEnseignant,
-						method: "GET"
+					url: 'enseignant/getens/' + noEnseignant,
+					method: "GET"
 				}
 				return $http(config);
 			}
@@ -54,8 +54,10 @@ angular.module('app.auth', [])
 	['$scope', '$location', '$animate', 'AuthService', 'dataFactory', '$routeParams',
 		function ($scope, $location, $animate, AuthService, $routeParams, dataFactory) {
 			this.login = {};
-			$scope.etu = {};
-			
+			$scope.etu = null;
+			$scope.ens = null;
+			$scope.adm = null;
+
 			/*
 			 * // Nom utilisateur et image (affichés dans le header)
 			 * $scope.username = auth.username(); $scope.userimg = ""; //
@@ -71,37 +73,37 @@ angular.module('app.auth', [])
 					"username": this.login.username,
 					"pwd": this.login.password,
 				};
-				
+
 				AuthService.authLocal(authuser).success(function () {
-					AuthService.getUser().success(function (data){
-						if(data.role == 'ETU'){
+					AuthService.getUser().success(function (data) {
+						// $scope.role = data.role;
+						// console.log("auth.js : " + $scope.role)
+						if (data.role == 'ETU') {
 							AuthService.getInfoEtudiant(data.noEtudiant)
-							.success(function (data){
-								
-								$scope.etu = data;
-						        $location.path('/etudiant/'+$scope.etu.noEtudiant);
-						       
-							})
-							.error(function(){
-								console.log("ca ne marche absolument pas");								
-							});
+								.success(function (data) {
+									$scope.etu = data;
+									$location.path('/etudiant/' + $scope.etu.noEtudiant);
+								})
+								.error(function () {
+									console.log("ca ne marche absolument pas");
+								});
 						}
-						else if (data.role == 'ENS'){
+						else if (data.role == 'ENS') {
 							AuthService.getInfoEnseignant(data.noEnseignant)
-							.success(function(data){
-								$scope.ens = data;
-								$location.path('/');
-							});
+								.success(function (data) {
+									$scope.ens = data;
+									$location.path('/');
+								});
 						}
-						else{
+						else if (data.role == 'ADM'){
 							$scope.adm = "Administrateur";
 							$location.path('/');
-							console.log("here admin");
+							// console.log("here admin");
 						}
 					})
-					.error(function() {
-						
-					});
+						.error(function () {
+
+						});
 				})
 					.error(function () {
 						// si la connexion a échoué : "secoue" le formulaire

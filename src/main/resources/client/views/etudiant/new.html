@@ -54,8 +54,8 @@
 								<div class="input-group ui-datepicker">
 									<input type="text" class="form-control has-feedback" id="dateNaissance" name="dateNaissance" datepicker-popup="dd/MM/yyyy"
 									 ng-model="etudiant.dateNaissance" is-open="opened1" min="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-									 ng-required="true" close-text="Close" ng-focus="open1($event)" onkeydown="return false" ng-click="open1($event)"
-									 tooltip="{{newEtud.dateNaissance.$valid ? '' : 'dateNaissance de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+									 ng-required="true" close-text="Fermer" current-text="Aujourd'hui" clear-text="Effacer" ng-focus="open1($event)" onkeydown="return false" ng-click="open1($event)"
+									 tooltip="{{newEtud.dateNaissance.$valid ? '' : 'La date de naissance de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
 									 tooltip-placement="top">
 									<span class="input-group-addon" ng-click="open1($event)"><i class="fa fa-calendar"></i></span>
 								</div>
@@ -65,7 +65,7 @@
 							<label for="lieuNaissance" class="col-sm-4 control-label">Lieu de naissance</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control has-feedback" id="lieuNaissance" name="lieuNaissance" required maxlength="50" ng-model="etudiant.lieuNaissance"
-								 tooltip="{{newEtud.lieuNaissance.$valid ? '' : 'Lieu de naissance de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+								 tooltip="{{newEtud.lieuNaissance.$valid ? '' : 'Le lieu de naissance de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
 								 tooltip-placement="top">
 								<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.lieuNaissance.$valid"></span>
 							</div>
@@ -74,7 +74,7 @@
 							<label for="nationalite" class="col-sm-4 control-label">Nationalité</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control has-feedback" id="nationalite" name="nationalite" required maxlength="50" ng-model="etudiant.nationalite"
-								 tooltip="{{newEtud.nationalite.$valid ? '' : 'Nationalité de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
+								 tooltip="{{newEtud.nationalite.$valid ? '' : 'La nationalité de l\'étudiant obligatoire.'}}" tooltip-trigger="focus"
 								 tooltip-placement="top">
 								<span class="glyphicon glyphicon-ok text-success form-control-feedback" aria-hidden="true" ng-show="newEtud.nationalite.$valid"></span>
 							</div>
@@ -104,7 +104,8 @@
 						<div class="form-group has-error" ng-class="{ 'has-error': newEtud.paysOrigine.$error.required && newEtud.paysOrigine.$invalid}">
 							<label for="paysOrigine" class="col-sm-4 control-label">Pays d'origine</label>
 							<div class="col-sm-8">
-								<select required class="form-control has-feedback" ng-model="etudiant.paysOrigine" id="paysOrigine" name="paysOrigine">
+								<select required class="form-control has-feedback" tooltip="{{newEtud.paysOrigine.$valid ? '' : 'Le pays d\'origine de l\'étudiant est obligatoire.'}}"
+                                    tooltip-trigger="focus" tooltip-placement="top" ng-model="etudiant.paysOrigine" id="paysOrigine" name="paysOrigine">
 									<option value="">Veuillez sélectionner le pays d'origine</option>
 									<option ng-repeat="domPays in DomainPays" value="{{domPays.rvAbbreviation}}">{{domPays.rvMeaning}}</option>
 								</select>
@@ -129,13 +130,13 @@
 						<div class="form-group">
 							<label for="" class="col-sm-4 control-label">Téléphone</label>
 							<div class="col-sm-8">
-								<input type="tel" class="form-control" ng-model="etudiant.telephone" maxlength="20">
+								<input type="tel" class="form-control" ng-model="etudiant.telephone" maxlength="20"  chars="0-9+ ()">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="" class="col-sm-4 control-label">Mobile</label>
 							<div class="col-sm-8">
-								<input type="tel" class="form-control" ng-model="etudiant.mobile" maxlength="20">
+								<input type="tel" class="form-control" ng-model="etudiant.mobile" maxlength="20"  chars="0-9+ ()">
 							</div>
 						</div>
 						<div class="form-group has-error" ng-class="{ 'has-error': newEtud.email.$error.required || !newEtud.email.$valid}">
@@ -156,7 +157,8 @@
 						<div class="form-group has-error" ng-class="{ 'has-error': newEtud.universiteOrigine.$error.required && newEtud.universiteOrigine.$invalid}">
 							<label for="universiteOrigine" class="col-sm-4 control-label">Université d'origine</label>
 							<div class="col-sm-8">
-								<select required class="form-control has-feedback" ng-model="etudiant.universiteOrigine" id="universiteOrigine" name="universiteOrigine">
+								<select required class="form-control has-feedback" tooltip="{{newEtud.universiteOrigine.$valid ? '' : 'L\'université d\'origine de l\'étudiant est obligatoire.'}}"
+                                    tooltip-trigger="focus" tooltip-placement="top" ng-model="etudiant.universiteOrigine" id="universiteOrigine" name="universiteOrigine">
 									<option value="">Veuillez sélectionner l'université d'origine</option>
 									<option ng-repeat="dom in DomainUniv" value="{{dom.rvAbbreviation}}">{{dom.rvMeaning}}</option>
 								</select>
